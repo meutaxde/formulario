@@ -500,7 +500,7 @@ body{
   display:grid;grid-template-columns:1fr 1fr;gap:12px;
   margin-bottom:28px;
 }
-@media(max-width:480px){.about-grid{grid-template-columns:1fr}}
+@media(max-width:320px){.about-grid{grid-template-columns:1fr}}
 .about-card{
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.15);
@@ -536,9 +536,9 @@ body{
 
     <div class="about-grid">
       <div class="about-card">
-        <div class="about-card-icon">🇧🇷</div>
-        <div class="about-card-title">Atendimento bilíngue</div>
-        <div class="about-card-desc">Explicamos tudo em português. Sem barreiras de idioma nos seus impostos.</div>
+        <div class="about-card-icon">🇧🇷 🇪🇸 🇬🇧</div>
+        <div class="about-card-title">Português · Español · English</div>
+        <div class="about-card-desc">Atendemos em três idiomas. Sem barreiras de idioma nos seus impostos.</div>
       </div>
       <div class="about-card">
         <div class="about-card-icon">💶</div>
@@ -688,7 +688,7 @@ body{
         <span class="opt-emoji">👤</span><div class="opt-body"><div class="opt-title">Solteiro(a)</div></div><div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'casado')" data-val="casado">
-        <span class="opt-emoji">💑</span><div class="opt-body"><div class="opt-title">Casado(a) / União estável (eingetragene Lebenspartnerschaft)</div></div><div class="opt-radio"></div>
+        <span class="opt-emoji">💑</span><div class="opt-body"><div class="opt-title">Casado(a)</div></div><div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'divorciado')" data-val="divorciado">
         <span class="opt-emoji">📋</span><div class="opt-body"><div class="opt-title">Divorciado(a) / Separado(a)</div></div><div class="opt-radio"></div>
@@ -1392,10 +1392,18 @@ function goToResult() {
     document.getElementById('notEligibleCard').style.display = 'block';
     const ul = document.getElementById('notEligibleReasons');
     ul.innerHTML = state.reasons.map(r => `<li>${r}</li>`).join('');
-    document.getElementById('ctaWhatsApp').style.display = 'none';
     document.getElementById('nextStepsList').innerHTML = `
       <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-title-text">Busque um Steuerberater</div><div class="step-desc">Para situações com renda autônoma ou empresarial, você precisa de um Steuerberater completo.</div></div></div>
       <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-title-text">Verifique se há renda mista</div><div class="step-desc">Se sua renda autônoma for secundária (até 18.000€/ano), pode ser que possamos ajudar. Entre em contato para verificar.</div></div></div>`;
+    const msgInelegivel = encodeURIComponent('Olá! Preenchi o formulário do Meu Tax mas minha renda principal é autônoma. Gostaria de verificar se posso ser atendido mesmo assim.');
+    document.getElementById('ctaEl').innerHTML = `
+      <a href="https://wa.me/${CONFIG.whatsappOwner}?text=${msgInelegivel}" class="cta-btn" style="text-decoration:none;display:flex" target="_blank">
+        💬 Falar pelo WhatsApp
+      </a>
+      <a href="mailto:${CONFIG.emailContato}?subject=Dúvida%20sobre%20elegibilidade%20-%20Meu%20Tax" class="cta-secondary" style="display:block;text-align:center;text-decoration:none;padding:14px">
+        📧 Enviar email para info@meutax.de
+      </a>
+      <button class="cta-secondary" onclick="goTo(0)" style="margin-top:8px">← Reiniciar</button>`;
   } else {
     document.getElementById('resultHero').className = 'result-hero eligible';
     document.getElementById('resultBadge').textContent = '✓ Elegível para associação';
