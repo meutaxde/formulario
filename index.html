@@ -1129,6 +1129,8 @@ async function enviarParaAppsScript() {
     elegivel:           state.eligible,
     timestamp:          new Date().toISOString(),
   };
+  const btn = document.getElementById('next5');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
   try {
     await fetch(CONFIG.appsScriptURL, {
       method:  'POST',
@@ -1395,6 +1397,10 @@ async function submitS6EIrParaObrigado() {
   state.rua            = document.getElementById('s6Rua').value.trim();
   state.cep            = document.getElementById('s6CEP').value.trim();
   state.cidade         = document.getElementById('s6Cidade').value.trim();
+
+  // Desabilitar botão para evitar duplo envio
+  const btn6 = document.getElementById('next6');
+  if (btn6) { btn6.disabled = true; btn6.textContent = 'Enviando...'; }
 
   // Enviar dados completos + promover para Opportunity + disparar email de boas-vindas
   if (CONFIG.appsScriptURL && !CONFIG.appsScriptURL.startsWith('COLE')) {
