@@ -1130,24 +1130,23 @@ async function enviarParaAppsScript() {
     timestamp:          new Date().toISOString(),
   };
   try {
-    const res = await fetch(CONFIG.appsScriptURL, {
+    await fetch(CONFIG.appsScriptURL, {
       method:  'POST',
-      headers: {'Content-Type':'application/json'},
+      mode:    'no-cors',
+      headers: {'Content-Type':'text/plain'},
       body:    JSON.stringify(payload),
     });
-    const json = await res.json();
-    if (json.dealId) state.pipedriveDealId = json.dealId;
   } catch(e) { console.warn('Apps Script sync:', e); }
 }
 
 async function promoverParaOportunidade() {
   if (!CONFIG.appsScriptURL || CONFIG.appsScriptURL.startsWith('COLE')) return;
-  if (!state.pipedriveDealId) return;
   try {
     await fetch(CONFIG.appsScriptURL, {
       method:  'POST',
-      headers: {'Content-Type':'application/json'},
-      body:    JSON.stringify({ acao: 'promover', dealId: state.pipedriveDealId }),
+      mode:    'no-cors',
+      headers: {'Content-Type':'text/plain'},
+      body:    JSON.stringify({ acao: 'promover', email: state.email }),
     });
   } catch(e) { console.warn('Erro ao promover deal:', e); }
 }
