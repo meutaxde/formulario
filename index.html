@@ -899,7 +899,7 @@ body{
 
     <!-- CTA -->
     <div id="ctaEl">
-      <button class="cta-btn" id="ctaAssociar" onclick="goTo('s6')">
+      <button class="cta-btn" id="ctaAssociar" onclick="clicarQueroMeAssociar()">
         Quero me associar →
       </button>
       <button class="cta-secondary" onclick="goTo(0)">← Reiniciar</button>
@@ -1060,7 +1060,7 @@ const CONFIG = {
 
   // ── APPS SCRIPT WEBHOOK ──
   // Cole aqui a URL do Web App após o deploy em script.google.com
-  appsScriptURL: 'COLE_AQUI_A_URL_DO_APPS_SCRIPT',
+  appsScriptURL: 'https://script.google.com/macros/s/AKfycbwfAKeJtGlqJZe8svKrd66xjucOaGAXTngETkfRk4_RkAxlnfwDxY5FXAnXYEHg9Ozbkw/exec',
 
 };
 // ════════════════════════════════════════════════════════════════
@@ -1087,6 +1087,7 @@ const state = {
   cidade:             '',
   metodoPagamento:    '',
   origem:             '',
+  pipedriveDealId:    null,
 };
 
 const brackets = CONFIG.tabelaContribuicoes.map(b => ({
@@ -1113,28 +1114,48 @@ async function enviarParaAppsScript() {
     nome:               state.nome,
     email:              state.email,
     whatsapp:           state.whatsapp,
+    origem:             state.origem        || '',
     tipoRenda:          state.tipoRenda,
     estadoCivil:        state.civil,
     filhos:             state.filhos,
-    rendaExtra:         state.extra.join(', '),
+    rendaExtra:         state.extra,
     classeRenda:        state.finalIncomeClass,
     anuidade:           b.net,
     taxaAdesao:         AUFN_NET,
     totalPrimAno:       (b.net + AUFN_NET).toFixed(2),
     casado:             state.civil === 'casado',
-    nomeConjuge:        state.nomeConjuge || null,
+    nomeConjuge:        state.nomeConjuge  || '',
     incomeClassConjuge: state.civil === 'casado' ? state.incomeClassConjuge : null,
     elegivel:           state.eligible,
     timestamp:          new Date().toISOString(),
   };
   try {
-    await fetch(CONFIG.appsScriptURL, {
-      method: 'POST',
-      mode:   'no-cors',
+    const res = await fetch(CONFIG.appsScriptURL, {
+      method:  'POST',
       headers: {'Content-Type':'application/json'},
-      body:   JSON.stringify(payload),
+      body:    JSON.stringify(payload),
     });
+    const json = await res.json();
+    if (json.dealId) state.pipedriveDealId = json.dealId;
   } catch(e) { console.warn('Apps Script sync:', e); }
+}
+
+async function promoverParaOportunidade() {
+  if (!CONFIG.appsScriptURL || CONFIG.appsScriptURL.startsWith('COLE')) return;
+  if (!state.pipedriveDealId) return;
+  try {
+    await fetch(CONFIG.appsScriptURL, {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ acao: 'promover', dealId: state.pipedriveDealId }),
+    });
+  } catch(e) { console.warn('Erro ao promover deal:', e); }
+}
+
+async function clicarQueroMeAssociar() {
+  // Promove o deal para Opportunity no Pipedrive (não bloqueia o WhatsApp)
+  promoverParaOportunidade();
+  goTo('s6');
 }
 
 // ── NAVEGAÇÃO ──
