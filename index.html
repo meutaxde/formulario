@@ -962,7 +962,7 @@ body{
 
     <div class="quiz-nav">
       <button class="btn-back" onclick="goTo('s-result')">← Voltar</button>
-      <button class="btn-next" id="next6" disabled onclick="submitS6EIrParaObrigado()">Continuar <span class="arrow">→</span></button>
+      <button class="btn-next" id="next6" disabled onclick="submitS6EIrParaObrigado()">Enviar dados <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -1390,14 +1390,44 @@ function checkS6Form() {
   document.getElementById('next6').disabled = !valid;
 }
 
-function submitS6EIrParaObrigado() {
+async function submitS6EIrParaObrigado() {
   state.dataNascimento = document.getElementById('s6Nascimento').value;
   state.rua            = document.getElementById('s6Rua').value.trim();
   state.cep            = document.getElementById('s6CEP').value.trim();
   state.cidade         = document.getElementById('s6Cidade').value.trim();
+
+  // Enviar dados completos + promover para Opportunity + disparar email de boas-vindas
+  if (CONFIG.appsScriptURL && !CONFIG.appsScriptURL.startsWith('COLE')) {
+    const b = brackets[state.finalIncomeClass - 1];
+    const payload = {
+      acao:         'completar',
+      email:        state.email,
+      nome:         state.nome,
+      whatsapp:     state.whatsapp,
+      tipoRenda:    state.tipoRenda,
+      estadoCivil:  state.civil,
+      filhos:       state.filhos,
+      rendaExtra:   state.extra,
+      casado:       state.civil === 'casado',
+      nomeConjuge:  state.nomeConjuge  || '',
+      metodoPagamento: state.metodoPagamento || '',
+      classeRenda:  state.finalIncomeClass,
+      anuidade:     b.net,
+      totalPrimAno: (b.net + AUFN_NET).toFixed(2),
+    };
+    try {
+      await fetch(CONFIG.appsScriptURL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: {'Content-Type':'text/plain'},
+        body:    JSON.stringify(payload),
+      });
+    } catch(e) { console.warn('Erro ao completar oportunidade:', e); }
+  }
+
   document.getElementById('obrigadoNome').textContent = state.nome.split(' ')[0];
-  const assunto = encodeURIComponent(`Documentação Meu Tax — ${state.nome}`);
-  const corpo   = encodeURIComponent(`Olá, gostaria de enviar minha documentação para análise.`);
+  const assunto  = encodeURIComponent(`Documentação Meu Tax — ${state.nome}`);
+  const corpo    = encodeURIComponent(`Olá, gostaria de enviar minha documentação para análise.`);
   const mailHref = `mailto:${CONFIG.emailContato}?subject=${assunto}&body=${corpo}`;
   document.getElementById('emailLink').href    = mailHref;
   document.getElementById('emailBtnLink').href = mailHref;
