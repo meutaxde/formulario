@@ -21,13 +21,14 @@
   --sucesso: #1c5c3e;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 body{
   font-family:'Instrument Sans',sans-serif;
   background:var(--creme);
   color:var(--texto);
   min-height:100vh;
   overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
 }
 
 /* ── PROGRESS BAR ── */
@@ -55,7 +56,7 @@ body{
 
 /* ── SCREENS ── */
 .screen{
-  display:none;min-height:100vh;
+  display:none;min-height:100svh;
   animation:fadeUp 0.45s cubic-bezier(.4,0,.2,1) both;
 }
 .screen.active{display:flex;flex-direction:column}
@@ -160,8 +161,8 @@ body{
 /* ── QUIZ WRAPPER ── */
 .quiz-wrapper{
   max-width:640px;width:100%;
-  margin:0 auto;padding:80px 24px 60px;
-  flex:1;display:flex;flex-direction:column;justify-content:center;
+  margin:0 auto;padding:72px 24px 60px;
+  flex:1;display:flex;flex-direction:column;justify-content:flex-start;
 }
 .quiz-question{
   font-family:'Fraunces',serif;
@@ -497,19 +498,18 @@ body{
 
 /* ── ABOUT SECTION ── */
 .about-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  margin-bottom:28px;
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:24px;
 }
-@media(max-width:320px){.about-grid{grid-template-columns:1fr}}
 .about-card{
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.15);
-  border-radius:14px;padding:16px;
+  border-radius:12px;padding:12px;
   text-align:left;
 }
-.about-card-icon{font-size:24px;margin-bottom:8px}
-.about-card-title{font-size:14px;font-weight:500;margin-bottom:4px}
-.about-card-desc{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5}
+.about-card-icon{font-size:18px;margin-bottom:6px}
+.about-card-title{font-size:12px;font-weight:600;margin-bottom:3px}
+.about-card-desc{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4}
 </style>
 </head>
 <body>
@@ -817,6 +817,20 @@ body{
       </div>
     </div>
 
+    <!-- Como conheceu -->
+    <div class="form-group">
+      <label class="form-label" for="contactOrigem">Como você conheceu o Meu Tax? *</label>
+      <select id="contactOrigem" class="form-input" onchange="checkContactForm()">
+        <option value="">Selecione...</option>
+        <option value="Formulário (meutax.de)">Formulário (meutax.de)</option>
+        <option value="Lista de espera">Lista de espera</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Indicação">Indicação</option>
+        <option value="WhatsApp direto">WhatsApp direto</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+
     <!-- Consentimento DSGVO -->
     <div class="dsgvo-wrap">
       <input type="checkbox" id="dsgvoCheck" onchange="checkContactForm()">
@@ -1072,6 +1086,7 @@ const state = {
   cep:                '',
   cidade:             '',
   metodoPagamento:    '',
+  origem:             '',
 };
 
 const brackets = CONFIG.tabelaContribuicoes.map(b => ({
@@ -1315,11 +1330,12 @@ function checkContactForm() {
   const nome = document.getElementById('contactNome').value.trim();
   const email = document.getElementById('contactEmail').value.trim();
   const whatsapp = document.getElementById('contactWhatsapp').value.trim();
+  const origem = document.getElementById('contactOrigem').value;
   const dsgvo = document.getElementById('dsgvoCheck').checked;
   const casado = state.civil === 'casado';
   const nomeConjuge = casado ? document.getElementById('contactNomeConjuge').value.trim() : 'ok';
 
-  const valid = nome && email && whatsapp && dsgvo && nomeConjuge;
+  const valid = nome && email && whatsapp && origem && dsgvo && nomeConjuge;
   document.getElementById('next5').disabled = !valid;
 }
 
@@ -1327,6 +1343,7 @@ function submitContactAndShowResult() {
   state.nome = document.getElementById('contactNome').value.trim();
   state.email = document.getElementById('contactEmail').value.trim();
   state.whatsapp = document.getElementById('contactWhatsapp').value.trim();
+  state.origem = document.getElementById('contactOrigem').value;
   if (state.civil === 'casado') {
     state.nomeConjuge = document.getElementById('contactNomeConjuge').value.trim();
   }
