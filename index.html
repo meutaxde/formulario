@@ -1013,7 +1013,7 @@ body{
       <button class="cta-btn" onclick="abrirWhatsApp()">
         💬 Enviar documentação pelo WhatsApp
       </button>
-      <a id="emailBtnLink" href="#" class="cta-secondary" style="display:block;text-align:center;text-decoration:none">
+      <a id="emailBtnLink" href="#" onclick="abrirEmail(event)" class="cta-secondary" style="display:block;text-align:center;text-decoration:none">
         📧 Enviar por email
       </a>
       <button class="cta-secondary" onclick="goTo(0)" style="margin-top:8px">← Reiniciar</button>
@@ -1416,10 +1416,14 @@ async function submitS6EIrParaObrigado() {
       rendaExtra:   state.extra,
       casado:       state.civil === 'casado',
       nomeConjuge:  state.nomeConjuge  || '',
-      metodoPagamento: state.metodoPagamento || '',
-      classeRenda:  state.finalIncomeClass,
-      anuidade:     b.net,
-      totalPrimAno: (b.net + AUFN_NET).toFixed(2),
+      metodoPagamento:  state.metodoPagamento  || '',
+      dataNascimento:   state.dataNascimento   || '',
+      rua:              state.rua              || '',
+      cep:              state.cep              || '',
+      cidade:           state.cidade           || '',
+      classeRenda:      state.finalIncomeClass,
+      anuidade:         b.net,
+      totalPrimAno:     (b.net + AUFN_NET).toFixed(2),
     };
     try {
       await fetch(CONFIG.appsScriptURL, {
@@ -1432,12 +1436,16 @@ async function submitS6EIrParaObrigado() {
   }
 
   document.getElementById('obrigadoNome').textContent = state.nome.split(' ')[0];
-  const assunto  = encodeURIComponent(`Documentação Meu Tax — ${state.nome}`);
-  const corpo    = encodeURIComponent(`Olá, gostaria de enviar minha documentação para análise.`);
-  const mailHref = `mailto:${CONFIG.emailContato}?subject=${assunto}&body=${corpo}`;
-  document.getElementById('emailLink').href    = mailHref;
-  document.getElementById('emailBtnLink').href = mailHref;
+  document.getElementById('emailLink').href = `mailto:${CONFIG.emailContato}`;
   goTo('s-obrigado');
+}
+
+// ── BOTÃO: ABRE EMAIL ──
+function abrirEmail(e) {
+  if (e) e.preventDefault();
+  const assunto = encodeURIComponent('Documentação Meu Tax — ' + state.nome);
+  const corpo   = encodeURIComponent('Olá! Gostaria de enviar minha documentação para análise.\n\nMeu nome é ' + state.nome + '.\nWhatsApp: ' + state.whatsapp);
+  window.location.href = 'mailto:' + CONFIG.emailContato + '?subject=' + assunto + '&body=' + corpo;
 }
 
 // ── BOTÃO CTA: ABRE WHATSAPP ──
