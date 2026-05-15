@@ -912,7 +912,7 @@ body{
       <button class="cta-btn" id="ctaAssociar" onclick="clicarQueroMeAssociar()">
         Quero me associar →
       </button>
-      <button class="cta-secondary" onclick="goTo(0)">← Reiniciar</button>
+      <button class="cta-secondary" onclick="reiniciar()">← Reiniciar</button>
     </div>
 
     <!-- SPAM REMINDER -->
@@ -1032,7 +1032,7 @@ body{
       <a id="emailBtnLink" href="#" onclick="abrirEmail(event)" class="cta-secondary" style="display:block;text-align:center;text-decoration:none">
         📧 Enviar por email
       </a>
-      <button class="cta-secondary" onclick="goTo(0)" style="margin-top:8px">← Reiniciar</button>
+      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>
     </div>
   </div>
 </div>
@@ -1529,7 +1529,7 @@ async function goToResult() {
       <a href="mailto:${CONFIG.emailContato}?subject=Dúvida%20sobre%20elegibilidade%20-%20Meu%20Tax" class="cta-secondary" style="display:block;text-align:center;text-decoration:none;padding:14px">
         📧 Enviar email para info@meutax.de
       </a>
-      <button class="cta-secondary" onclick="goTo(0)" style="margin-top:8px">← Reiniciar</button>`;
+      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>`;
   } else {
     document.getElementById('resultHero').className = 'result-hero eligible';
     document.getElementById('resultBadge').textContent = '✓ Elegível para associação';
@@ -1598,6 +1598,57 @@ function checkIncomeValid() {
   const valido = combinada > 0;
   document.getElementById('next4').disabled = !valido;
   document.getElementById('incomeErrorMsg').style.display = valido ? 'none' : 'block';
+}
+
+// ── REINICIAR COMPLETO ──
+function reiniciar() {
+  // Resetar estado
+  state.tipoRenda          = null;
+  state.extra              = [];
+  state.civil              = null;
+  state.filhos             = [];
+  state.incomeClass        = 4;
+  state.incomeClassConjuge = 3;
+  state.finalIncomeClass   = 4;
+  state.nome               = '';
+  state.email              = '';
+  state.whatsapp           = '';
+  state.nomeConjuge        = '';
+  state.eligible           = true;
+  state.reasons            = [];
+  state.dataNascimento     = '';
+  state.rua                = '';
+  state.cep                = '';
+  state.cidade             = '';
+  state.metodoPagamento    = '';
+  state.rendaBruta         = 0;
+  state.rendaBrutaConjuge  = 0;
+  state.pipedriveDealId    = null;
+
+  // Limpar seleções visuais
+  document.querySelectorAll('.quiz-opt.selected').forEach(o => o.classList.remove('selected'));
+
+  // Resetar inputs de texto
+  ['inputNome','inputEmail','inputWhatsApp','inputNomeConjuge'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  // Resetar botões
+  const btn5 = document.getElementById('next5');
+  if (btn5) { btn5.textContent = 'Ver estimativa →'; btn5.disabled = true; }
+
+  // Resetar aviso de duplicado e bloco de cônjuge
+  document.getElementById('duplicateNotice').style.display = 'none';
+  const conjBlock = document.getElementById('conjBlock');
+  if (conjBlock) conjBlock.style.display = 'none';
+
+  // Resetar sliders para valores padrão
+  aplicarRenda(45000);
+  aplicarRendaConjuge(37500);
+  atualizarCalculadoraTotal();
+
+  goTo(0);
 }
 
 // ── INICIALIZAÇÃO ──
