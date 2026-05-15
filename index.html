@@ -860,6 +860,14 @@ body{
 
   <div class="result-body">
 
+    <!-- DUPLICATE NOTICE (shown when email already registered) -->
+    <div id="duplicateNotice" style="display:none;background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:16px 20px;margin:20px 0 0;font-size:14px;color:#5a4000;line-height:1.6">
+      <strong>📬 Este email já está cadastrado no Meu Tax.</strong><br>
+      Verifique sua caixa de entrada (e a pasta de spam) ou entre em contato pelo
+      <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a>
+      se precisar de ajuda.
+    </div>
+
     <!-- FEE SUMMARY -->
     <div class="fee-summary-card" id="feeSummaryCard">
       <div class="fee-summary-title">Resumo da sua associação</div>
@@ -1132,13 +1140,14 @@ async function enviarParaAppsScript() {
   const btn = document.getElementById('next5');
   if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
   try {
-    await fetch(CONFIG.appsScriptURL, {
+    const resp = await fetch(CONFIG.appsScriptURL, {
       method:  'POST',
-      mode:    'no-cors',
       headers: {'Content-Type':'text/plain'},
       body:    JSON.stringify(payload),
     });
-  } catch(e) { console.warn('Apps Script sync:', e); }
+    const data = await resp.json().catch(() => ({}));
+    return data;
+  } catch(e) { console.warn('Apps Script sync:', e); return null; }
 }
 
 async function promoverParaOportunidade() {
@@ -1460,7 +1469,7 @@ function abrirWhatsApp() {
 }
 
 // ── CONSTRÓI TELA DE RESULTADO ──
-function goToResult() {
+async function goToResult() {
   const b = brackets[state.finalIncomeClass - 1];
   const total = (b.net + AUFN_NET).toFixed(2).replace('.', ',');
 
@@ -1535,7 +1544,10 @@ function goToResult() {
       </div></div>`;
   }
 
-  enviarParaAppsScript();
+  const gasResp = await enviarParaAppsScript();
+  if (gasResp && gasResp.duplicate) {
+    document.getElementById('duplicateNotice').style.display = 'block';
+  }
   goTo('s-result');
 }
 
