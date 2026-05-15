@@ -152,22 +152,17 @@
 
     async function init() {
       try {
-        // Mostrar todos os URL params para debug
-        const allParams = Object.fromEntries(new URLSearchParams(window.location.search));
-        showMsg('URL params: ' + JSON.stringify(allParams), 'warning');
-
         sdk = await new AppExtensionsSDK().initialize({ size: { height: 280 } });
         const metadata = await sdk.execute('get_metadata');
+        const allParams = Object.fromEntries(new URLSearchParams(window.location.search));
 
-        // Tentar obter deal ID de várias fontes
         dealId = allParams.selectedIds || allParams.deal_id || allParams.entityId
                || metadata?.id || metadata?.deal?.id || null;
 
         if (!dealId) {
-          showMsg('Params: ' + JSON.stringify(allParams) + ' | Meta: ' + JSON.stringify(metadata), 'error');
+          showMsg('Não foi possível detectar o Deal ID.', 'error');
           return;
         }
-        hideMsg();
 
         carregarInfoDeal();
       } catch (err) {
