@@ -1604,6 +1604,18 @@ function checkIncomeValid() {
 aplicarRenda(45000);
 aplicarRendaConjuge(37500);
 atualizarCalculadoraTotal();
+
+// ── ANTI-TRAVA: garante estado limpo ao carregar/voltar ──
+window.addEventListener('pageshow', function(e) {
+  // Página restaurada do cache do browser (botão Voltar) → recarrega do zero
+  if (e.persisted) { window.location.reload(); return; }
+  // Reset do botão caso tenha ficado travado em "Enviando..."
+  const btn = document.getElementById('next5');
+  if (btn && btn.textContent.includes('Enviando')) {
+    btn.textContent = 'Ver estimativa →';
+    btn.disabled = false;
+  }
+});
 </script>
 </body>
 </html>
