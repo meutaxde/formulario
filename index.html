@@ -1141,6 +1141,8 @@ async function enviarParaAppsScript() {
     casado:             state.civil === 'casado',
     nomeConjuge:        state.nomeConjuge  || '',
     incomeClassConjuge: state.civil === 'casado' ? state.incomeClassConjuge : null,
+    rendaBruta:         state.rendaBruta         || 0,
+    rendaBrutaConjuge:  state.civil === 'casado' ? (state.rendaBrutaConjuge || 0) : null,
     elegivel:           state.eligible,
     timestamp:          new Date().toISOString(),
   };
