@@ -152,12 +152,12 @@
 
     async function init() {
       try {
-        sdk    = await new AppExtensionsSDK().initialize({ size: { height: 280 } });
-        const ctx = await sdk.getContext();
-        dealId = ctx.deal?.id;
+        sdk = await new AppExtensionsSDK().initialize({ size: { height: 280 } });
+        const metadata = await sdk.execute('get_metadata');
+        dealId = metadata?.id || metadata?.deal?.id || null;
 
         if (!dealId) {
-          showMsg('Não foi possível detectar o Deal ID.', 'error');
+          showMsg('Deal ID não encontrado. Metadata: ' + JSON.stringify(metadata), 'error');
           return;
         }
 
