@@ -699,15 +699,16 @@ body{
     </div>
 
     <div class="quiz-question" style="font-size:20px;margin-top:8px">Tem filhos?</div>
+    <div class="quiz-hint" style="margin-top:-8px;margin-bottom:12px">Pode selecionar mais de uma opção.</div>
     <div class="quiz-options" id="filhosOpts" style="margin-top:12px">
-      <button class="quiz-opt" onclick="selectGroup(this,'filhos','nao')">
-        <span class="opt-emoji">❌</span><div class="opt-body"><div class="opt-title">Não tenho filhos</div></div><div class="opt-radio"></div>
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'nao')">
+        <span class="opt-emoji">❌</span><div class="opt-body"><div class="opt-title">Não tenho filhos</div></div><div class="opt-check"></div>
       </button>
-      <button class="quiz-opt" onclick="selectGroup(this,'filhos','sim_menor')">
-        <span class="opt-emoji">👶</span><div class="opt-body"><div class="opt-title">Sim, filhos menores / dependentes</div></div><div class="opt-radio"></div>
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_menor')">
+        <span class="opt-emoji">👶</span><div class="opt-body"><div class="opt-title">Sim, filhos menores / dependentes</div></div><div class="opt-check"></div>
       </button>
-      <button class="quiz-opt" onclick="selectGroup(this,'filhos','sim_maior')">
-        <span class="opt-emoji">🎓</span><div class="opt-body"><div class="opt-title">Sim, filhos maiores em formação</div></div><div class="opt-radio"></div>
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_maior')">
+        <span class="opt-emoji">🎓</span><div class="opt-body"><div class="opt-title">Sim, filhos maiores em formação</div></div><div class="opt-check"></div>
       </button>
     </div>
     <div class="quiz-nav">
@@ -1086,7 +1087,7 @@ const state = {
   tipoRenda:          null,
   extra:              [],
   civil:              null,
-  filhos:             null,
+  filhos:             [],
   incomeClass:        4,
   incomeClassConjuge: 3,
   finalIncomeClass:   4,   // classe efetiva usada para cobrança (pode ser combinada p/ casais)
@@ -1220,8 +1221,34 @@ function selectGroup(el, group, val) {
   checkNext3();
 }
 
+function toggleFilhos(el, val) {
+  if (val === 'nao') {
+    // "Não tenho filhos" desmarca as outras
+    document.querySelectorAll('#filhosOpts .quiz-opt.multi').forEach(o => {
+      if (o !== el) o.classList.remove('selected');
+    });
+    state.filhos = el.classList.contains('selected') ? [] : ['nao'];
+    el.classList.toggle('selected');
+  } else {
+    // Desmarca "não tenho filhos" ao selecionar sim_menor ou sim_maior
+    document.querySelectorAll('#filhosOpts .quiz-opt.multi').forEach(o => {
+      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes("'nao'")) {
+        o.classList.remove('selected');
+      }
+    });
+    state.filhos = state.filhos.filter(x => x !== 'nao');
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) {
+      if (!state.filhos.includes(val)) state.filhos.push(val);
+    } else {
+      state.filhos = state.filhos.filter(x => x !== val);
+    }
+  }
+  checkNext3();
+}
+
 function checkNext3() {
-  document.getElementById('next3').disabled = !(state.civil && state.filhos);
+  document.getElementById('next3').disabled = !(state.civil && state.filhos.length > 0);
 }
 
 function toggleMulti(el, val) {
@@ -1532,8 +1559,8 @@ async function goToResult() {
     if (state.extra.includes('capital'))      docs.push('📈 Jahressteuerbescheinigung do banco (rendimentos de investimentos)');
     if (state.extra.includes('freelance_side')) docs.push('💡 Comprovantes de renda freelance secundária');
     if (state.extra.includes('brasil'))       docs.push('🇧🇷 Comprovante de renda proveniente do Brasil');
-    if (state.filhos === 'sim_menor')         docs.push('👶 Documentos dos filhos menores (Kindergeldbescheid)');
-    if (state.filhos === 'sim_maior')         docs.push('🎓 Comprovante de formação dos filhos (Immatrikulationsbescheinigung)');
+    if (state.filhos.includes('sim_menor'))   docs.push('👶 Documentos dos filhos menores (Kindergeldbescheid)');
+    if (state.filhos.includes('sim_maior'))   docs.push('🎓 Comprovante de formação dos filhos (Immatrikulationsbescheinigung)');
 
     document.getElementById('nextStepsList').innerHTML = `
       <div class="step-item"><div class="step-num">1</div><div class="step-content">
