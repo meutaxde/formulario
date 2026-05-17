@@ -1625,11 +1625,8 @@ async function goToResult() {
 
   const gasResp = await enviarParaAppsScript();
   if (gasResp && gasResp.duplicate) {
+    // Apenas mostra o aviso — não bloqueia o fluxo
     document.getElementById('duplicateNotice').style.display = 'block';
-    // Esconde botão de associar e próximos passos; mostra só reiniciar
-    document.getElementById('ctaAssociar').style.display = 'none';
-    document.getElementById('nextStepsEl').style.display = 'none';
-    document.getElementById('feeSummaryCard').style.display = 'none';
   }
   goTo('s-result');
 }
