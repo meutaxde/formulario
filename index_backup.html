@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Tax — Descubra se você pode ser membro</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1c5c3e;
+  --verde2: #2a7a55;
+  --verde-claro: #e4f2eb;
+  --ouro: #c8973a;
+  --ouro-claro: #fdf4e3;
+  --creme: #faf8f3;
+  --texto: #1a1a16;
+  --texto2: #5a5a52;
+  --borda: #e0ddd5;
+  --branco: #ffffff;
+  --erro: #c0392b;
+  --sucesso: #1c5c3e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--creme);
+  color:var(--texto);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:3px;background:rgba(0,0,0,0.08);
+}
+.progress-fill{
+  height:100%;background:var(--ouro);
+  transition:width 0.5s cubic-bezier(.4,0,.2,1);
+  width:0%;
+}
+.progress-steps{
+  position:fixed;top:0;left:0;right:0;z-index:99;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px 0;
+  pointer-events:none;
+}
+.progress-step-label{
+  font-size:11px;font-weight:500;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--texto2);
+  opacity:0;transition:opacity 0.3s;
+}
+.progress-step-label.visible{opacity:1}
+
+/* ── SCREENS ── */
+.screen{
+  display:none;min-height:100svh;
+  animation:fadeUp 0.45s cubic-bezier(.4,0,.2,1) both;
+}
+.screen.active{display:flex;flex-direction:column}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── SCREEN 0: LANDING ── */
+#s0{
+  background:var(--verde);
+  color:white;
+  justify-content:center;
+  align-items:center;
+  padding:60px 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+#s0::before{
+  content:'';position:absolute;
+  width:500px;height:500px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.08);
+  top:-180px;right:-160px;
+}
+#s0::after{
+  content:'';position:absolute;
+  width:300px;height:300px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.06);
+  bottom:-80px;left:-80px;
+}
+.logo-chip{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:40px;padding:8px 20px;
+  font-size:13px;font-weight:500;
+  margin-bottom:32px;
+  letter-spacing:0.04em;
+}
+.logo-dot{width:8px;height:8px;background:var(--ouro);border-radius:50%}
+.landing-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(36px,7vw,64px);
+  font-weight:300;
+  line-height:1.1;
+  margin-bottom:10px;
+}
+.landing-title em{
+  font-style:italic;
+  color:#9ddbb9;
+}
+.landing-subtitle{
+  font-size:clamp(15px,3vw,20px);
+  font-weight:300;
+  color:rgba(255,255,255,0.7);
+  margin-bottom:16px;
+}
+.landing-flag{
+  font-size:13px;color:rgba(255,255,255,0.5);
+  margin-bottom:40px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.landing-flag::before,.landing-flag::after{
+  content:'';flex:1;max-width:60px;
+  height:1px;background:rgba(255,255,255,0.2);
+}
+
+.info-pills{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;margin-top:32px;margin-bottom:48px;
+  max-width:560px;
+}
+.pill{
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:30px;
+  padding:8px 16px;font-size:13px;
+  display:flex;align-items:center;gap:6px;
+}
+.pill-icon{font-size:16px}
+
+.start-btn{
+  background:var(--ouro);
+  color:var(--texto);
+  border:none;border-radius:50px;
+  padding:16px 40px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:16px;font-weight:600;
+  cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:16px;
+}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,151,58,0.4)}
+.start-btn:active{transform:translateY(0)}
+.start-note{font-size:12px;color:rgba(255,255,255,0.4)}
+
+/* ── QUIZ WRAPPER ── */
+.quiz-wrapper{
+  max-width:640px;width:100%;
+  margin:0 auto;padding:72px 24px 60px;
+  flex:1;display:flex;flex-direction:column;justify-content:flex-start;
+}
+.quiz-question{
+  font-family:'Fraunces',serif;
+  font-size:clamp(22px,4vw,30px);
+  font-weight:300;
+  line-height:1.3;
+  margin-bottom:8px;
+}
+.quiz-hint{
+  font-size:14px;color:var(--texto2);
+  margin-bottom:28px;line-height:1.5;
+}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-opt{
+  background:var(--branco);
+  border:1.5px solid var(--borda);
+  border-radius:14px;
+  padding:16px 20px;
+  cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  font-size:15px;font-weight:400;
+  transition:border-color 0.2s,background 0.2s,transform 0.15s;
+  text-align:left;
+  width:100%;
+  font-family:'Instrument Sans',sans-serif;
+  color:var(--texto);
+}
+.quiz-opt:hover{
+  border-color:var(--verde2);
+  background:var(--verde-claro);
+  transform:translateX(4px);
+}
+.quiz-opt.selected{
+  border-color:var(--verde);
+  background:var(--verde-claro);
+  font-weight:500;
+}
+.quiz-opt.selected .opt-radio{
+  background:var(--verde);border-color:var(--verde);
+}
+.quiz-opt.selected .opt-radio::after{
+  opacity:1;
+}
+.opt-radio{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--borda);
+  flex-shrink:0;position:relative;
+  transition:all 0.2s;
+}
+.opt-radio::after{
+  content:'';position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:8px;height:8px;border-radius:50%;
+  background:white;opacity:0;
+  transition:opacity 0.2s;
+}
+.opt-emoji{font-size:20px;min-width:28px;text-align:center}
+.opt-body{flex:1}
+.opt-title{font-size:15px;font-weight:500;margin-bottom:2px}
+.opt-desc{font-size:12px;color:var(--texto2)}
+
+/* ── NAV BUTTONS ── */
+.quiz-nav{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-top:28px;gap:12px;
+}
+.btn-back{
+  background:transparent;border:1.5px solid var(--borda);
+  color:var(--texto2);border-radius:50px;
+  padding:12px 24px;font-size:14px;
+  cursor:pointer;font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-back:hover{border-color:var(--texto2);color:var(--texto)}
+.btn-next{
+  background:var(--verde);color:white;
+  border:none;border-radius:50px;
+  padding:13px 32px;font-size:15px;font-weight:500;
+  cursor:pointer;font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+  display:flex;align-items:center;gap:8px;
+  margin-left:auto;
+}
+.btn-next:hover{background:var(--verde2);transform:translateY(-1px)}
+.btn-next:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.btn-next .arrow{font-size:18px}
+
+/* ── INCOME SLIDER ── */
+.income-display{
+  font-family:'Fraunces',serif;
+  font-size:48px;font-weight:300;
+  color:var(--verde);margin-bottom:4px;
+  text-align:center;
+}
+.income-class{
+  font-size:13px;color:var(--texto2);
+  text-align:center;margin-bottom:24px;
+}
+.slider-track{
+  width:100%;-webkit-appearance:none;
+  height:6px;border-radius:3px;
+  background:var(--borda);outline:none;cursor:pointer;
+  margin-bottom:8px;
+}
+.slider-track::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--verde);
+  box-shadow:0 2px 8px rgba(28,92,62,0.3);
+  cursor:grab;
+  transition:transform 0.15s;
+}
+.slider-track::-webkit-slider-thumb:active{transform:scale(1.2);cursor:grabbing}
+.slider-labels{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--texto2);
+}
+
+/* ── FEE PREVIEW CARD ── */
+.fee-card{
+  background:var(--verde-claro);
+  border:1.5px solid #b3d9c4;
+  border-radius:14px;
+  padding:18px 20px;
+  margin-top:20px;
+  display:flex;align-items:center;gap:16px;
+}
+.fee-icon{
+  width:44px;height:44px;
+  background:var(--verde);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.fee-label{font-size:12px;color:var(--verde);font-weight:500;margin-bottom:2px}
+.fee-value{font-family:'Fraunces',serif;font-size:22px;color:var(--verde);font-weight:300}
+.fee-note{font-size:11px;color:var(--texto2);margin-top:2px}
+
+/* ── INCOME INPUT ── */
+.income-input-wrap{
+  display:flex;align-items:center;gap:10px;
+  background:var(--branco);border:1.5px solid var(--borda);
+  border-radius:14px;padding:12px 20px;
+  margin-bottom:6px;
+  transition:border-color 0.2s;
+}
+.income-input-wrap:focus-within{border-color:var(--verde)}
+.income-prefix{
+  font-family:'Fraunces',serif;font-size:28px;
+  font-weight:300;color:var(--verde);flex-shrink:0;
+}
+.income-suffix{
+  font-size:13px;color:var(--texto2);flex-shrink:0;white-space:nowrap;
+}
+.income-input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:'Fraunces',serif;font-size:32px;font-weight:300;
+  color:var(--verde);width:100%;
+  -moz-appearance:textfield;
+}
+.income-input::-webkit-outer-spin-button,
+.income-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.income-input::placeholder{color:#ccc}
+
+/* ── CONTACT FORM ── */
+.form-group{margin-bottom:16px}
+.form-label{
+  font-size:13px;font-weight:500;color:var(--texto2);
+  margin-bottom:6px;display:block;
+}
+.form-input{
+  width:100%;border:1.5px solid var(--borda);
+  border-radius:12px;padding:13px 16px;
+  font-family:'Instrument Sans',sans-serif;font-size:15px;
+  background:var(--branco);color:var(--texto);outline:none;
+  transition:border-color 0.2s;
+  -webkit-appearance:none;
+}
+.form-input:focus{border-color:var(--verde)}
+.form-input::placeholder{color:#ccc}
+.spouse-section{
+  border-top:1.5px solid var(--borda);
+  margin-top:24px;padding-top:24px;
+}
+.spouse-section .quiz-question{
+  font-size:clamp(18px,3vw,22px);
+  margin-bottom:6px;
+}
+.income-display-sm{
+  font-family:'Fraunces',serif;
+  font-size:36px;font-weight:300;
+  color:var(--verde);margin-bottom:4px;
+  text-align:center;
+}
+.dsgvo-wrap{
+  margin-top:20px;
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--ouro-claro);
+  border:1px solid #e8c97a;
+  border-radius:12px;padding:14px;
+}
+.dsgvo-wrap input[type=checkbox]{
+  margin-top:2px;flex-shrink:0;
+  cursor:pointer;width:18px;height:18px;accent-color:var(--verde);
+}
+.dsgvo-label{
+  font-size:12px;color:var(--texto2);line-height:1.6;cursor:pointer;
+}
+.dsgvo-label strong{color:var(--texto)}
+
+/* ── RESULT SCREEN ── */
+#s-result{
+  background:var(--branco);
+}
+.result-hero{
+  padding:60px 24px 32px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.result-hero.eligible{background:var(--verde)}
+.result-hero.not-eligible{background:#2d2d2d}
+.result-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border-radius:40px;padding:8px 20px;
+  font-size:13px;font-weight:500;
+  margin-bottom:20px;
+}
+.result-hero.eligible .result-badge{
+  background:rgba(255,255,255,0.15);color:white;
+}
+.result-hero.not-eligible .result-badge{
+  background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);
+}
+.result-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(28px,5vw,44px);
+  font-weight:300;color:white;
+  line-height:1.2;margin-bottom:10px;
+}
+.result-sub{
+  font-size:15px;color:rgba(255,255,255,0.7);
+  max-width:480px;margin:0 auto;line-height:1.6;
+}
+.result-body{max-width:640px;margin:0 auto;padding:32px 24px 60px}
+
+/* FEE SUMMARY */
+.fee-summary-card{
+  background:var(--creme);
+  border:1px solid var(--borda);
+  border-radius:16px;padding:24px;
+  margin-bottom:20px;
+}
+.fee-summary-title{
+  font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--texto2);margin-bottom:16px;
+}
+.fee-row{
+  display:flex;justify-content:space-between;
+  align-items:center;padding:10px 0;
+  border-bottom:1px solid var(--borda);
+  font-size:14px;
+}
+.fee-row:last-child{border-bottom:none;font-weight:600;font-size:16px}
+.fee-row-label{color:var(--texto2)}
+.fee-row-value{font-family:'Fraunces',serif;font-size:18px;color:var(--verde)}
+.fee-row:last-child .fee-row-value{font-size:22px}
+
+/* NEXT STEPS */
+.next-steps{margin-bottom:24px}
+.next-steps-title{
+  font-size:14px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.06em;
+  color:var(--texto2);margin-bottom:14px;
+}
+.step-item{
+  display:flex;gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--borda);
+}
+.step-item:last-child{border-bottom:none}
+.step-num{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--verde-claro);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600;color:var(--verde);
+  flex-shrink:0;
+}
+.step-content{flex:1}
+.step-title-text{font-size:14px;font-weight:500;margin-bottom:2px}
+.step-desc{font-size:13px;color:var(--texto2);line-height:1.5}
+
+/* CTA BUTTON */
+.cta-btn{
+  width:100%;background:var(--verde);color:white;
+  border:none;border-radius:50px;
+  padding:16px;font-size:16px;font-weight:500;
+  cursor:pointer;font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.cta-btn:hover{background:var(--verde2);transform:translateY(-1px)}
+.cta-secondary{
+  width:100%;background:transparent;
+  color:var(--texto2);border:1.5px solid var(--borda);
+  border-radius:50px;padding:14px;
+  font-size:14px;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+}
+.cta-secondary:hover{border-color:var(--texto);color:var(--texto)}
+
+/* NOT eligible */
+.not-eligible-card{
+  background:#fff8f8;border:1px solid #f5c6c6;
+  border-radius:14px;padding:20px;margin-bottom:20px;
+}
+.not-eligible-title{font-weight:600;margin-bottom:10px;color:#8b0000}
+.not-eligible-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.not-eligible-list li{
+  font-size:14px;color:var(--texto2);
+  display:flex;align-items:flex-start;gap:8px;line-height:1.5;
+}
+.not-eligible-list li::before{content:'✗';color:#c0392b;flex-shrink:0;font-weight:600}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  .quiz-wrapper{padding:70px 18px 40px}
+  #s0{padding:48px 20px}
+}
+
+/* ── ABOUT SECTION ── */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:24px;
+}
+.about-card{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:12px;padding:12px;
+  text-align:left;
+}
+.about-card-icon{font-size:18px;margin-bottom:6px}
+.about-card-title{font-size:12px;font-weight:600;margin-bottom:3px}
+.about-card-desc{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="progress-steps">
+  <span class="progress-step-label" id="stepLabel"></span>
+  <span class="progress-step-label" id="stepCount"></span>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 0: LANDING                     -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen active" id="s0">
+  <div style="max-width:640px;width:100%;margin:auto;position:relative;z-index:1;padding:0 24px">
+    <div class="logo-chip"><span class="logo-dot"></span> Meu Tax Lohnsteuerhilfeverein e.V.</div>
+
+    <h1 class="landing-title">Declaração de imposto<br>feita <em>por quem<br>entende você.</em></h1>
+
+    <p class="landing-subtitle">Assistência fiscal em alemão, português e inglês.<br>Para estrangeiros na Alemanha.</p>
+
+    <div class="landing-flag">§ 4 Nr. 11 StBerG · Karlsruhe · Online em toda a Alemanha</div>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-card-icon">🇧🇷 🇪🇸 🇬🇧</div>
+        <div class="about-card-title">Português · Español · English</div>
+        <div class="about-card-desc">Atendemos em três idiomas. Sem barreiras de idioma nos seus impostos.</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">💶</div>
+        <div class="about-card-title">Valor acessível</div>
+        <div class="about-card-desc">Um único pagamento anual. Sem taxas por declaração, sem surpresas.</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📱</div>
+        <div class="about-card-title">100% online</div>
+        <div class="about-card-desc">Por videochamada e WhatsApp. Não precisa sair de casa para nada.</div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">⚖️</div>
+        <div class="about-card-title">Legalmente reconhecido</div>
+        <div class="about-card-desc">Associação reconhecida pela OFD Baden-Württemberg, com seguro de responsabilidade.</div>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="goTo(1)">
+      Verificar se posso ser membro
+      <span>→</span>
+    </button>
+    <div class="start-note">Leva menos de 3 minutos · Sem compromisso</div>
+
+    <div class="info-pills">
+      <div class="pill"><span class="pill-icon">✓</span> Declaração de imposto de renda</div>
+      <div class="pill"><span class="pill-icon">✓</span> Trabalhadores assalariados</div>
+      <div class="pill"><span class="pill-icon">✓</span> Aposentados e pensionistas</div>
+      <div class="pill"><span class="pill-icon">✓</span> Quem tem renda de aluguel</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:20px 16px 28px;font-size:12px;color:rgba(255,255,255,0.45);border-top:1px solid rgba(255,255,255,0.1);margin-top:8px">
+    © 2026 Meu Tax Lohnsteuerhilfeverein e.V. · Todos os direitos reservados
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 1: TIPO DE RENDA               -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s1">
+  <div class="quiz-wrapper">
+    <div class="quiz-question">Qual é a sua principal fonte de renda?</div>
+    <div class="quiz-hint">Isso determina se podemos ajudar com a sua declaração de imposto.</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="selectOpt(this,'emprego')" data-val="emprego">
+        <span class="opt-emoji">💼</span>
+        <div class="opt-body">
+          <div class="opt-title">Emprego assalariado (CLT alemã / Angestellt)</div>
+          <div class="opt-desc">Trabalho com carteira, recebo contracheque (Lohnabrechnung)</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'aposentadoria')" data-val="aposentadoria">
+        <span class="opt-emoji">🏛</span>
+        <div class="opt-body">
+          <div class="opt-title">Aposentadoria / Pensão (Rente)</div>
+          <div class="opt-desc">Recebo pensão por aposentadoria, viuvez ou invalidez</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'autonomo')" data-val="autonomo">
+        <span class="opt-emoji">🧑‍💻</span>
+        <div class="opt-body">
+          <div class="opt-title">Autônomo / Freelancer principal</div>
+          <div class="opt-desc">Minha renda principal é por conta própria (Selbständig / Freiberufler)</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'empresa')" data-val="empresa">
+        <span class="opt-emoji">🏪</span>
+        <div class="opt-body">
+          <div class="opt-title">Tenho empresa / Negócio próprio (Gewerbe)</div>
+          <div class="opt-desc">Sou dono de empresa registrada na Alemanha</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo(0)">← Voltar</button>
+      <button class="btn-next" id="next1" disabled onclick="checkElig1()">Continuar <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 2: RENDA EXTRA                 -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s2">
+  <div class="quiz-wrapper">
+    <div class="quiz-question">Você tem alguma renda além do emprego?</div>
+    <div class="quiz-hint">Pode marcar mais de uma opção. Isso não te exclui automaticamente — só precisamos saber.</div>
+    <div class="quiz-options" id="extraOptions">
+      <button class="quiz-opt multi" onclick="toggleMulti(this,'aluguel')">
+        <span class="opt-emoji">🏠</span>
+        <div class="opt-body">
+          <div class="opt-title">Renda de aluguel (Vermietung)</div>
+          <div class="opt-desc">Alugo um imóvel na Alemanha ou no exterior</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleMulti(this,'capital')">
+        <span class="opt-emoji">📈</span>
+        <div class="opt-body">
+          <div class="opt-title">Rendimentos de investimentos (Kapitalerträge)</div>
+          <div class="opt-desc">Dividendos, juros, fundos etc.</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleMulti(this,'freelance_side')">
+        <span class="opt-emoji">💡</span>
+        <div class="opt-body">
+          <div class="opt-title">Trabalho freelance como renda secundária</div>
+          <div class="opt-desc">Até 18.000€/ano em atividade autônoma paralela</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleMulti(this,'brasil')">
+        <span class="opt-emoji">🇧🇷</span>
+        <div class="opt-body">
+          <div class="opt-title">Renda proveniente do Brasil</div>
+          <div class="opt-desc">Salário, pensão, aluguel ou outra renda no Brasil</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleMulti(this,'nenhuma')">
+        <span class="opt-emoji">—</span>
+        <div class="opt-body">
+          <div class="opt-title">Nenhuma renda extra</div>
+          <div class="opt-desc">Só tenho renda do emprego / aposentadoria</div>
+        </div>
+        <div class="opt-radio"></div>
+      </button>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo(1)">← Voltar</button>
+      <button class="btn-next" onclick="goTo(3)">Continuar <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 3: ESTADO CIVIL / FILHOS       -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s3">
+  <div class="quiz-wrapper">
+    <div class="quiz-question">Qual é o seu estado civil?</div>
+    <div class="quiz-hint">Casais que declaram juntos têm vantagens fiscais na Alemanha.</div>
+    <div class="quiz-options" style="margin-bottom:20px">
+      <button class="quiz-opt" onclick="selectOpt(this,'solteiro')" data-val="solteiro">
+        <span class="opt-emoji">👤</span><div class="opt-body"><div class="opt-title">Solteiro(a)</div></div><div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'casado')" data-val="casado">
+        <span class="opt-emoji">💑</span><div class="opt-body"><div class="opt-title">Casado(a)</div></div><div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'divorciado')" data-val="divorciado">
+        <span class="opt-emoji">📋</span><div class="opt-body"><div class="opt-title">Divorciado(a) / Separado(a)</div></div><div class="opt-radio"></div>
+      </button>
+      <button class="quiz-opt" onclick="selectOpt(this,'viuvo')" data-val="viuvo">
+        <span class="opt-emoji">🕊</span><div class="opt-body"><div class="opt-title">Viúvo(a)</div></div><div class="opt-radio"></div>
+      </button>
+    </div>
+
+    <div class="quiz-question" style="font-size:20px;margin-top:8px">Tem filhos?</div>
+    <div class="quiz-hint" style="margin-top:-8px;margin-bottom:12px">Pode selecionar mais de uma opção.</div>
+    <div class="quiz-options" id="filhosOpts" style="margin-top:12px">
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'nao')">
+        <span class="opt-emoji">❌</span><div class="opt-body"><div class="opt-title">Não tenho filhos</div></div><div class="opt-check"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_menor')">
+        <span class="opt-emoji">👶</span><div class="opt-body"><div class="opt-title">Sim, filhos menores / dependentes</div></div><div class="opt-check"></div>
+      </button>
+      <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_maior')">
+        <span class="opt-emoji">🎓</span><div class="opt-body"><div class="opt-title">Sim, filhos maiores em formação</div></div><div class="opt-check"></div>
+      </button>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo(2)">← Voltar</button>
+      <button class="btn-next" id="next3" disabled onclick="openIncomeScreen()">Continuar <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 4: RENDA BRUTA / VALOR        -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s4">
+  <div class="quiz-wrapper">
+
+    <!-- Renda do titular -->
+    <div class="quiz-question">Qual é a sua renda bruta anual?</div>
+    <div class="quiz-hint">Digite o valor ou arraste. Use uma estimativa se não souber o exato.</div>
+
+    <div class="income-input-wrap">
+      <span class="income-prefix">€</span>
+      <input type="number" id="incomeInput" class="income-input"
+        min="0" max="999999" step="500" value="45000"
+        oninput="updateIncomeFromInput(this.value)"
+        placeholder="45000">
+      <span class="income-suffix">/ ano</span>
+    </div>
+    <div class="income-class" id="incomeClass" style="margin-top:8px">Classe 4 · 45.001 – 60.000 €</div>
+    <input type="range" class="slider-track" id="incomeSlider"
+      min="0" max="300000" step="500" value="45000"
+      oninput="updateIncomeFromSlider(this.value)">
+    <div class="slider-labels"><span>€ 0</span><span>€ 150k</span><span>€ 300k+</span></div>
+
+    <!-- Renda do cônjuge — aparece somente se casado -->
+    <div id="spouseIncomeSection" style="display:none">
+      <div class="spouse-section">
+        <div class="quiz-question" style="font-size:clamp(18px,3vw,22px);margin-bottom:6px">Renda bruta anual do cônjuge</div>
+        <div class="quiz-hint">A anuidade é calculada pela renda familiar combinada.</div>
+
+        <div class="income-input-wrap">
+          <span class="income-prefix">€</span>
+          <input type="number" id="incomeInputConjuge" class="income-input"
+            min="0" max="999999" step="500" value="37500"
+            oninput="updateIncomeConjugeFromInput(this.value)"
+            placeholder="37500">
+          <span class="income-suffix">/ ano</span>
+        </div>
+        <div class="income-class" id="incomeClassConjuge" style="margin-top:8px">Classe 3 · 30.001 – 45.000 €</div>
+        <input type="range" class="slider-track" id="incomeSliderConjuge"
+          min="0" max="300000" step="500" value="37500"
+          oninput="updateIncomeConjugeFromSlider(this.value)">
+        <div class="slider-labels"><span>€ 0</span><span>€ 150k</span><span>€ 300k+</span></div>
+      </div>
+    </div>
+
+    <!-- Calculadora de renda total -->
+    <div class="fee-card" id="totalIncomeCard" style="margin-top:20px">
+      <div class="fee-icon">💶</div>
+      <div style="flex:1">
+        <div class="fee-label" id="totalIncomeLabel">Renda bruta anual total</div>
+        <div class="fee-value" id="totalIncomeValue">€ 45.000</div>
+        <div class="fee-note" id="totalIncomeNote">Renda individual</div>
+      </div>
+    </div>
+
+    <div id="incomeErrorMsg" style="display:none;color:var(--erro);font-size:13px;margin-top:12px;text-align:center">
+      Informe pelo menos uma renda maior que zero para continuar.
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo(3)">← Voltar</button>
+      <button class="btn-next" id="next4" disabled onclick="openContactScreen()">Continuar <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 5: DADOS DE CONTATO           -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s5">
+  <div class="quiz-wrapper">
+    <div class="quiz-question">Quase lá!</div>
+    <div class="quiz-hint">Preencha seus dados para receber a estimativa confirmada e os próximos passos pelo WhatsApp.</div>
+
+    <div class="form-group">
+      <label class="form-label" for="contactNome">Nome completo *</label>
+      <input type="text" id="contactNome" class="form-input"
+        placeholder="Seu nome completo" oninput="checkContactForm()" autocomplete="name">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="contactEmail">Email *</label>
+      <input type="email" id="contactEmail" class="form-input"
+        placeholder="seu@email.com" oninput="checkContactForm()" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="contactWhatsapp">WhatsApp *</label>
+      <input type="tel" id="contactWhatsapp" class="form-input"
+        placeholder="+49 176 12345678" oninput="checkContactForm()" autocomplete="tel">
+    </div>
+
+    <!-- Nome do cônjuge — visível somente se casado -->
+    <div id="spouseNameSection" style="display:none">
+      <div class="form-group">
+        <label class="form-label" for="contactNomeConjuge">Nome completo do cônjuge *</label>
+        <input type="text" id="contactNomeConjuge" class="form-input"
+          placeholder="Nome do cônjuge" oninput="checkContactForm()" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Como conheceu -->
+    <div class="form-group">
+      <label class="form-label" for="contactOrigem">Como você conheceu o Meu Tax? *</label>
+      <select id="contactOrigem" class="form-input" onchange="checkContactForm()">
+        <option value="">Selecione...</option>
+        <option value="Formulário (meutax.de)">Formulário (meutax.de)</option>
+        <option value="Lista de espera">Lista de espera</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Indicação">Indicação</option>
+        <option value="WhatsApp direto">WhatsApp direto</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+
+    <!-- Consentimento DSGVO -->
+    <div class="dsgvo-wrap">
+      <input type="checkbox" id="dsgvoCheck" onchange="checkContactForm()">
+      <label class="dsgvo-label" for="dsgvoCheck">
+        Concordo com o processamento dos meus dados pessoais para fins de filiação ao <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong>, em conformidade com a DSGVO. Meus dados não serão compartilhados com terceiros.
+      </label>
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo(4)">← Voltar</button>
+      <button class="btn-next" id="next5" disabled onclick="submitContactAndShowResult()">Ver estimativa <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN: RESULT                        -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s-result">
+  <div class="result-hero eligible" id="resultHero">
+    <div style="max-width:580px;margin:0 auto;position:relative;z-index:1">
+      <div class="result-badge" id="resultBadge">✓ Elegível para associação</div>
+      <div class="result-title" id="resultTitle">Você pode ser<br>membro do Meu Tax!</div>
+      <div class="result-sub" id="resultSub">Com base nas suas respostas, podemos cuidar da sua declaração de imposto de renda na Alemanha.</div>
+    </div>
+  </div>
+
+  <div class="result-body">
+
+    <!-- DUPLICATE NOTICE (shown when email already registered) -->
+    <div id="duplicateNotice" style="display:none;background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:16px 20px;margin:20px 0 0;font-size:14px;color:#5a4000;line-height:1.7">
+      <strong>📬 Este email já está cadastrado no Meu Tax.</strong><br>
+      Verifique sua caixa de entrada (e a pasta de spam) — já enviamos nossas informações para você.<br><br>
+      Se precisar de ajuda, fale pelo
+      <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a>.<br>
+      Para fazer um novo cadastro, clique em <strong>Reiniciar</strong> e utilize um email diferente.
+    </div>
+
+    <!-- FEE SUMMARY -->
+    <div class="fee-summary-card" id="feeSummaryCard">
+      <div class="fee-summary-title">Resumo da sua associação</div>
+      <div class="fee-row">
+        <span class="fee-row-label">Classe de renda</span>
+        <span class="fee-row-value" id="r-class">—</span>
+      </div>
+      <div class="fee-row" id="r-conjuge-row" style="display:none">
+        <span class="fee-row-label">Declaração conjunta</span>
+        <span class="fee-row-value" id="r-conjuge">—</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-row-label">Anuidade anual</span>
+        <span class="fee-row-value" id="r-fee-net">—</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-row-label">Taxa de adesão (única)</span>
+        <span class="fee-row-value">€ 49,00</span>
+      </div>
+      <div class="fee-row" style="border-top:1.5px solid var(--borda);margin-top:4px;padding-top:12px">
+        <span class="fee-row-label" style="font-weight:600">Total primeiro ano</span>
+        <span class="fee-row-value" id="r-total" style="font-weight:700">—</span>
+      </div>
+    </div>
+
+    <!-- CTA PRINCIPAL (logo após o resumo) -->
+    <div id="ctaEl" style="margin-bottom:8px">
+      <button class="cta-btn" id="ctaAssociar" onclick="clicarQueroMeAssociar()">
+        Quero me associar →
+      </button>
+    </div>
+
+    <!-- POTENCIAL DE RESTITUIÇÃO -->
+    <div id="restituicaoCard" style="display:none;background:#E8F5E9;border-radius:12px;padding:20px 24px;margin:16px 0;text-align:center">
+      <div style="font-size:12px;font-weight:600;color:#2E7D32;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Potencial de restituição estimado</div>
+      <div id="restituicaoValor" style="font-family:'Fraunces',serif;font-size:36px;color:#1B5E20;font-weight:300">~€1.172</div>
+      <div id="restituicaoSub" style="font-size:14px;color:#2E7D32;margin-top:4px">por pessoa</div>
+      <div style="font-size:11px;color:#555;margin-top:12px;line-height:1.6">
+        ⚠️ Valor estimado e conservador. A média nacional é ~€ 1.172 por pessoa (Destatis, ano fiscal 2023),
+        mas o valor real varia conforme renda, deduções e situação fiscal individual.
+        Não constitui garantia de restituição.
+      </div>
+    </div>
+
+    <!-- NOT ELIGIBLE reasons -->
+    <div class="not-eligible-card" id="notEligibleCard" style="display:none">
+      <div class="not-eligible-title">Por que não podemos ajudar agora</div>
+      <ul class="not-eligible-list" id="notEligibleReasons"></ul>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="next-steps" id="nextStepsEl">
+      <div class="next-steps-title">Próximos passos</div>
+      <div id="nextStepsList"></div>
+    </div>
+
+    <!-- REINICIAR -->
+    <div style="text-align:center;margin-top:8px">
+      <button class="cta-secondary" onclick="reiniciar()">← Reiniciar</button>
+    </div>
+
+    <!-- SPAM REMINDER -->
+    <p style="text-align:center;font-size:13px;color:#888;margin-top:20px;line-height:1.6">
+      📩 Após o contato, você receberá um email nosso.<br>
+      <strong>Lembre-se de verificar a pasta de spam</strong> caso não apareça na caixa de entrada.
+    </p>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN 6: DADOS DE CADASTRO          -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s6">
+  <div class="quiz-wrapper">
+    <div class="quiz-question">Dados para a filiação</div>
+    <div class="quiz-hint">Precisamos desses dados para emitir o seu contrato de filiação (Beitrittserklärung).</div>
+
+    <div class="form-group">
+      <label class="form-label" for="s6Nascimento">Data de nascimento *</label>
+      <input type="date" id="s6Nascimento" class="form-input" oninput="checkS6Form()" max="2010-01-01">
+    </div>
+
+    <div style="display:flex;gap:12px">
+      <div class="form-group" style="flex:3">
+        <label class="form-label" for="s6Rua">Rua / Strasse *</label>
+        <input type="text" id="s6Rua" class="form-input" placeholder="Musterstraße 12" oninput="checkS6Form()" autocomplete="street-address">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px">
+      <div class="form-group" style="flex:1">
+        <label class="form-label" for="s6CEP">CEP / PLZ *</label>
+        <input type="text" id="s6CEP" class="form-input" placeholder="76137" oninput="checkS6Form()" maxlength="5" autocomplete="postal-code">
+      </div>
+      <div class="form-group" style="flex:2">
+        <label class="form-label" for="s6Cidade">Cidade / Stadt *</label>
+        <input type="text" id="s6Cidade" class="form-input" placeholder="Karlsruhe" oninput="checkS6Form()" autocomplete="address-level2">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Método de pagamento preferido *</label>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px" id="paymentOpts">
+        <button type="button" class="quiz-opt" onclick="selectPayment(this,'transferencia')">
+          <span class="opt-emoji">🏦</span>
+          <div class="opt-body"><div class="opt-title">Transferência bancária</div></div>
+          <div class="opt-radio"></div>
+        </button>
+        <button type="button" class="quiz-opt" onclick="selectPayment(this,'paypal')">
+          <span class="opt-emoji">🅿️</span>
+          <div class="opt-body"><div class="opt-title">PayPal</div></div>
+          <div class="opt-radio"></div>
+        </button>
+        <button type="button" class="quiz-opt" onclick="selectPayment(this,'sepa')">
+          <span class="opt-emoji">🔄</span>
+          <div class="opt-body"><div class="opt-title">SEPA Débito Direto</div><div class="opt-desc">Débito automático anual — sem esquecer de renovar</div></div>
+          <div class="opt-radio"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- AVISO DE PAGAMENTO -->
+    <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:13px;color:#5a4000;line-height:1.8">
+      ℹ️ <strong>O pagamento não será feito agora.</strong><br>
+      O valor será confirmado somente após a verificação dos seus documentos.<br>
+      Parcelamento disponível via PayPal.
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="goTo('s-result')">← Voltar</button>
+      <button class="btn-next" id="next6" disabled onclick="submitS6EIrParaObrigado()">Enviar dados <span class="arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN: OBRIGADO                      -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s-obrigado">
+  <div class="result-hero eligible" style="min-height:38vh">
+    <div style="max-width:580px;margin:0 auto;position:relative;z-index:1">
+      <div class="result-badge">✓ Cadastro recebido</div>
+      <div class="result-title" style="font-size:clamp(28px,5vw,46px)">Obrigado, <span id="obrigadoNome"></span>!</div>
+      <div class="result-sub">Recebemos os seus dados. O próximo passo é enviar sua documentação para análise — tudo pelo WhatsApp, sem complicação.</div>
+    </div>
+  </div>
+
+  <div class="result-body">
+    <div class="next-steps">
+      <div class="next-steps-title">O que acontece agora</div>
+      <div>
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title-text">Envie sua documentação</div>
+            <div class="step-desc">Envie os documentos de renda pelo WhatsApp ou por email. Nossa equipe analisa em até 48h.<br><br>
+              📧 <a href="#" id="emailLink" style="color:var(--verde);font-weight:500">info@meutax.de</a>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title-text">Confirmamos o valor e enviamos o link de pagamento</div>
+            <div class="step-desc">Após verificar os documentos, confirmamos a anuidade e enviamos o link de pagamento por WhatsApp ou email.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title-text">Assinatura e filiação</div>
+            <div class="step-desc">Após o pagamento, enviamos o formulário de filiação (Beitrittserklärung) para assinar digitalmente. Tudo online.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="cta-btn" onclick="abrirWhatsApp()">
+        💬 Enviar documentação pelo WhatsApp
+      </button>
+      <a id="emailBtnLink" href="#" onclick="abrirEmail(event)" class="cta-secondary" style="display:block;text-align:center;text-decoration:none">
+        📧 Enviar por email
+      </a>
+      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- JAVASCRIPT                            -->
+<!-- ══════════════════════════════════════ -->
+<script>
+// ════════════════════════════════════════════════════════════════
+// ██  CONFIGURAÇÃO — edite aqui sem mexer no resto do código  ██
+// ════════════════════════════════════════════════════════════════
+const CONFIG = {
+
+  // ── IDENTIDADE ──
+  nomeAssociacao: 'Meu Tax Lohnsteuerhilfeverein e.V.',
+  emailContato:   'info@meutax.de',
+  cidade:         'Karlsruhe',
+  tagLegal:       '§ 4 Nr. 11 StBerG · Karlsruhe · Online em toda a Alemanha',
+
+  // ── WHATSAPP DO OWNER ──
+  // Número sem + ou espaços (só dígitos com código de país)
+  whatsappOwner: '4917656007968',
+
+  // ── TABELA DE CONTRIBUIÇÕES (neto + bruto incl. 19% MwSt) ──
+  tabelaContribuicoes: [
+    { kl:1,  faixa:'até 15.000',       maxRenda:15000,   net:200, brutto:238.00 },
+    { kl:2,  faixa:'15.001–30.000',    maxRenda:30000,   net:250, brutto:297.50 },
+    { kl:3,  faixa:'30.001–45.000',    maxRenda:45000,   net:300, brutto:357.00 },
+    { kl:4,  faixa:'45.001–60.000',    maxRenda:60000,   net:350, brutto:416.50 },
+    { kl:5,  faixa:'60.001–75.000',    maxRenda:75000,   net:400, brutto:476.00 },
+    { kl:6,  faixa:'75.001–100.000',   maxRenda:100000,  net:450, brutto:535.50 },
+    { kl:7,  faixa:'100.001–125.000',  maxRenda:125000,  net:500, brutto:595.00 },
+    { kl:8,  faixa:'125.001–150.000',  maxRenda:150000,  net:550, brutto:654.50 },
+    { kl:9,  faixa:'150.001–175.000',  maxRenda:175000,  net:600, brutto:714.00 },
+    { kl:10, faixa:'175.001–200.000',  maxRenda:200000,  net:650, brutto:773.50 },
+    { kl:11, faixa:'200.001–250.000',  maxRenda:250000,  net:700, brutto:833.00 },
+    { kl:12, faixa:'acima 250.001',    maxRenda:Infinity, net:750, brutto:892.50 },
+  ],
+  taxaAdesaoNet:    49,
+  taxaAdesaoBrutto: 58.31,
+
+  // ── APPS SCRIPT WEBHOOK ──
+  // Cole aqui a URL do Web App após o deploy em script.google.com
+  appsScriptURL: 'https://script.google.com/macros/s/AKfycbwfAKeJtGlqJZe8svKrd66xjucOaGAXTngETkfRk4_RkAxlnfwDxY5FXAnXYEHg9Ozbkw/exec',
+
+};
+// ════════════════════════════════════════════════════════════════
+
+
+// ── ESTADO INTERNO ──
+const state = {
+  tipoRenda:          null,
+  extra:              [],
+  civil:              null,
+  filhos:             [],
+  incomeClass:        4,
+  incomeClassConjuge: 3,
+  finalIncomeClass:   4,   // classe efetiva usada para cobrança (pode ser combinada p/ casais)
+  nome:               '',
+  email:              '',
+  whatsapp:           '',
+  nomeConjuge:        '',
+  eligible:           true,
+  reasons:            [],
+  dataNascimento:     '',
+  rua:                '',
+  cep:                '',
+  cidade:             '',
+  metodoPagamento:    '',
+  origem:             '',
+  pipedriveDealId:    null,
+};
+
+const brackets = CONFIG.tabelaContribuicoes.map(b => ({
+  kl:       b.kl,
+  label:    `Classe ${b.kl} — €${b.faixa}`,
+  range:    b.faixa,
+  maxRenda: b.maxRenda,
+  net:      b.net,
+  brutto:   b.brutto,
+}));
+
+const AUFN_NET    = CONFIG.taxaAdesaoNet;
+const AUFN_BRUTTO = CONFIG.taxaAdesaoBrutto;
+const SCREENS = ['s0','s1','s2','s3','s4','s5','s-result','s6','s-obrigado'];
+
+// Valores representativos por classe (ponto médio de cada faixa)
+const MID_VALUES = [7500,22500,37500,52500,67500,87500,112500,137500,162500,187500,225000,275000];
+
+// ── ENVIO PARA APPS SCRIPT (Google Sheets + Pipedrive) ──
+async function enviarParaAppsScript() {
+  if (!CONFIG.appsScriptURL || CONFIG.appsScriptURL.startsWith('COLE')) return;
+  const b = brackets[state.finalIncomeClass - 1];
+  const payload = {
+    nome:               state.nome,
+    email:              state.email,
+    whatsapp:           state.whatsapp,
+    origem:             state.origem        || '',
+    tipoRenda:          state.tipoRenda,
+    estadoCivil:        state.civil,
+    filhos:             state.filhos,
+    rendaExtra:         state.extra,
+    classeRenda:        state.finalIncomeClass,
+    anuidade:           b.net,
+    taxaAdesao:         AUFN_NET,
+    totalPrimAno:       (b.net + AUFN_NET).toFixed(2),
+    casado:             state.civil === 'casado',
+    nomeConjuge:        state.nomeConjuge  || '',
+    incomeClassConjuge: state.civil === 'casado' ? state.incomeClassConjuge : null,
+    rendaBruta:         state.rendaBruta         || 0,
+    rendaBrutaConjuge:  state.civil === 'casado' ? (state.rendaBrutaConjuge || 0) : null,
+    elegivel:           state.eligible,
+    timestamp:          new Date().toISOString(),
+  };
+  const btn = document.getElementById('next5');
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+  try {
+    const resp = await fetch(CONFIG.appsScriptURL, {
+      method:  'POST',
+      headers: {'Content-Type':'text/plain'},
+      body:    JSON.stringify(payload),
+    });
+    const data = await resp.json().catch(() => ({}));
+    return data;
+  } catch(e) { console.warn('Apps Script sync:', e); return null; }
+}
+
+async function promoverParaOportunidade() {
+  if (!CONFIG.appsScriptURL || CONFIG.appsScriptURL.startsWith('COLE')) return;
+  try {
+    await fetch(CONFIG.appsScriptURL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: {'Content-Type':'text/plain'},
+      body:    JSON.stringify({ acao: 'promover', email: state.email }),
+    });
+  } catch(e) { console.warn('Erro ao promover deal:', e); }
+}
+
+async function clicarQueroMeAssociar() {
+  // Promove o deal para Opportunity no Pipedrive (não bloqueia o WhatsApp)
+  promoverParaOportunidade();
+  goTo('s6');
+}
+
+// ── NAVEGAÇÃO ──
+function goTo(idx) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = typeof idx === 'string' ? idx : SCREENS[idx];
+  document.getElementById(target).classList.add('active');
+  updateProgress(idx);
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(idx) {
+  const step = typeof idx === 'number' ? idx : SCREENS.indexOf(idx);
+  const isS6 = idx === 's6' || step === 7;
+  const pct = isS6 ? 100 : Math.min(100, Math.round((step / 5) * 100));
+  document.getElementById('progressFill').style.width = pct + '%';
+  const labels = ['', 'Renda', 'Renda Extra', 'Perfil', 'Valor', 'Contato', '', 'Dados'];
+  const counts = ['', '1 de 6', '2 de 6', '3 de 6', '4 de 6', '5 de 6', '', '6 de 6'];
+  const visible = (step > 0 && step < 6) || isS6;
+  document.getElementById('stepLabel').textContent = labels[step] || '';
+  document.getElementById('stepLabel').classList.toggle('visible', visible);
+  document.getElementById('stepCount').textContent = visible ? counts[step] : '';
+  document.getElementById('stepCount').classList.toggle('visible', visible);
+}
+
+// ── SELEÇÃO DE OPÇÕES ──
+function selectOpt(el, val) {
+  const parent = el.closest('.quiz-options');
+  parent.querySelectorAll('.quiz-opt').forEach(o => {
+    o.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  const screen = el.closest('.screen').id;
+  if (screen === 's1') { state.tipoRenda = val; document.getElementById('next1').disabled = false; }
+  if (screen === 's3') { state.civil = val; checkNext3(); }
+}
+
+function selectGroup(el, group, val) {
+  const container = el.closest('#filhosOpts') || el.closest('.quiz-options');
+  container.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.filhos = val;
+  checkNext3();
+}
+
+function toggleFilhos(el, val) {
+  if (val === 'nao') {
+    // "Não tenho filhos" desmarca as outras
+    document.querySelectorAll('#filhosOpts .quiz-opt.multi').forEach(o => {
+      if (o !== el) o.classList.remove('selected');
+    });
+    state.filhos = el.classList.contains('selected') ? [] : ['nao'];
+    el.classList.toggle('selected');
+  } else {
+    // Desmarca "não tenho filhos" ao selecionar sim_menor ou sim_maior
+    document.querySelectorAll('#filhosOpts .quiz-opt.multi').forEach(o => {
+      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes("'nao'")) {
+        o.classList.remove('selected');
+      }
+    });
+    state.filhos = state.filhos.filter(x => x !== 'nao');
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) {
+      if (!state.filhos.includes(val)) state.filhos.push(val);
+    } else {
+      state.filhos = state.filhos.filter(x => x !== val);
+    }
+  }
+  checkNext3();
+}
+
+function checkNext3() {
+  document.getElementById('next3').disabled = !(state.civil && state.filhos.length > 0);
+}
+
+function toggleMulti(el, val) {
+  el.classList.toggle('selected');
+
+  if (val === 'nenhuma') {
+    // Desmarca todas as outras opções
+    document.querySelectorAll('#extraOptions .quiz-opt.multi').forEach(o => {
+      if (o !== el) o.classList.remove('selected');
+    });
+    state.extra = el.classList.contains('selected') ? ['nenhuma'] : [];
+    return;
+  }
+
+  // Outra opção marcada: desmarca "nenhuma"
+  document.querySelectorAll('#extraOptions .quiz-opt.multi').forEach(o => {
+    if (o.getAttribute('onclick') && o.getAttribute('onclick').includes("'nenhuma'")) {
+      o.classList.remove('selected');
+    }
+  });
+  state.extra = state.extra.filter(x => x !== 'nenhuma');
+
+  if (el.classList.contains('selected')) {
+    if (!state.extra.includes(val)) state.extra.push(val);
+  } else {
+    state.extra = state.extra.filter(x => x !== val);
+  }
+}
+
+// ── ELEGIBILIDADE ──
+function checkElig1() {
+  if (state.tipoRenda === 'autonomo') {
+    state.eligible = false;
+    state.reasons = [
+      'Renda principal como autônomo (Selbständig) não está coberta pela nossa autorização legal (§ 4 Nr. 11 StBerG)',
+      'Recomendamos buscar um Steuerberater para a sua situação',
+    ];
+    goToResult();
+  } else if (state.tipoRenda === 'empresa') {
+    state.eligible = false;
+    state.reasons = [
+      'Donos de empresa (Gewerbetreibende) precisam de um Steuerberater completo',
+      'Rendimentos empresariais (Gewerbe) não estão incluídos na nossa autorização',
+    ];
+    goToResult();
+  } else {
+    goTo(2);
+  }
+}
+
+// ── RENDA PRINCIPAL — helpers ──
+function classeParaRenda(euros) {
+  const idx = brackets.findIndex(b => euros <= b.maxRenda);
+  return idx >= 0 ? idx : 11; // classe 12 se acima de tudo
+}
+
+function aplicarRenda(euros) {
+  euros = Math.max(0, euros);
+  const idx = classeParaRenda(euros);
+  const b = brackets[idx];
+  state.incomeClass = idx + 1;
+  state.rendaBruta  = euros;
+  document.getElementById('incomeClass').textContent = euros > 0 ? 'Classe ' + b.kl + ' · ' + b.range : '—';
+  atualizarCalculadoraTotal();
+  checkIncomeValid();
+}
+
+function updateIncomeFromInput(val) {
+  const euros = parseInt(val) || 0;
+  // Sincroniza slider (clampa em 300000 para não ultrapassar o max)
+  document.getElementById('incomeSlider').value = Math.min(euros, 300000);
+  aplicarRenda(euros);
+}
+
+function updateIncomeFromSlider(val) {
+  const euros = parseInt(val) || 0;
+  document.getElementById('incomeInput').value = euros;
+  aplicarRenda(euros);
+}
+
+// ── RENDA DO CÔNJUGE — helpers ──
+function aplicarRendaConjuge(euros) {
+  euros = Math.max(0, euros);
+  const idx = classeParaRenda(euros);
+  const b = brackets[idx];
+  state.incomeClassConjuge = idx + 1;
+  state.rendaBrutaConjuge  = euros;
+  document.getElementById('incomeClassConjuge').textContent = euros > 0 ? 'Classe ' + b.kl + ' · ' + b.range : '—';
+  atualizarCalculadoraTotal();
+  checkIncomeValid();
+}
+
+function updateIncomeConjugeFromInput(val) {
+  const euros = parseInt(val) || 0;
+  document.getElementById('incomeSliderConjuge').value = Math.min(euros, 300000);
+  aplicarRendaConjuge(euros);
+}
+
+function updateIncomeConjugeFromSlider(val) {
+  const euros = parseInt(val) || 0;
+  document.getElementById('incomeInputConjuge').value = euros;
+  aplicarRendaConjuge(euros);
+}
+
+function atualizarCalculadoraTotal() {
+  const casado = state.civil === 'casado';
+  const r1 = state.rendaBruta || 0;
+  const r2 = casado ? (state.rendaBrutaConjuge || 0) : 0;
+  const combinada = r1 + r2;
+  const idx = classeParaRenda(combinada);
+  state.finalIncomeClass = idx + 1;
+
+  document.getElementById('totalIncomeValue').textContent = '€ ' + combinada.toLocaleString('de-DE');
+  if (casado) {
+    document.getElementById('totalIncomeLabel').textContent = 'Renda bruta anual combinada';
+    document.getElementById('totalIncomeNote').textContent  = 'Sua renda + renda do cônjuge';
+  } else {
+    document.getElementById('totalIncomeLabel').textContent = 'Renda bruta anual total';
+    document.getElementById('totalIncomeNote').textContent  = 'Renda individual';
+    state.finalIncomeClass = state.incomeClass;
+  }
+}
+
+// ── TELA 4: mostra/oculta renda do cônjuge conforme estado civil ──
+function openIncomeScreen() {
+  const casado = state.civil === 'casado';
+  document.getElementById('spouseIncomeSection').style.display = casado ? 'block' : 'none';
+  if (casado) {
+    aplicarRendaConjuge(state.rendaBrutaConjuge || 37500);
+  } else {
+    state.finalIncomeClass = state.incomeClass;
+    atualizarCalculadoraTotal();
+  }
+  goTo(4);
+}
+
+// ── TELA 5: mostra/oculta nome do cônjuge ──
+function openContactScreen() {
+  const casado = state.civil === 'casado';
+  document.getElementById('spouseNameSection').style.display = casado ? 'block' : 'none';
+  checkContactForm();
+  goTo(5);
+}
+
+function checkContactForm() {
+  const nome = document.getElementById('contactNome').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const whatsapp = document.getElementById('contactWhatsapp').value.trim();
+  const origem = document.getElementById('contactOrigem').value;
+  const dsgvo = document.getElementById('dsgvoCheck').checked;
+  const casado = state.civil === 'casado';
+  const nomeConjuge = casado ? document.getElementById('contactNomeConjuge').value.trim() : 'ok';
+
+  const valid = nome && email && whatsapp && origem && dsgvo && nomeConjuge;
+  document.getElementById('next5').disabled = !valid;
+}
+
+function submitContactAndShowResult() {
+  state.nome = document.getElementById('contactNome').value.trim();
+  state.email = document.getElementById('contactEmail').value.trim();
+  state.whatsapp = document.getElementById('contactWhatsapp').value.trim();
+  state.origem = document.getElementById('contactOrigem').value;
+  if (state.civil === 'casado') {
+    state.nomeConjuge = document.getElementById('contactNomeConjuge').value.trim();
+  }
+  if (state.civil !== 'casado') {
+    state.finalIncomeClass = state.incomeClass;
+  }
+  goToResult();
+}
+
+// ── TELA 6: DADOS DE CADASTRO ──
+function selectPayment(el, val) {
+  document.querySelectorAll('#paymentOpts .quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.metodoPagamento = val;
+  checkS6Form();
+}
+
+function checkS6Form() {
+  const nascimento = document.getElementById('s6Nascimento').value.trim();
+  const rua        = document.getElementById('s6Rua').value.trim();
+  const cep        = document.getElementById('s6CEP').value.trim();
+  const cidade     = document.getElementById('s6Cidade').value.trim();
+  const valid = nascimento && rua && cep.length >= 5 && cidade && state.metodoPagamento;
+  document.getElementById('next6').disabled = !valid;
+}
+
+async function submitS6EIrParaObrigado() {
+  state.dataNascimento = document.getElementById('s6Nascimento').value;
+  state.rua            = document.getElementById('s6Rua').value.trim();
+  state.cep            = document.getElementById('s6CEP').value.trim();
+  state.cidade         = document.getElementById('s6Cidade').value.trim();
+
+  // Desabilitar botão para evitar duplo envio
+  const btn6 = document.getElementById('next6');
+  if (btn6) { btn6.disabled = true; btn6.textContent = 'Enviando...'; }
+
+  // Enviar dados completos + promover para Opportunity + disparar email de boas-vindas
+  if (CONFIG.appsScriptURL && !CONFIG.appsScriptURL.startsWith('COLE')) {
+    const b = brackets[state.finalIncomeClass - 1];
+    const payload = {
+      acao:         'completar',
+      email:        state.email,
+      nome:         state.nome,
+      whatsapp:     state.whatsapp,
+      tipoRenda:    state.tipoRenda,
+      estadoCivil:  state.civil,
+      filhos:       state.filhos,
+      rendaExtra:   state.extra,
+      casado:       state.civil === 'casado',
+      nomeConjuge:  state.nomeConjuge  || '',
+      metodoPagamento:  state.metodoPagamento  || '',
+      dataNascimento:   state.dataNascimento   || '',
+      rua:              state.rua              || '',
+      cep:              state.cep              || '',
+      cidade:           state.cidade           || '',
+      classeRenda:      state.finalIncomeClass,
+      anuidade:         b.net,
+      totalPrimAno:     (b.net + AUFN_NET).toFixed(2),
+    };
+    try {
+      await fetch(CONFIG.appsScriptURL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: {'Content-Type':'text/plain'},
+        body:    JSON.stringify(payload),
+      });
+    } catch(e) { console.warn('Erro ao completar oportunidade:', e); }
+  }
+
+  document.getElementById('obrigadoNome').textContent = state.nome.split(' ')[0];
+  document.getElementById('emailLink').href = `mailto:${CONFIG.emailContato}`;
+  goTo('s-obrigado');
+}
+
+// ── BOTÃO: ABRE EMAIL ──
+function abrirEmail(e) {
+  if (e) e.preventDefault();
+  const assunto = encodeURIComponent('Documentação Meu Tax — ' + state.nome);
+  const corpo   = encodeURIComponent('Olá! Gostaria de enviar minha documentação para análise.\n\nMeu nome é ' + state.nome + '.\nWhatsApp: ' + state.whatsapp);
+  window.location.href = 'mailto:' + CONFIG.emailContato + '?subject=' + assunto + '&body=' + corpo;
+}
+
+// ── BOTÃO CTA: ABRE WHATSAPP ──
+function abrirWhatsApp() {
+  const b = brackets[state.finalIncomeClass - 1];
+  const total = (b.net + AUFN_NET).toFixed(2).replace('.', ',');
+  const casadoInfo = state.civil === 'casado' && state.nomeConjuge
+    ? ` (declaração conjunta com ${state.nomeConjuge})`
+    : '';
+  const msg = `Olá, Gostaria de enviar minha documentação.`;
+  window.open(`https://wa.me/${CONFIG.whatsappOwner}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── CONSTRÓI TELA DE RESULTADO ──
+async function goToResult() {
+  const b = brackets[state.finalIncomeClass - 1];
+  const total = (b.net + AUFN_NET).toFixed(2).replace('.', ',');
+
+  if (!state.eligible) {
+    document.getElementById('resultHero').className = 'result-hero not-eligible';
+    document.getElementById('resultBadge').textContent = '⚠ Fora da nossa área de atuação';
+    document.getElementById('resultTitle').textContent = 'Não podemos\ncuidar do seu caso';
+    document.getElementById('resultSub').textContent = 'Com base nas suas respostas, a sua situação fiscal está fora da autorização legal dos Lohnsteuerhilfevereine.';
+    document.getElementById('feeSummaryCard').style.display = 'none';
+    document.getElementById('notEligibleCard').style.display = 'block';
+    const ul = document.getElementById('notEligibleReasons');
+    ul.innerHTML = state.reasons.map(r => `<li>${r}</li>`).join('');
+    document.getElementById('nextStepsList').innerHTML = `
+      <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-title-text">Busque um Steuerberater</div><div class="step-desc">Para situações com renda autônoma ou empresarial, você precisa de um Steuerberater completo.</div></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-title-text">Verifique se há renda mista</div><div class="step-desc">Se sua renda autônoma for secundária (até 18.000€/ano), pode ser que possamos ajudar. Entre em contato para verificar.</div></div></div>`;
+    const msgInelegivel = encodeURIComponent('Olá! Preenchi o formulário do Meu Tax mas minha renda principal é autônoma. Gostaria de verificar se posso ser atendido mesmo assim.');
+    document.getElementById('ctaEl').innerHTML = `
+      <a href="https://wa.me/${CONFIG.whatsappOwner}?text=${msgInelegivel}" class="cta-btn" style="text-decoration:none;display:flex" target="_blank">
+        💬 Falar pelo WhatsApp
+      </a>
+      <a href="mailto:${CONFIG.emailContato}?subject=Dúvida%20sobre%20elegibilidade%20-%20Meu%20Tax" class="cta-secondary" style="display:block;text-align:center;text-decoration:none;padding:14px">
+        📧 Enviar email para info@meutax.de
+      </a>
+      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>`;
+  } else {
+    document.getElementById('resultHero').className = 'result-hero eligible';
+    document.getElementById('resultBadge').textContent = '✓ Elegível para associação';
+    document.getElementById('resultTitle').textContent = `Você pode ser\nmembro do Meu Tax, ${state.nome.split(' ')[0]}!`;
+    document.getElementById('resultSub').textContent = 'Com base nas suas respostas, podemos cuidar da sua declaração de imposto de renda na Alemanha.';
+
+    document.getElementById('r-class').textContent = 'Classe ' + b.kl + ' · ' + b.range;
+
+    // Linha de declaração conjunta
+    if (state.civil === 'casado' && state.nomeConjuge) {
+      document.getElementById('r-conjuge-row').style.display = 'flex';
+      document.getElementById('r-conjuge').textContent = `Com ${state.nomeConjuge}`;
+    }
+
+    document.getElementById('r-fee-net').textContent = '€ ' + b.net.toLocaleString('de-DE') + ',00';
+    document.getElementById('r-total').textContent = '€ ' + total;
+
+    // Potencial de restituição
+    const isCasal = (state.civil === 'casado' || state.civil === 'uniao');
+    const restCard = document.getElementById('restituicaoCard');
+    if (restCard) {
+      const restValor = document.getElementById('restituicaoValor');
+      const restSub = document.getElementById('restituicaoSub');
+      restCard.style.display = 'block';
+      if (isCasal) {
+        if (restValor) restValor.textContent = '~€ 2.200';
+        if (restSub) restSub.textContent = 'para o casal (~€ 1.100 por pessoa)';
+      } else {
+        if (restValor) restValor.textContent = '~€ 1.100';
+        if (restSub) restSub.textContent = 'por pessoa';
+      }
+    }
+
+    let extras = [];
+    if (state.extra.includes('brasil')) extras.push('Renda do Brasil: requer análise do tratado de não-bitributação Brasil-Alemanha.');
+    if (state.extra.includes('freelance_side')) extras.push('Freelance secundário: permitido dentro dos limites de § 4 Nr. 11 StBerG.');
+
+    // Lista de documentos dinâmica baseada nas respostas do quiz
+    const docs = [];
+    if (state.tipoRenda === 'emprego')        docs.push('📄 Lohnsteuerbescheinigung (certidão anual do empregador)');
+    if (state.tipoRenda === 'aposentadoria')  docs.push('📄 Rentenbescheid (aviso de aposentadoria)');
+    if (state.extra.includes('aluguel'))      docs.push('🏠 Comprovantes de aluguel recebido (Mietvertrag + recibos)');
+    if (state.extra.includes('capital'))      docs.push('📈 Jahressteuerbescheinigung do banco (rendimentos de investimentos)');
+    if (state.extra.includes('freelance_side')) docs.push('💡 Comprovantes de renda freelance secundária');
+    if (state.extra.includes('brasil'))       docs.push('🇧🇷 Comprovante de renda proveniente do Brasil');
+    if (state.filhos.includes('sim_menor'))   docs.push('👶 Documentos dos filhos menores (Kindergeldbescheid)');
+    if (state.filhos.includes('sim_maior'))   docs.push('🎓 Comprovante de formação dos filhos (Immatrikulationsbescheinigung)');
+
+    document.getElementById('nextStepsList').innerHTML = `
+      <div class="step-item"><div class="step-num">1</div><div class="step-content">
+        <div class="step-title-text">Envie seus documentos de renda</div>
+        <div class="step-desc" style="margin-top:6px">
+          Com base nas suas respostas, você precisará enviar:<br><br>
+          ${docs.map(d => `<span style="display:block;margin-bottom:4px">${d}</span>`).join('')}
+        </div>
+      </div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content">
+        <div class="step-title-text">Avaliamos e confirmamos o valor</div>
+        <div class="step-desc">Com os documentos em mãos, confirmamos a anuidade exata e enviamos o link de pagamento por WhatsApp ou email.</div>
+      </div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-content">
+        <div class="step-title-text">Pagamento e filiação</div>
+        <div class="step-desc">Após o pagamento, enviamos o formulário de filiação para assinar. Tudo online, sem precisar sair de casa.</div>
+      </div></div>`;
+  }
+
+  const gasResp = await enviarParaAppsScript();
+  if (gasResp && gasResp.duplicate) {
+    // Apenas mostra o aviso — não bloqueia o fluxo
+    document.getElementById('duplicateNotice').style.display = 'block';
+  }
+  goTo('s-result');
+}
+
+// ── VALIDAÇÃO TELA 4 ──
+function checkIncomeValid() {
+  const casado = state.civil === 'casado';
+  const combinada = (state.rendaBruta || 0) + (casado ? (state.rendaBrutaConjuge || 0) : 0);
+  const valido = combinada > 0;
+  document.getElementById('next4').disabled = !valido;
+  document.getElementById('incomeErrorMsg').style.display = valido ? 'none' : 'block';
+}
+
+// ── REINICIAR COMPLETO ──
+function reiniciar() {
+  // Resetar estado
+  state.tipoRenda          = null;
+  state.extra              = [];
+  state.civil              = null;
+  state.filhos             = [];
+  state.incomeClass        = 4;
+  state.incomeClassConjuge = 3;
+  state.finalIncomeClass   = 4;
+  state.nome               = '';
+  state.email              = '';
+  state.whatsapp           = '';
+  state.nomeConjuge        = '';
+  state.eligible           = true;
+  state.reasons            = [];
+  state.dataNascimento     = '';
+  state.rua                = '';
+  state.cep                = '';
+  state.cidade             = '';
+  state.metodoPagamento    = '';
+  state.rendaBruta         = 0;
+  state.rendaBrutaConjuge  = 0;
+  state.pipedriveDealId    = null;
+
+  // Limpar seleções visuais
+  document.querySelectorAll('.quiz-opt.selected').forEach(o => o.classList.remove('selected'));
+
+  // Resetar inputs de texto
+  ['inputNome','inputEmail','inputWhatsApp','inputNomeConjuge'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  // Resetar botões
+  const btn5 = document.getElementById('next5');
+  if (btn5) { btn5.textContent = 'Ver estimativa →'; btn5.disabled = true; }
+
+  // Resetar aviso de duplicado e bloco de cônjuge
+  document.getElementById('duplicateNotice').style.display = 'none';
+  const conjBlock = document.getElementById('conjBlock');
+  if (conjBlock) conjBlock.style.display = 'none';
+
+  // Resetar sliders para valores padrão
+  aplicarRenda(45000);
+  aplicarRendaConjuge(37500);
+  atualizarCalculadoraTotal();
+
+  goTo(0);
+}
+
+// ── INICIALIZAÇÃO ──
+aplicarRenda(45000);
+aplicarRendaConjuge(37500);
+atualizarCalculadoraTotal();
+
+// ── ANTI-TRAVA: garante estado limpo ao carregar/voltar ──
+window.addEventListener('pageshow', function(e) {
+  // Página restaurada do cache do browser (botão Voltar) → recarrega do zero
+  if (e.persisted) { window.location.reload(); return; }
+  // Reset do botão caso tenha ficado travado em "Enviando..."
+  const btn = document.getElementById('next5');
+  if (btn && btn.textContent.includes('Enviando')) {
+    btn.textContent = 'Ver estimativa →';
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

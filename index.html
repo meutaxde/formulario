@@ -66,6 +66,14 @@ body{
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
+/* ── SCREEN LANG ── */
+#s-lang{
+  background:var(--verde);
+  color:white;
+  justify-content:center;
+  align-items:center;
+}
+
 /* ── SCREEN 0: LANDING ── */
 #s0{
   background:var(--verde);
@@ -510,9 +518,35 @@ body{
 .about-card-icon{font-size:18px;margin-bottom:6px}
 .about-card-title{font-size:12px;font-weight:600;margin-bottom:3px}
 .about-card-desc{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.4}
+
+/* ── LANG CARD ── */
+.lang-card {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  padding: 24px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-family: 'Instrument Sans', sans-serif;
+}
+.lang-card:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+}
+.lang-card-name {
+  font-size: 15px;
+  font-weight: 500;
+}
 </style>
 </head>
 <body>
+
 
 <!-- PROGRESS -->
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -522,52 +556,83 @@ body{
 </div>
 
 <!-- ══════════════════════════════════════ -->
+<!-- SCREEN: IDIOMA                         -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen active" id="s-lang">
+  <div style="max-width:480px;width:100%;margin:auto;padding:80px 24px 40px;text-align:center">
+    <div class="logo-chip" style="justify-content:center;margin-bottom:32px"><span class="logo-dot"></span> Meu Tax</div>
+    <h1 style="font-family:'Fraunces',serif;font-size:clamp(26px,5vw,40px);font-weight:300;color:white;margin-bottom:12px;line-height:1.2">
+      Choose your language
+    </h1>
+    <p style="color:rgba(255,255,255,0.6);margin-bottom:40px;font-size:15px">Wählen Sie Ihre Sprache</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <button class="lang-card" onclick="selectLang('pt')">
+        <span style="font-size:36px">🇧🇷</span>
+        <div class="lang-card-name">Português</div>
+      </button>
+      <button class="lang-card" onclick="selectLang('en')">
+        <span style="font-size:36px">🇬🇧</span>
+        <div class="lang-card-name">English</div>
+      </button>
+      <button class="lang-card" onclick="selectLang('es')">
+        <span style="font-size:36px">🇪🇸</span>
+        <div class="lang-card-name">Español</div>
+      </button>
+      <button class="lang-card" onclick="selectLang('de')">
+        <span style="font-size:36px">🇩🇪</span>
+        <div class="lang-card-name">Deutsch</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
 <!-- SCREEN 0: LANDING                     -->
 <!-- ══════════════════════════════════════ -->
-<div class="screen active" id="s0">
+<div class="screen" id="s0">
   <div style="max-width:640px;width:100%;margin:auto;position:relative;z-index:1;padding:0 24px">
     <div class="logo-chip"><span class="logo-dot"></span> Meu Tax Lohnsteuerhilfeverein e.V.</div>
 
-    <h1 class="landing-title">Declaração de imposto<br>feita <em>por quem<br>entende você.</em></h1>
+    <h1 class="landing-title" data-i18n="landingTitle">Declaração de imposto<br>feita <em>por quem<br>entende você.</em></h1>
 
-    <p class="landing-subtitle">Assistência fiscal em alemão, português e inglês.<br>Para estrangeiros na Alemanha.</p>
+    <p class="landing-subtitle" data-i18n="landingSubtitle">Assistência fiscal em alemão, português e inglês.<br>Para estrangeiros na Alemanha.</p>
 
-    <div class="landing-flag">§ 4 Nr. 11 StBerG · Karlsruhe · Online em toda a Alemanha</div>
+    <div class="landing-flag" data-i18n="landingFlag">§ 4 Nr. 11 StBerG · Karlsruhe · Online em toda a Alemanha</div>
 
     <div class="about-grid">
       <div class="about-card">
-        <div class="about-card-icon">🇧🇷 🇪🇸 🇬🇧</div>
-        <div class="about-card-title">Português · Español · English</div>
-        <div class="about-card-desc">Atendemos em três idiomas. Sem barreiras de idioma nos seus impostos.</div>
+        <div class="about-card-icon">🇧🇷 🇪🇸 🇬🇧 🇩🇪</div>
+        <div class="about-card-title" data-i18n="card1Title">Português · Español · English</div>
+        <div class="about-card-desc" data-i18n="card1Desc">Atendemos em três idiomas. Sem barreiras de idioma nos seus impostos.</div>
       </div>
       <div class="about-card">
         <div class="about-card-icon">💶</div>
-        <div class="about-card-title">Valor acessível</div>
-        <div class="about-card-desc">Um único pagamento anual. Sem taxas por declaração, sem surpresas.</div>
+        <div class="about-card-title" data-i18n="card2Title">Valor acessível</div>
+        <div class="about-card-desc" data-i18n="card2Desc">Um único pagamento anual. Sem taxas por declaração, sem surpresas.</div>
       </div>
       <div class="about-card">
         <div class="about-card-icon">📱</div>
-        <div class="about-card-title">100% online</div>
-        <div class="about-card-desc">Por videochamada e WhatsApp. Não precisa sair de casa para nada.</div>
+        <div class="about-card-title" data-i18n="card3Title">100% online</div>
+        <div class="about-card-desc" data-i18n="card3Desc">Por videochamada e WhatsApp. Não precisa sair de casa para nada.</div>
       </div>
       <div class="about-card">
         <div class="about-card-icon">⚖️</div>
-        <div class="about-card-title">Legalmente reconhecido</div>
-        <div class="about-card-desc">Associação reconhecida pela OFD Baden-Württemberg, com seguro de responsabilidade.</div>
+        <div class="about-card-title" data-i18n="card4Title">Legalmente reconhecido</div>
+        <div class="about-card-desc" data-i18n="card4Desc">Associação reconhecida pela OFD Baden-Württemberg, com seguro de responsabilidade.</div>
       </div>
     </div>
 
-    <button class="start-btn" onclick="goTo(1)">
-      Verificar se posso ser membro
+    <button class="start-btn" onclick="goTo('s1')">
+      <span data-i18n="startBtn">Verificar se posso ser membro</span>
       <span>→</span>
     </button>
-    <div class="start-note">Leva menos de 3 minutos · Sem compromisso</div>
+    <div class="start-note" data-i18n="startNote">Leva menos de 3 minutos · Sem compromisso</div>
 
     <div class="info-pills">
-      <div class="pill"><span class="pill-icon">✓</span> Declaração de imposto de renda</div>
-      <div class="pill"><span class="pill-icon">✓</span> Trabalhadores assalariados</div>
-      <div class="pill"><span class="pill-icon">✓</span> Aposentados e pensionistas</div>
-      <div class="pill"><span class="pill-icon">✓</span> Quem tem renda de aluguel</div>
+      <div class="pill"><span class="pill-icon">✓</span> <span data-i18n="pill1">Declaração de imposto de renda</span></div>
+      <div class="pill"><span class="pill-icon">✓</span> <span data-i18n="pill2">Trabalhadores assalariados</span></div>
+      <div class="pill"><span class="pill-icon">✓</span> <span data-i18n="pill3">Aposentados e pensionistas</span></div>
+      <div class="pill"><span class="pill-icon">✓</span> <span data-i18n="pill4">Quem tem renda de aluguel</span></div>
     </div>
   </div>
 
@@ -581,45 +646,45 @@ body{
 <!-- ══════════════════════════════════════ -->
 <div class="screen" id="s1">
   <div class="quiz-wrapper">
-    <div class="quiz-question">Qual é a sua principal fonte de renda?</div>
-    <div class="quiz-hint">Isso determina se podemos ajudar com a sua declaração de imposto.</div>
+    <div class="quiz-question" data-i18n="s1Question">Qual é a sua principal fonte de renda?</div>
+    <div class="quiz-hint" data-i18n="s1Hint">Isso determina se podemos ajudar com a sua declaração de imposto.</div>
     <div class="quiz-options">
       <button class="quiz-opt" onclick="selectOpt(this,'emprego')" data-val="emprego">
         <span class="opt-emoji">💼</span>
         <div class="opt-body">
-          <div class="opt-title">Emprego assalariado (CLT alemã / Angestellt)</div>
-          <div class="opt-desc">Trabalho com carteira, recebo contracheque (Lohnabrechnung)</div>
+          <div class="opt-title" data-i18n="s1Opt1Title">Emprego assalariado (CLT alemã / Angestellt)</div>
+          <div class="opt-desc" data-i18n="s1Opt1Desc">Trabalho com carteira, recebo contracheque (Lohnabrechnung)</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'aposentadoria')" data-val="aposentadoria">
         <span class="opt-emoji">🏛</span>
         <div class="opt-body">
-          <div class="opt-title">Aposentadoria / Pensão (Rente)</div>
-          <div class="opt-desc">Recebo pensão por aposentadoria, viuvez ou invalidez</div>
+          <div class="opt-title" data-i18n="s1Opt2Title">Aposentadoria / Pensão (Rente)</div>
+          <div class="opt-desc" data-i18n="s1Opt2Desc">Recebo pensão por aposentadoria, viuvez ou invalidez</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'autonomo')" data-val="autonomo">
         <span class="opt-emoji">🧑‍💻</span>
         <div class="opt-body">
-          <div class="opt-title">Autônomo / Freelancer principal</div>
-          <div class="opt-desc">Minha renda principal é por conta própria (Selbständig / Freiberufler)</div>
+          <div class="opt-title" data-i18n="s1Opt3Title">Autônomo / Freelancer principal</div>
+          <div class="opt-desc" data-i18n="s1Opt3Desc">Minha renda principal é por conta própria (Selbständig / Freiberufler)</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'empresa')" data-val="empresa">
         <span class="opt-emoji">🏪</span>
         <div class="opt-body">
-          <div class="opt-title">Tenho empresa / Negócio próprio (Gewerbe)</div>
-          <div class="opt-desc">Sou dono de empresa registrada na Alemanha</div>
+          <div class="opt-title" data-i18n="s1Opt4Title">Tenho empresa / Negócio próprio (Gewerbe)</div>
+          <div class="opt-desc" data-i18n="s1Opt4Desc">Sou dono de empresa registrada na Alemanha</div>
         </div>
         <div class="opt-radio"></div>
       </button>
     </div>
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo(0)">← Voltar</button>
-      <button class="btn-next" id="next1" disabled onclick="checkElig1()">Continuar <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s0')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" id="next1" disabled onclick="checkElig1()"><span data-i18n="btnContinuar">Continuar</span> <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -629,53 +694,53 @@ body{
 <!-- ══════════════════════════════════════ -->
 <div class="screen" id="s2">
   <div class="quiz-wrapper">
-    <div class="quiz-question">Você tem alguma renda além do emprego?</div>
-    <div class="quiz-hint">Pode marcar mais de uma opção. Isso não te exclui automaticamente — só precisamos saber.</div>
+    <div class="quiz-question" data-i18n="s2Question">Você tem alguma renda além do emprego?</div>
+    <div class="quiz-hint" data-i18n="s2Hint">Pode marcar mais de uma opção. Isso não te exclui automaticamente — só precisamos saber.</div>
     <div class="quiz-options" id="extraOptions">
       <button class="quiz-opt multi" onclick="toggleMulti(this,'aluguel')">
         <span class="opt-emoji">🏠</span>
         <div class="opt-body">
-          <div class="opt-title">Renda de aluguel (Vermietung)</div>
-          <div class="opt-desc">Alugo um imóvel na Alemanha ou no exterior</div>
+          <div class="opt-title" data-i18n="s2Opt1Title">Renda de aluguel (Vermietung)</div>
+          <div class="opt-desc" data-i18n="s2Opt1Desc">Alugo um imóvel na Alemanha ou no exterior</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleMulti(this,'capital')">
         <span class="opt-emoji">📈</span>
         <div class="opt-body">
-          <div class="opt-title">Rendimentos de investimentos (Kapitalerträge)</div>
-          <div class="opt-desc">Dividendos, juros, fundos etc.</div>
+          <div class="opt-title" data-i18n="s2Opt2Title">Rendimentos de investimentos (Kapitalerträge)</div>
+          <div class="opt-desc" data-i18n="s2Opt2Desc">Dividendos, juros, fundos etc.</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleMulti(this,'freelance_side')">
         <span class="opt-emoji">💡</span>
         <div class="opt-body">
-          <div class="opt-title">Trabalho freelance como renda secundária</div>
-          <div class="opt-desc">Até 18.000€/ano em atividade autônoma paralela</div>
+          <div class="opt-title" data-i18n="s2Opt3Title">Trabalho freelance como renda secundária</div>
+          <div class="opt-desc" data-i18n="s2Opt3Desc">Até 18.000€/ano em atividade autônoma paralela</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleMulti(this,'brasil')">
-        <span class="opt-emoji">🇧🇷</span>
+        <span class="opt-emoji">🌍</span>
         <div class="opt-body">
-          <div class="opt-title">Renda proveniente do Brasil</div>
-          <div class="opt-desc">Salário, pensão, aluguel ou outra renda no Brasil</div>
+          <div class="opt-title" data-i18n="s2Opt4Title">Renda proveniente do exterior</div>
+          <div class="opt-desc" data-i18n="s2Opt4Desc">Salário, pensão, aluguel ou outra renda fora da Alemanha</div>
         </div>
         <div class="opt-radio"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleMulti(this,'nenhuma')">
         <span class="opt-emoji">—</span>
         <div class="opt-body">
-          <div class="opt-title">Nenhuma renda extra</div>
-          <div class="opt-desc">Só tenho renda do emprego / aposentadoria</div>
+          <div class="opt-title" data-i18n="s2Opt5Title">Nenhuma renda extra</div>
+          <div class="opt-desc" data-i18n="s2Opt5Desc">Só tenho renda do emprego / aposentadoria</div>
         </div>
         <div class="opt-radio"></div>
       </button>
     </div>
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo(1)">← Voltar</button>
-      <button class="btn-next" onclick="goTo(3)">Continuar <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s1')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" onclick="goTo('s3')"><span data-i18n="btnContinuar">Continuar</span> <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -685,39 +750,39 @@ body{
 <!-- ══════════════════════════════════════ -->
 <div class="screen" id="s3">
   <div class="quiz-wrapper">
-    <div class="quiz-question">Qual é o seu estado civil?</div>
-    <div class="quiz-hint">Casais que declaram juntos têm vantagens fiscais na Alemanha.</div>
+    <div class="quiz-question" data-i18n="s3Question1">Qual é o seu estado civil?</div>
+    <div class="quiz-hint" data-i18n="s3Hint1">Casais que declaram juntos têm vantagens fiscais na Alemanha.</div>
     <div class="quiz-options" style="margin-bottom:20px">
       <button class="quiz-opt" onclick="selectOpt(this,'solteiro')" data-val="solteiro">
-        <span class="opt-emoji">👤</span><div class="opt-body"><div class="opt-title">Solteiro(a)</div></div><div class="opt-radio"></div>
+        <span class="opt-emoji">👤</span><div class="opt-body"><div class="opt-title" data-i18n="s3CivilOpt1">Solteiro(a)</div></div><div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'casado')" data-val="casado">
-        <span class="opt-emoji">💑</span><div class="opt-body"><div class="opt-title">Casado(a)</div></div><div class="opt-radio"></div>
+        <span class="opt-emoji">💑</span><div class="opt-body"><div class="opt-title" data-i18n="s3CivilOpt2">Casado(a)</div></div><div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'divorciado')" data-val="divorciado">
-        <span class="opt-emoji">📋</span><div class="opt-body"><div class="opt-title">Divorciado(a) / Separado(a)</div></div><div class="opt-radio"></div>
+        <span class="opt-emoji">📋</span><div class="opt-body"><div class="opt-title" data-i18n="s3CivilOpt3">Divorciado(a) / Separado(a)</div></div><div class="opt-radio"></div>
       </button>
       <button class="quiz-opt" onclick="selectOpt(this,'viuvo')" data-val="viuvo">
-        <span class="opt-emoji">🕊</span><div class="opt-body"><div class="opt-title">Viúvo(a)</div></div><div class="opt-radio"></div>
+        <span class="opt-emoji">🕊</span><div class="opt-body"><div class="opt-title" data-i18n="s3CivilOpt4">Viúvo(a)</div></div><div class="opt-radio"></div>
       </button>
     </div>
 
-    <div class="quiz-question" style="font-size:20px;margin-top:8px">Tem filhos?</div>
-    <div class="quiz-hint" style="margin-top:-8px;margin-bottom:12px">Pode selecionar mais de uma opção.</div>
+    <div class="quiz-question" style="font-size:20px;margin-top:8px" data-i18n="s3Question2">Tem filhos?</div>
+    <div class="quiz-hint" style="margin-top:-8px;margin-bottom:12px" data-i18n="s3Hint2">Pode selecionar mais de uma opção.</div>
     <div class="quiz-options" id="filhosOpts" style="margin-top:12px">
       <button class="quiz-opt multi" onclick="toggleFilhos(this,'nao')">
-        <span class="opt-emoji">❌</span><div class="opt-body"><div class="opt-title">Não tenho filhos</div></div><div class="opt-check"></div>
+        <span class="opt-emoji">❌</span><div class="opt-body"><div class="opt-title" data-i18n="s3FilhosOpt1">Não tenho filhos</div></div><div class="opt-check"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_menor')">
-        <span class="opt-emoji">👶</span><div class="opt-body"><div class="opt-title">Sim, filhos menores / dependentes</div></div><div class="opt-check"></div>
+        <span class="opt-emoji">👶</span><div class="opt-body"><div class="opt-title" data-i18n="s3FilhosOpt2">Sim, filhos menores / dependentes</div></div><div class="opt-check"></div>
       </button>
       <button class="quiz-opt multi" onclick="toggleFilhos(this,'sim_maior')">
-        <span class="opt-emoji">🎓</span><div class="opt-body"><div class="opt-title">Sim, filhos maiores em formação</div></div><div class="opt-check"></div>
+        <span class="opt-emoji">🎓</span><div class="opt-body"><div class="opt-title" data-i18n="s3FilhosOpt3">Sim, filhos maiores em Ausbildung ou universidade</div></div><div class="opt-check"></div>
       </button>
     </div>
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo(2)">← Voltar</button>
-      <button class="btn-next" id="next3" disabled onclick="openIncomeScreen()">Continuar <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s2')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" id="next3" disabled onclick="openIncomeScreen()"><span data-i18n="btnContinuar">Continuar</span> <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -729,8 +794,8 @@ body{
   <div class="quiz-wrapper">
 
     <!-- Renda do titular -->
-    <div class="quiz-question">Qual é a sua renda bruta anual?</div>
-    <div class="quiz-hint">Digite o valor ou arraste. Use uma estimativa se não souber o exato.</div>
+    <div class="quiz-question" data-i18n="s4Question">Qual é a sua renda bruta anual?</div>
+    <div class="quiz-hint" data-i18n="s4Hint">Digite o valor ou arraste. Use uma estimativa se não souber o exato.</div>
 
     <div class="income-input-wrap">
       <span class="income-prefix">€</span>
@@ -738,7 +803,7 @@ body{
         min="0" max="999999" step="500" value="45000"
         oninput="updateIncomeFromInput(this.value)"
         placeholder="45000">
-      <span class="income-suffix">/ ano</span>
+      <span class="income-suffix" data-i18n="perAno">/ ano</span>
     </div>
     <div class="income-class" id="incomeClass" style="margin-top:8px">Classe 4 · 45.001 – 60.000 €</div>
     <input type="range" class="slider-track" id="incomeSlider"
@@ -749,8 +814,8 @@ body{
     <!-- Renda do cônjuge — aparece somente se casado -->
     <div id="spouseIncomeSection" style="display:none">
       <div class="spouse-section">
-        <div class="quiz-question" style="font-size:clamp(18px,3vw,22px);margin-bottom:6px">Renda bruta anual do cônjuge</div>
-        <div class="quiz-hint">A anuidade é calculada pela renda familiar combinada.</div>
+        <div class="quiz-question" style="font-size:clamp(18px,3vw,22px);margin-bottom:6px" data-i18n="s4SpouseQuestion">Renda bruta anual do cônjuge</div>
+        <div class="quiz-hint" data-i18n="s4SpouseHint">A anuidade é calculada pela renda familiar combinada.</div>
 
         <div class="income-input-wrap">
           <span class="income-prefix">€</span>
@@ -758,7 +823,7 @@ body{
             min="0" max="999999" step="500" value="37500"
             oninput="updateIncomeConjugeFromInput(this.value)"
             placeholder="37500">
-          <span class="income-suffix">/ ano</span>
+          <span class="income-suffix" data-i18n="perAno">/ ano</span>
         </div>
         <div class="income-class" id="incomeClassConjuge" style="margin-top:8px">Classe 3 · 30.001 – 45.000 €</div>
         <input type="range" class="slider-track" id="incomeSliderConjuge"
@@ -772,19 +837,19 @@ body{
     <div class="fee-card" id="totalIncomeCard" style="margin-top:20px">
       <div class="fee-icon">💶</div>
       <div style="flex:1">
-        <div class="fee-label" id="totalIncomeLabel">Renda bruta anual total</div>
+        <div class="fee-label" id="totalIncomeLabel" data-i18n="totalIncomeLabel">Renda bruta anual total</div>
         <div class="fee-value" id="totalIncomeValue">€ 45.000</div>
         <div class="fee-note" id="totalIncomeNote">Renda individual</div>
       </div>
     </div>
 
-    <div id="incomeErrorMsg" style="display:none;color:var(--erro);font-size:13px;margin-top:12px;text-align:center">
+    <div id="incomeErrorMsg" style="display:none;color:var(--erro);font-size:13px;margin-top:12px;text-align:center" data-i18n="incomeErrorMsg">
       Informe pelo menos uma renda maior que zero para continuar.
     </div>
 
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo(3)">← Voltar</button>
-      <button class="btn-next" id="next4" disabled onclick="openContactScreen()">Continuar <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s3')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" id="next4" disabled onclick="openContactScreen()"><span data-i18n="btnContinuar">Continuar</span> <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -794,39 +859,40 @@ body{
 <!-- ══════════════════════════════════════ -->
 <div class="screen" id="s5">
   <div class="quiz-wrapper">
-    <div class="quiz-question">Quase lá!</div>
-    <div class="quiz-hint">Preencha seus dados para receber a estimativa confirmada e os próximos passos pelo WhatsApp.</div>
+    <div class="quiz-question" data-i18n="s5Question">Quase lá!</div>
+    <div class="quiz-hint" data-i18n="s5Hint">Preencha seus dados para receber a estimativa confirmada e os próximos passos pelo WhatsApp.</div>
 
     <div class="form-group">
-      <label class="form-label" for="contactNome">Nome completo *</label>
+      <label class="form-label" for="contactNome" data-i18n="labelNome">Nome completo *</label>
       <input type="text" id="contactNome" class="form-input"
-        placeholder="Seu nome completo" oninput="checkContactForm()" autocomplete="name">
+        placeholder="Seu nome completo" data-i18n-placeholder="placeholderNome" oninput="checkContactForm()" autocomplete="name">
     </div>
     <div class="form-group">
-      <label class="form-label" for="contactEmail">Email *</label>
+      <label class="form-label" for="contactEmail" data-i18n="labelEmail">Email *</label>
       <input type="email" id="contactEmail" class="form-input"
         placeholder="seu@email.com" oninput="checkContactForm()" autocomplete="email">
     </div>
     <div class="form-group">
-      <label class="form-label" for="contactWhatsapp">WhatsApp *</label>
+      <label class="form-label" for="contactWhatsapp" data-i18n="labelWhatsapp">WhatsApp *</label>
       <input type="tel" id="contactWhatsapp" class="form-input"
-        placeholder="+49 176 12345678" oninput="checkContactForm()" autocomplete="tel">
+        placeholder="+49 176 12345678" data-i18n-placeholder="placeholderWhatsapp" oninput="checkContactForm()" autocomplete="tel">
     </div>
 
     <!-- Nome do cônjuge — visível somente se casado -->
     <div id="spouseNameSection" style="display:none">
       <div class="form-group">
-        <label class="form-label" for="contactNomeConjuge">Nome completo do cônjuge *</label>
+        <label class="form-label" for="contactNomeConjuge" data-i18n="labelConjuge">Nome completo do cônjuge *</label>
         <input type="text" id="contactNomeConjuge" class="form-input"
-          placeholder="Nome do cônjuge" oninput="checkContactForm()" autocomplete="off">
+          placeholder="Nome do(a) parceiro(a)" data-i18n-placeholder="placeholderConjuge"
+          oninput="checkContactForm()" autocomplete="off">
       </div>
     </div>
 
     <!-- Como conheceu -->
     <div class="form-group">
-      <label class="form-label" for="contactOrigem">Como você conheceu o Meu Tax? *</label>
+      <label class="form-label" for="contactOrigem" data-i18n="labelOrigem">Como você conheceu o Meu Tax? *</label>
       <select id="contactOrigem" class="form-input" onchange="checkContactForm()">
-        <option value="">Selecione...</option>
+        <option value="" data-i18n="selectDefault">Selecione...</option>
         <option value="Formulário (meutax.de)">Formulário (meutax.de)</option>
         <option value="Lista de espera">Lista de espera</option>
         <option value="Instagram">Instagram</option>
@@ -839,14 +905,14 @@ body{
     <!-- Consentimento DSGVO -->
     <div class="dsgvo-wrap">
       <input type="checkbox" id="dsgvoCheck" onchange="checkContactForm()">
-      <label class="dsgvo-label" for="dsgvoCheck">
+      <label class="dsgvo-label" for="dsgvoCheck" data-i18n-html="dsgvoText">
         Concordo com o processamento dos meus dados pessoais para fins de filiação ao <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong>, em conformidade com a DSGVO. Meus dados não serão compartilhados com terceiros.
       </label>
     </div>
 
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo(4)">← Voltar</button>
-      <button class="btn-next" id="next5" disabled onclick="submitContactAndShowResult()">Ver estimativa <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s4')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" id="next5" disabled onclick="submitContactAndShowResult()"><span data-i18n="btnVerEstimativa">Ver estimativa</span> <span class="arrow">→</span></button>
     </div>
   </div>
 </div>
@@ -866,7 +932,7 @@ body{
   <div class="result-body">
 
     <!-- DUPLICATE NOTICE (shown when email already registered) -->
-    <div id="duplicateNotice" style="display:none;background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:16px 20px;margin:20px 0 0;font-size:14px;color:#5a4000;line-height:1.7">
+    <div id="duplicateNotice" style="display:none;background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:16px 20px;margin:20px 0 0;font-size:14px;color:#5a4000;line-height:1.7" data-i18n-html="duplicateNotice">
       <strong>📬 Este email já está cadastrado no Meu Tax.</strong><br>
       Verifique sua caixa de entrada (e a pasta de spam) — já enviamos nossas informações para você.<br><br>
       Se precisar de ajuda, fale pelo
@@ -876,25 +942,25 @@ body{
 
     <!-- FEE SUMMARY -->
     <div class="fee-summary-card" id="feeSummaryCard">
-      <div class="fee-summary-title">Resumo da sua associação</div>
+      <div class="fee-summary-title" data-i18n="feeSummaryTitle">Resumo da sua associação</div>
       <div class="fee-row">
-        <span class="fee-row-label">Classe de renda</span>
+        <span class="fee-row-label" data-i18n="feeClassLabel">Classe de renda</span>
         <span class="fee-row-value" id="r-class">—</span>
       </div>
       <div class="fee-row" id="r-conjuge-row" style="display:none">
-        <span class="fee-row-label">Declaração conjunta</span>
+        <span class="fee-row-label" data-i18n="feeConjugeLabel">Declaração conjunta</span>
         <span class="fee-row-value" id="r-conjuge">—</span>
       </div>
       <div class="fee-row">
-        <span class="fee-row-label">Anuidade anual</span>
+        <span class="fee-row-label" data-i18n="feeAnuidadeLabel">Anuidade anual</span>
         <span class="fee-row-value" id="r-fee-net">—</span>
       </div>
       <div class="fee-row">
-        <span class="fee-row-label">Taxa de adesão (única)</span>
+        <span class="fee-row-label" data-i18n="feeTaxaLabel">Taxa de adesão (única)</span>
         <span class="fee-row-value">€ 49,00</span>
       </div>
       <div class="fee-row" style="border-top:1.5px solid var(--borda);margin-top:4px;padding-top:12px">
-        <span class="fee-row-label" style="font-weight:600">Total primeiro ano</span>
+        <span class="fee-row-label" style="font-weight:600" data-i18n="feeTotalLabel">Total primeiro ano</span>
         <span class="fee-row-value" id="r-total" style="font-weight:700">—</span>
       </div>
     </div>
@@ -902,16 +968,16 @@ body{
     <!-- CTA PRINCIPAL (logo após o resumo) -->
     <div id="ctaEl" style="margin-bottom:8px">
       <button class="cta-btn" id="ctaAssociar" onclick="clicarQueroMeAssociar()">
-        Quero me associar →
+        <span data-i18n="ctaAssociar">Quero me associar →</span>
       </button>
     </div>
 
     <!-- POTENCIAL DE RESTITUIÇÃO -->
     <div id="restituicaoCard" style="display:none;background:#E8F5E9;border-radius:12px;padding:20px 24px;margin:16px 0;text-align:center">
-      <div style="font-size:12px;font-weight:600;color:#2E7D32;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Potencial de restituição estimado</div>
+      <div style="font-size:12px;font-weight:600;color:#2E7D32;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px" data-i18n="restTitle">Potencial de restituição estimado</div>
       <div id="restituicaoValor" style="font-family:'Fraunces',serif;font-size:36px;color:#1B5E20;font-weight:300">~€1.172</div>
-      <div id="restituicaoSub" style="font-size:14px;color:#2E7D32;margin-top:4px">por pessoa</div>
-      <div style="font-size:11px;color:#555;margin-top:12px;line-height:1.6">
+      <div id="restituicaoSub" style="font-size:14px;color:#2E7D32;margin-top:4px"></div>
+      <div style="font-size:11px;color:#555;margin-top:12px;line-height:1.6" data-i18n="restAviso">
         ⚠️ Valor estimado e conservador. A média nacional é ~€ 1.172 por pessoa (Destatis, ano fiscal 2023),
         mas o valor real varia conforme renda, deduções e situação fiscal individual.
         Não constitui garantia de restituição.
@@ -920,23 +986,23 @@ body{
 
     <!-- NOT ELIGIBLE reasons -->
     <div class="not-eligible-card" id="notEligibleCard" style="display:none">
-      <div class="not-eligible-title">Por que não podemos ajudar agora</div>
+      <div class="not-eligible-title" data-i18n="notEligCardTitle">Por que não podemos ajudar agora</div>
       <ul class="not-eligible-list" id="notEligibleReasons"></ul>
     </div>
 
     <!-- NEXT STEPS -->
     <div class="next-steps" id="nextStepsEl">
-      <div class="next-steps-title">Próximos passos</div>
+      <div class="next-steps-title" data-i18n="nextStepsTitle">Próximos passos</div>
       <div id="nextStepsList"></div>
     </div>
 
     <!-- REINICIAR -->
     <div style="text-align:center;margin-top:8px">
-      <button class="cta-secondary" onclick="reiniciar()">← Reiniciar</button>
+      <button class="cta-secondary" onclick="reiniciar()" data-i18n="btnReiniciar">← Reiniciar</button>
     </div>
 
     <!-- SPAM REMINDER -->
-    <p style="text-align:center;font-size:13px;color:#888;margin-top:20px;line-height:1.6">
+    <p style="text-align:center;font-size:13px;color:#888;margin-top:20px;line-height:1.6" data-i18n="spamNote">
       📩 Após o contato, você receberá um email nosso.<br>
       <strong>Lembre-se de verificar a pasta de spam</strong> caso não apareça na caixa de entrada.
     </p>
@@ -949,64 +1015,93 @@ body{
 <!-- ══════════════════════════════════════ -->
 <div class="screen" id="s6">
   <div class="quiz-wrapper">
-    <div class="quiz-question">Dados para a filiação</div>
-    <div class="quiz-hint">Precisamos desses dados para emitir o seu contrato de filiação (Beitrittserklärung).</div>
+    <div class="quiz-question" data-i18n="s6Question">Dados para a filiação</div>
+    <div class="quiz-hint" data-i18n="s6Hint">Precisamos desses dados para emitir o seu contrato de filiação (Beitrittserklärung).</div>
 
     <div class="form-group">
-      <label class="form-label" for="s6Nascimento">Data de nascimento *</label>
+      <label class="form-label" for="s6Nascimento" data-i18n="labelNascimento">Data de nascimento *</label>
       <input type="date" id="s6Nascimento" class="form-input" oninput="checkS6Form()" max="2010-01-01">
     </div>
 
     <div style="display:flex;gap:12px">
       <div class="form-group" style="flex:3">
-        <label class="form-label" for="s6Rua">Rua / Strasse *</label>
+        <label class="form-label" for="s6Rua" data-i18n="labelRua">Rua / Strasse *</label>
         <input type="text" id="s6Rua" class="form-input" placeholder="Musterstraße 12" oninput="checkS6Form()" autocomplete="street-address">
       </div>
     </div>
 
     <div style="display:flex;gap:12px">
       <div class="form-group" style="flex:1">
-        <label class="form-label" for="s6CEP">CEP / PLZ *</label>
+        <label class="form-label" for="s6CEP" data-i18n="labelCep">CEP / PLZ *</label>
         <input type="text" id="s6CEP" class="form-input" placeholder="76137" oninput="checkS6Form()" maxlength="5" autocomplete="postal-code">
       </div>
       <div class="form-group" style="flex:2">
-        <label class="form-label" for="s6Cidade">Cidade / Stadt *</label>
+        <label class="form-label" for="s6Cidade" data-i18n="labelCidade">Cidade / Stadt *</label>
         <input type="text" id="s6Cidade" class="form-input" placeholder="Karlsruhe" oninput="checkS6Form()" autocomplete="address-level2">
       </div>
     </div>
 
     <div class="form-group">
-      <label class="form-label">Método de pagamento preferido *</label>
+      <label class="form-label" data-i18n="labelPagamento">Método de pagamento preferido *</label>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px" id="paymentOpts">
         <button type="button" class="quiz-opt" onclick="selectPayment(this,'transferencia')">
           <span class="opt-emoji">🏦</span>
-          <div class="opt-body"><div class="opt-title">Transferência bancária</div></div>
+          <div class="opt-body"><div class="opt-title" data-i18n="payTf">Transferência bancária</div></div>
           <div class="opt-radio"></div>
         </button>
         <button type="button" class="quiz-opt" onclick="selectPayment(this,'paypal')">
           <span class="opt-emoji">🅿️</span>
-          <div class="opt-body"><div class="opt-title">PayPal</div></div>
+          <div class="opt-body"><div class="opt-title" data-i18n="payPp">PayPal</div></div>
+          <div class="opt-radio"></div>
+        </button>
+        <button type="button" class="quiz-opt" onclick="selectPayment(this,'cartao')">
+          <span class="opt-emoji">💳</span>
+          <div class="opt-body"><div class="opt-title" data-i18n="payCc">Cartão de crédito</div></div>
           <div class="opt-radio"></div>
         </button>
         <button type="button" class="quiz-opt" onclick="selectPayment(this,'sepa')">
           <span class="opt-emoji">🔄</span>
-          <div class="opt-body"><div class="opt-title">SEPA Débito Direto</div><div class="opt-desc">Débito automático anual — sem esquecer de renovar</div></div>
+          <div class="opt-body"><div class="opt-title" data-i18n="paySt">SEPA Débito Direto</div><div class="opt-desc" data-i18n="payStDesc">Débito automático anual — sem esquecer de renovar</div></div>
           <div class="opt-radio"></div>
         </button>
       </div>
     </div>
 
+    <!-- COMENTÁRIOS -->
+    <div class="form-group">
+      <label class="form-label" for="s6Comentarios" data-i18n="labelComentarios">Dúvidas ou comentários <span style="font-weight:400;color:var(--texto2)">(opcional)</span></label>
+      <textarea id="s6Comentarios" class="form-input" rows="3" maxlength="500"
+        placeholder="Ex: Tenho uma dúvida sobre anos anteriores, minha situação é um pouco diferente..."
+        data-i18n-placeholder="placeholderComentarios"
+        oninput="updateComentariosCounter()"
+        style="resize:vertical;min-height:80px;font-family:inherit;line-height:1.5"></textarea>
+      <div style="text-align:right;font-size:11px;color:var(--texto2);margin-top:4px">
+        <span id="comentariosCount">0</span>/500
+      </div>
+    </div>
+
     <!-- AVISO DE PAGAMENTO -->
-    <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:13px;color:#5a4000;line-height:1.8">
+    <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:13px;color:#5a4000;line-height:1.8" data-i18n-html="payNotice">
       ℹ️ <strong>O pagamento não será feito agora.</strong><br>
       O valor será confirmado somente após a verificação dos seus documentos.<br>
       Parcelamento disponível via PayPal.
     </div>
 
     <div class="quiz-nav">
-      <button class="btn-back" onclick="goTo('s-result')">← Voltar</button>
-      <button class="btn-next" id="next6" disabled onclick="submitS6EIrParaObrigado()">Enviar dados <span class="arrow">→</span></button>
+      <button class="btn-back" onclick="goTo('s-result')"><span data-i18n="btnVoltar">← Voltar</span></button>
+      <button class="btn-next" id="next6" disabled onclick="submitS6EIrParaObrigado()"><span data-i18n="btnEnviarDados">Enviar dados</span> <span class="arrow">→</span></button>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SCREEN: LOADING                       -->
+<!-- ══════════════════════════════════════ -->
+<div class="screen" id="s-loading">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;padding:40px 24px">
+    <div style="font-size:52px;margin-bottom:28px">📤</div>
+    <div id="loadingMsg" style="font-family:'Fraunces',serif;font-size:clamp(20px,3vw,26px);line-height:1.5;color:#1B4332;font-weight:400;margin-bottom:24px;max-width:320px">Processando</div>
+    <div id="loadingDots" style="font-size:28px;color:#2E7D32;font-weight:700;letter-spacing:8px;line-height:1.6">•&nbsp;&nbsp;</div>
   </div>
 </div>
 
@@ -1016,37 +1111,36 @@ body{
 <div class="screen" id="s-obrigado">
   <div class="result-hero eligible" style="min-height:38vh">
     <div style="max-width:580px;margin:0 auto;position:relative;z-index:1">
-      <div class="result-badge">✓ Cadastro recebido</div>
-      <div class="result-title" style="font-size:clamp(28px,5vw,46px)">Obrigado, <span id="obrigadoNome"></span>!</div>
-      <div class="result-sub">Recebemos os seus dados. O próximo passo é enviar sua documentação para análise — tudo pelo WhatsApp, sem complicação.</div>
+      <div class="result-badge" data-i18n="obrigadoTitle">✓ Cadastro recebido</div>
+      <div class="result-title" style="font-size:clamp(28px,5vw,46px)"><span data-i18n="obrigadoGreeting">Obrigado</span>, <span id="obrigadoNome"></span>!</div>
+      <div class="result-sub" data-i18n="obrigadoSub">Recebemos os seus dados. O próximo passo é enviar sua documentação para análise — tudo pelo WhatsApp, sem complicação.</div>
     </div>
   </div>
 
   <div class="result-body">
     <div class="next-steps">
-      <div class="next-steps-title">O que acontece agora</div>
+      <div class="next-steps-title" data-i18n="obrigadoNextStepsTitle">O que acontece agora</div>
       <div>
         <div class="step-item">
           <div class="step-num">1</div>
           <div class="step-content">
-            <div class="step-title-text">Envie sua documentação</div>
-            <div class="step-desc">Envie os documentos de renda pelo WhatsApp ou por email. Nossa equipe analisa em até 48h.<br><br>
-              📧 <a href="#" id="emailLink" style="color:var(--verde);font-weight:500">info@meutax.de</a>
-            </div>
+            <div class="step-title-text" data-i18n="step1Title">Envie sua documentação</div>
+            <div class="step-desc" data-i18n="step1DescObrigado">Envie os documentos de renda pelo WhatsApp ou por email. Nossa equipe analisa em até 48h.</div>
+            <div style="margin-top:6px;font-size:13px">📧 <a href="#" id="emailLink" style="color:var(--verde);font-weight:500">info@meutax.de</a></div>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
           <div class="step-content">
-            <div class="step-title-text">Confirmamos o valor e enviamos o link de pagamento</div>
-            <div class="step-desc">Após verificar os documentos, confirmamos a anuidade e enviamos o link de pagamento por WhatsApp ou email.</div>
+            <div class="step-title-text" data-i18n="step2Title">Confirmamos o valor e enviamos o link de pagamento</div>
+            <div class="step-desc" data-i18n="step2Desc">Após verificar os documentos, confirmamos a anuidade e enviamos o link de pagamento por WhatsApp ou email.</div>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
           <div class="step-content">
-            <div class="step-title-text">Assinatura e filiação</div>
-            <div class="step-desc">Após o pagamento, enviamos o formulário de filiação (Beitrittserklärung) para assinar digitalmente. Tudo online.</div>
+            <div class="step-title-text" data-i18n="step3Title">Assinatura e filiação</div>
+            <div class="step-desc" data-i18n="step3Desc">Após o pagamento, enviamos o formulário de filiação (Beitrittserklärung) para assinar digitalmente. Tudo online.</div>
           </div>
         </div>
       </div>
@@ -1054,12 +1148,12 @@ body{
 
     <div>
       <button class="cta-btn" onclick="abrirWhatsApp()">
-        💬 Enviar documentação pelo WhatsApp
+        💬 <span data-i18n="btnWhatsApp">Enviar documentação pelo WhatsApp</span>
       </button>
       <a id="emailBtnLink" href="#" onclick="abrirEmail(event)" class="cta-secondary" style="display:block;text-align:center;text-decoration:none">
-        📧 Enviar por email
+        📧 <span data-i18n="btnEmail">Enviar por email</span>
       </a>
-      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>
+      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px" data-i18n="btnReiniciar">← Reiniciar</button>
     </div>
   </div>
 </div>
@@ -1111,6 +1205,7 @@ const CONFIG = {
 
 // ── ESTADO INTERNO ──
 const state = {
+  idioma:             'pt',
   tipoRenda:          null,
   extra:              [],
   civil:              null,
@@ -1144,7 +1239,608 @@ const brackets = CONFIG.tabelaContribuicoes.map(b => ({
 
 const AUFN_NET    = CONFIG.taxaAdesaoNet;
 const AUFN_BRUTTO = CONFIG.taxaAdesaoBrutto;
-const SCREENS = ['s0','s1','s2','s3','s4','s5','s-result','s6','s-obrigado'];
+// ── MULTI-IDIOMA ──────────────────────────────────────────────────────
+const TEXTOS = {
+  pt: {
+    // s0
+    landingTitle: 'Declaração de imposto\nfeita por quem\nentende você.',
+    landingSubtitle: 'Assistência fiscal em alemão, português e inglês.\nPara estrangeiros na Alemanha.',
+    landingFlag: '§ 4 Nr. 11 StBerG · Karlsruhe · Online em toda a Alemanha',
+    card1Title: 'Português · Español · English · Deutsch', card1Desc: 'Atendemos em quatro idiomas. Sem barreiras de idioma nos seus impostos.',
+    card2Title: 'Valor acessível', card2Desc: 'Um único pagamento anual. Sem taxas por declaração, sem surpresas.',
+    card3Title: '100% online', card3Desc: 'Por videochamada e WhatsApp. Não precisa sair de casa para nada.',
+    card4Title: 'Legalmente reconhecido', card4Desc: 'Associação reconhecida pela OFD Baden-Württemberg, com seguro de responsabilidade.',
+    startBtn: 'Verificar se posso ser membro',
+    startNote: 'Leva menos de 3 minutos · Sem compromisso',
+    pill1: 'Declaração de imposto de renda', pill2: 'Trabalhadores assalariados',
+    pill3: 'Aposentados e pensionistas', pill4: 'Quem tem renda de aluguel',
+    // s1
+    s1Question: 'Qual é a sua principal fonte de renda?',
+    s1Hint: 'Isso determina se podemos ajudar com a sua declaração de imposto.',
+    s1Opt1Title: 'Emprego assalariado (CLT alemã / Angestellt)', s1Opt1Desc: 'Trabalho com carteira, recebo contracheque (Lohnabrechnung)',
+    s1Opt2Title: 'Aposentadoria / Pensão (Rente)', s1Opt2Desc: 'Recebo pensão por aposentadoria, viuvez ou invalidez',
+    s1Opt3Title: 'Autônomo / Freelancer principal', s1Opt3Desc: 'Minha renda principal é por conta própria (Selbständig / Freiberufler)',
+    s1Opt4Title: 'Tenho empresa / Negócio próprio (Gewerbe)', s1Opt4Desc: 'Sou dono de empresa registrada na Alemanha',
+    // s2
+    s2Question: 'Você tem alguma renda além do emprego?',
+    s2Hint: 'Pode marcar mais de uma opção. Isso não te exclui automaticamente — só precisamos saber.',
+    s2Opt1Title: 'Renda de aluguel (Vermietung)', s2Opt1Desc: 'Alugo um imóvel na Alemanha ou no exterior',
+    s2Opt2Title: 'Rendimentos de investimentos (Kapitalerträge)', s2Opt2Desc: 'Dividendos, juros, fundos etc.',
+    s2Opt3Title: 'Trabalho freelance como renda secundária', s2Opt3Desc: 'Até 18.000€/ano em atividade autônoma paralela',
+    s2Opt4Title: 'Renda proveniente do Brasil', s2Opt4Desc: 'Salário, pensão, aluguel ou outra renda no Brasil',
+    s2Opt5Title: 'Nenhuma renda extra', s2Opt5Desc: 'Só tenho renda do emprego / aposentadoria',
+    // s3
+    s3Question1: 'Qual é o seu estado civil?', s3Hint1: 'Casais que declaram juntos têm vantagens fiscais na Alemanha.',
+    s3CivilOpt1: 'Solteiro(a)', s3CivilOpt2: 'Casado(a)', s3CivilOpt3: 'Divorciado(a) / Separado(a)', s3CivilOpt4: 'Viúvo(a)',
+    s3Question2: 'Tem filhos?', s3Hint2: 'Pode selecionar mais de uma opção.',
+    s3FilhosOpt1: 'Não tenho filhos', s3FilhosOpt2: 'Sim, filhos menores / dependentes', s3FilhosOpt3: 'Sim, filhos maiores em formação',
+    // s4
+    s4Question: 'Qual é a sua renda bruta anual?',
+    s4Hint: 'Digite o valor ou arraste. Use uma estimativa se não souber o exato.',
+    classePrefix: 'Classe',
+    perAno: '/ ano',
+    s4SpouseQuestion: 'Renda bruta anual do cônjuge',
+    s4SpouseHint: 'A anuidade é calculada pela renda familiar combinada.',
+    totalIncomeLabel: 'Renda bruta anual total',
+    totalIncomeLabelCasado: 'Renda bruta anual combinada',
+    stepLabelRenda: 'Renda', stepLabelExtra: 'Renda Extra', stepLabelPerfil: 'Perfil', stepLabelValor: 'Valor', stepLabelContato: 'Contato', stepLabelDados: 'Dados',
+    stepCountOf: '{n} de 6',
+    // s5
+    s5Question: 'Quase lá!',
+    s5Hint: 'Preencha seus dados para receber a estimativa confirmada e os próximos passos pelo WhatsApp.',
+    labelNome: 'Nome completo *', labelEmail: 'Email *', labelWhatsapp: 'WhatsApp *',
+    labelConjuge: 'Nome completo do cônjuge *',
+    placeholderConjuge: 'Nome do cônjuge',
+    comPrefix: 'Com ',
+    labelOrigem: 'Como você conheceu o Meu Tax? *',
+    selectDefault: 'Selecione...',
+    placeholderNome: 'Seu nome completo', placeholderWhatsapp: '+49 176 12345678',
+    dsgvoText: 'Concordo com o processamento dos meus dados pessoais para fins de filiação ao <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong>, em conformidade com a DSGVO. Meus dados não serão compartilhados com terceiros.',
+    btnVerEstimativa: 'Preço estimado',
+    // result
+    resultBadge: '✓ Elegível para associação',
+    resultTitle: 'Você pode ser\nmembro do Meu Tax!',
+    resultSub: 'Com base nas suas respostas, podemos cuidar da sua declaração de imposto de renda na Alemanha.',
+    feeSummaryTitle: 'Resumo da sua associação',
+    feeClassLabel: 'Classe de renda', feeConjugeLabel: 'Declaração conjunta',
+    feeAnuidadeLabel: 'Anuidade anual', feeTaxaLabel: 'Taxa de adesão (única)', feeTotalLabel: 'Total primeiro ano',
+    ctaAssociar: 'Quero me associar →',
+    nextStepsTitle: 'Próximos passos',
+    spamNote: '📩 Após o contato, você receberá um email nosso.\nLembre-se de verificar a pasta de spam caso não apareça na caixa de entrada.',
+    btnReiniciar: '← Reiniciar',
+    // s6
+    s6Question: 'Dados para a filiação',
+    s6Hint: 'Precisamos desses dados para emitir o seu contrato de filiação (Beitrittserklärung).',
+    labelNascimento: 'Data de nascimento *', labelRua: 'Rua / Strasse *',
+    labelCep: 'CEP / PLZ *', labelCidade: 'Cidade / Stadt *',
+    labelPagamento: 'Método de pagamento preferido *',
+    payTf: 'Transferência bancária', payPp: 'PayPal',
+    payCc: 'Cartão de crédito',
+    paySt: 'SEPA Débito Direto', payStDesc: 'Débito automático anual — sem esquecer de renovar',
+    payNotice: 'ℹ️ <strong>O pagamento não será feito agora.</strong><br>O valor será confirmado somente após a verificação dos seus documentos.<br>Parcelamento disponível via PayPal.',
+    labelComentarios: 'Dúvidas ou comentários',
+    placeholderComentarios: 'Ex: Tenho uma dúvida sobre anos anteriores, minha situação é um pouco diferente...',
+    btnEnviarDados: 'Enviar dados',
+    btnEnviando: 'Enviando',
+    loadingMsg: 'Processando',
+    btnVoltar: '← Voltar',
+    btnContinuar: 'Continuar',
+    // s2 fix
+    s2Opt4Title: 'Renda proveniente do exterior', s2Opt4Desc: 'Salário, pensão, aluguel ou outra renda fora da Alemanha',
+    // s3 fix
+    s3FilhosOpt3: 'Sim, filhos maiores em Ausbildung ou universidade',
+    // s4 dinâmico
+    totalIncomeNoteSingle: 'Renda individual',
+    totalIncomeNoteConjuge: 'Todos os rendimentos familiares são considerados',
+    // restituição
+    restTitle: 'Potencial de restituição estimado',
+    restPorPessoa: 'por pessoa',
+    restCasal: 'para o casal',
+    restAviso: '⚠️ Valor estimado e conservador. A média nacional é ~€ 1.172 por pessoa (Destatis, ano fiscal 2023), mas o valor real varia conforme renda, deduções e situação fiscal individual. Não constitui garantia de restituição.',
+    // obrigado
+    obrigadoGreeting: 'Obrigado',
+    obrigadoNextStepsTitle: 'O que acontece agora',
+    obrigadoTitle: 'Cadastro recebido!',
+    obrigadoSub: 'Entraremos em contato pelo WhatsApp em breve para confirmar os detalhes e os próximos passos.',
+    btnWhatsApp: 'Enviar documentação pelo WhatsApp',
+    btnEmail: 'Enviar por email',
+    step1Title: 'Análise do seu perfil', step1Desc: 'Envie os documentos de renda pelo WhatsApp ou por email. Nossa equipe analisa em até 48h.',
+    step2Title: 'Confirmamos o valor e enviamos o link de pagamento', step2Desc: 'Após verificar os documentos, confirmamos a anuidade e enviamos o link de pagamento por WhatsApp ou email.',
+    step3Title: 'Formulário de filiação', step3Desc: 'Após o pagamento, enviamos o formulário de filiação (Beitrittserklärung) para assinar digitalmente. Tudo online.',
+    // Dynamic result page — not eligible
+    notEligCardTitle: 'Por que não podemos ajudar agora',
+    reasonAutonomo1: 'Renda principal como autônomo (Selbständig) não está coberta pela nossa autorização legal (§ 4 Nr. 11 StBerG)',
+    reasonAutonomo2: 'Recomendamos buscar um Steuerberater para a sua situação',
+    reasonEmpresa1: 'Donos de empresa (Gewerbetreibende) precisam de um Steuerberater completo',
+    reasonEmpresa2: 'Rendimentos empresariais (Gewerbe) não estão incluídos na nossa autorização',
+    notEligBadge: '⚠ Fora da nossa área de atuação',
+    notEligTitle: 'Não podemos\ncuidar do seu caso',
+    notEligSub: 'Com base nas suas respostas, a sua situação fiscal está fora da autorização legal dos Lohnsteuerhilfevereine.',
+    notEligStep1Title: 'Busque um Steuerberater',
+    notEligStep1Desc: 'Para situações com renda autônoma ou empresarial, você precisa de um Steuerberater completo.',
+    notEligStep2Title: 'Verifique se há renda mista',
+    notEligStep2Desc: 'Se sua renda autônoma for secundária (até 18.000€/ano), pode ser que possamos ajudar. Entre em contato para verificar.',
+    notEligWaBtn: '💬 Falar pelo WhatsApp',
+    notEligEmailBtn: '📧 Enviar email para info@meutax.de',
+    notEligWaMsg: 'Olá! Preenchi o formulário do Meu Tax mas minha renda principal é autônoma. Gostaria de verificar se posso ser atendido mesmo assim.',
+    // Dynamic result page — eligible
+    resultTitleTemplate: 'Você pode ser\nmembro do Meu Tax, {nome}!',
+    step1TitleResult: 'Envie seus documentos de renda',
+    step1SubResult: 'Com base nas suas respostas, você precisará enviar:',
+    step2TitleResult: 'Avaliamos e confirmamos o valor',
+    step2DescResult: 'Com os documentos em mãos, confirmamos a anuidade exata e enviamos o link de pagamento por WhatsApp ou email.',
+    step3TitleResult: 'Pagamento e filiação',
+    step3DescResult: 'Após o pagamento, enviamos o formulário de filiação para assinar. Tudo online, sem precisar sair de casa.',
+    // Documents list
+    docLohnsteuer: '📄 Lohnsteuerbescheinigung (certidão anual do empregador)',
+    docRente: '📄 Rentenbescheid (aviso de aposentadoria)',
+    docAluguel: '🏠 Comprovantes de aluguel recebido (Mietvertrag + recibos)',
+    docCapital: '📈 Jahressteuerbescheinigung do banco (rendimentos de investimentos)',
+    docFreelance: '💡 Comprovantes de renda freelance secundária',
+    docBrasil: '🇧🇷 Comprovante de renda proveniente do Brasil',
+    docFilhosMenor: '👶 Documentos dos filhos menores (Kindergeldbescheid)',
+    docFilhosMaior: '🎓 Comprovante de formação dos filhos (Immatrikulationsbescheinigung)',
+    // i18n extras
+    incomeErrorMsg: 'Informe pelo menos uma renda maior que zero para continuar.',
+    duplicateNotice: '📬 <strong>Este email já está cadastrado no Meu Tax.</strong><br>Verifique sua caixa de entrada (e a pasta de spam) — já enviamos nossas informações para você.<br><br>Se precisar de ajuda, fale pelo <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a>.<br>Para fazer um novo cadastro, clique em <strong>Reiniciar</strong> e utilize um email diferente.',
+    extrasBrasil: 'Renda do Brasil: requer análise do tratado de não-bitributação Brasil-Alemanha.',
+    extrasFreelance: 'Freelance secundário: permitido dentro dos limites de § 4 Nr. 11 StBerG.',
+    emailAssunto: 'Documentação Meu Tax — {nome}',
+    emailCorpo: 'Olá! Gostaria de enviar minha documentação para análise.\n\nMeu nome é {nome}.\nWhatsApp: {whatsapp}',
+    waMsg: 'Olá, gostaria de enviar minha documentação.',
+    step1DescObrigado: 'Envie os documentos de renda pelo WhatsApp ou por email. Nossa equipe analisa em até 48h.',
+  },
+  en: {
+    // s0
+    landingTitle: 'Tax return\ndone by someone\nwho gets you.',
+    landingSubtitle: 'Tax assistance in German, Portuguese and English.\nFor foreigners living in Germany.',
+    landingFlag: '§ 4 Nr. 11 StBerG · Karlsruhe · Online across Germany',
+    card1Title: 'Português · Español · English · Deutsch', card1Desc: 'We assist in four languages. No language barriers for your taxes.',
+    card2Title: 'Affordable pricing', card2Desc: 'One annual fee. No per-declaration charges, no surprises.',
+    card3Title: '100% online', card3Desc: 'Via video call and WhatsApp. No need to leave your home.',
+    card4Title: 'Legally recognised', card4Desc: 'Association authorised by OFD Baden-Württemberg, with liability insurance.',
+    startBtn: 'Check if I can become a member',
+    startNote: 'Takes less than 3 minutes · No commitment',
+    pill1: 'Income tax return', pill2: 'Employed workers',
+    pill3: 'Retirees and pensioners', pill4: 'Those with rental income',
+    // s1
+    s1Question: 'What is your main source of income?',
+    s1Hint: 'This determines whether we can help with your tax return.',
+    s1Opt1Title: 'Employed (Angestellt)', s1Opt1Desc: 'I work as an employee and receive a payslip (Lohnabrechnung)',
+    s1Opt2Title: 'Retirement / Pension (Rente)', s1Opt2Desc: 'I receive a retirement, widow or disability pension',
+    s1Opt3Title: 'Self-employed / Freelancer (main)', s1Opt3Desc: 'My main income is self-employment (Selbständig / Freiberufler)',
+    s1Opt4Title: 'I own a business (Gewerbe)', s1Opt4Desc: 'I own a registered business in Germany',
+    // s2
+    s2Question: 'Do you have any income besides employment?',
+    s2Hint: 'You can select more than one. This does not automatically exclude you — we just need to know.',
+    s2Opt1Title: 'Rental income (Vermietung)', s2Opt1Desc: 'I rent a property in Germany or abroad',
+    s2Opt2Title: 'Investment income (Kapitalerträge)', s2Opt2Desc: 'Dividends, interest, funds, etc.',
+    s2Opt3Title: 'Freelance as secondary income', s2Opt3Desc: 'Up to €18,000/year in side self-employment',
+    s2Opt4Title: 'Income from abroad', s2Opt4Desc: 'Salary, pension, rent or other income outside Germany',
+    s2Opt5Title: 'No additional income', s2Opt5Desc: 'Only employment / pension income',
+    // s3
+    s3Question1: 'What is your marital status?', s3Hint1: 'Couples who file jointly benefit from tax advantages in Germany.',
+    s3CivilOpt1: 'Single', s3CivilOpt2: 'Married', s3CivilOpt3: 'Divorced / Separated', s3CivilOpt4: 'Widowed',
+    s3Question2: 'Do you have children?', s3Hint2: 'You can select more than one option.',
+    s3FilhosOpt1: 'No children', s3FilhosOpt2: 'Yes, minor / dependent children', s3FilhosOpt3: 'Yes, adult children in education',
+    // s4
+    s4Question: 'What is your gross annual income?',
+    s4Hint: 'Enter the value or drag the slider. Use an estimate if you are unsure.',
+    classePrefix: 'Class',
+    perAno: '/ year',
+    s4SpouseQuestion: 'Partner gross annual income',
+    s4SpouseHint: 'The annual fee is calculated on combined household income.',
+    totalIncomeLabel: 'Total gross annual income',
+    totalIncomeLabelCasado: 'Combined gross annual income',
+    stepLabelRenda: 'Income', stepLabelExtra: 'Extra Income', stepLabelPerfil: 'Profile', stepLabelValor: 'Income', stepLabelContato: 'Contact', stepLabelDados: 'Details',
+    stepCountOf: '{n} of 6',
+    // s5
+    s5Question: 'Almost there!',
+    s5Hint: 'Fill in your details to receive the confirmed estimate and next steps via WhatsApp.',
+    labelNome: 'Full name *', labelEmail: 'Email *', labelWhatsapp: 'WhatsApp *',
+    labelConjuge: 'Partner full name *',
+    placeholderConjuge: 'Partner full name',
+    comPrefix: 'With ',
+    labelOrigem: 'How did you hear about Meu Tax? *',
+    selectDefault: 'Select...',
+    placeholderNome: 'Your full name', placeholderWhatsapp: '+49 176 12345678',
+    dsgvoText: 'I agree to the processing of my personal data for the purpose of membership in <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong>, in accordance with the GDPR. My data will not be shared with third parties.',
+    btnVerEstimativa: 'Estimated price',
+    // result
+    resultBadge: '✓ Eligible for membership',
+    resultTitle: 'You can become\na Meu Tax member!',
+    resultSub: 'Based on your answers, we can handle your income tax return in Germany.',
+    feeSummaryTitle: 'Your estimated cost',
+    feeClassLabel: 'Income class', feeConjugeLabel: 'Joint declaration',
+    feeAnuidadeLabel: 'Annual fee', feeTaxaLabel: 'Registration fee (one-time)', feeTotalLabel: 'Total first year',
+    ctaAssociar: 'I want to join →',
+    nextStepsTitle: 'Next steps',
+    spamNote: '📩 After contact, you will receive an email from us.\nPlease check your spam folder if it does not appear in your inbox.',
+    btnReiniciar: '← Restart',
+    // s6
+    s6Question: 'Membership details',
+    s6Hint: 'We need this information to issue your membership form (Beitrittserklärung).',
+    labelNascimento: 'Date of birth *', labelRua: 'Street / Strasse *',
+    labelCep: 'Postcode / PLZ *', labelCidade: 'City / Stadt *',
+    labelPagamento: 'Preferred payment method *',
+    payTf: 'Bank transfer', payPp: 'PayPal',
+    payCc: 'Credit card',
+    paySt: 'SEPA Direct Debit', payStDesc: 'Automatic annual debit — no risk of forgetting to renew',
+    payNotice: 'ℹ️ <strong>Payment will not be taken now.</strong><br>The amount will be confirmed after verification of your documents.<br>Instalment payment available via PayPal.',
+    labelComentarios: 'Questions or comments',
+    placeholderComentarios: 'E.g. I have a question about previous years, my situation is a bit different...',
+    btnEnviarDados: 'Submit details',
+    // obrigado
+    obrigadoTitle: 'Registration received!',
+    obrigadoSub: 'We will contact you via WhatsApp shortly to confirm the details and next steps.',
+    step1Title: 'Profile review', step1Desc: 'We review your information and confirm eligibility.',
+    step2Title: 'We confirm the fee and send the payment link', step2Desc: 'After reviewing your documents, we confirm the annual fee and send the payment link via WhatsApp or email.',
+    step3Title: 'Membership form', step3Desc: 'After payment, we send the membership form (Beitrittserklärung) for digital signature. All online.',
+    btnEnviando: 'Sending', loadingMsg: 'Processing',
+    btnVoltar: '← Back', btnContinuar: 'Continue',
+    s2Opt4Title: 'Income from abroad', s2Opt4Desc: 'Salary, pension, rent or other income outside Germany',
+    s3FilhosOpt3: 'Yes, adult children in Ausbildung or university',
+    totalIncomeNoteSingle: 'Individual income', totalIncomeNoteConjuge: 'All household incomes are considered',
+    restTitle: 'Estimated refund potential', restPorPessoa: 'per person', restCasal: 'for the couple',
+    restAviso: '⚠️ Conservative estimate. The national average is ~€ 1,172 per person (Destatis, fiscal year 2023), but the actual amount varies based on income, deductions and individual tax situation. This is not a refund guarantee.',
+    obrigadoGreeting: 'Thank you', obrigadoNextStepsTitle: 'What happens now',
+    btnWhatsApp: 'Send documents via WhatsApp', btnEmail: 'Send by email',
+    step1DescObrigado: 'Send your income documents via WhatsApp or email. Our team reviews them within 48 hours.',
+    // Dynamic result page — not eligible
+    notEligCardTitle: 'Why we cannot help right now',
+    reasonAutonomo1: 'Self-employment as main income (Selbständig) is not covered by our legal authorisation (§ 4 Nr. 11 StBerG)',
+    reasonAutonomo2: 'We recommend finding a Steuerberater for your situation',
+    reasonEmpresa1: 'Business owners (Gewerbetreibende) require a full tax advisor (Steuerberater)',
+    reasonEmpresa2: 'Business income (Gewerbe) is not included in our legal scope',
+    notEligBadge: '⚠ Outside our area of coverage',
+    notEligTitle: 'We cannot\nhandle your case',
+    notEligSub: 'Based on your answers, your tax situation falls outside the legal scope of Lohnsteuerhilfevereine.',
+    notEligStep1Title: 'Find a Steuerberater',
+    notEligStep1Desc: 'For situations with self-employment or business income, you need a full tax advisor (Steuerberater).',
+    notEligStep2Title: 'Check if you have mixed income',
+    notEligStep2Desc: 'If your self-employment income is secondary (up to €18,000/year), we may be able to help. Contact us to find out.',
+    notEligWaBtn: '💬 Chat on WhatsApp',
+    notEligEmailBtn: '📧 Send email to info@meutax.de',
+    notEligWaMsg: 'Hello! I filled in the Meu Tax form but my main income is self-employment. I would like to check if I can still be assisted.',
+    // Dynamic result page — eligible
+    resultTitleTemplate: 'You can become\na Meu Tax member, {nome}!',
+    step1TitleResult: 'Send your income documents',
+    step1SubResult: 'Based on your answers, you will need to send:',
+    step2TitleResult: 'We review and confirm the fee',
+    step2DescResult: 'With your documents, we confirm the exact annual fee and send the payment link via WhatsApp or email.',
+    step3TitleResult: 'Payment and membership',
+    step3DescResult: 'After payment, we send the membership form (Beitrittserklärung) to sign digitally. All online, from the comfort of your home.',
+    // Documents list
+    docLohnsteuer: '📄 Lohnsteuerbescheinigung (annual employer income certificate)',
+    docRente: '📄 Rentenbescheid (pension award notice)',
+    docAluguel: '🏠 Rental income documents (Mietvertrag + receipts)',
+    docCapital: '📈 Jahressteuerbescheinigung from your bank (investment income)',
+    docFreelance: '💡 Secondary freelance income documents',
+    docBrasil: '🌍 Proof of income from abroad',
+    docFilhosMenor: '👶 Documents for minor children (Kindergeldbescheid)',
+    docFilhosMaior: '🎓 Proof of education for adult children (Immatrikulationsbescheinigung)',
+    // i18n extras
+    incomeErrorMsg: 'Please enter at least one income greater than zero to continue.',
+    duplicateNotice: '📬 <strong>This email is already registered with Meu Tax.</strong><br>Please check your inbox (and spam folder) — we have already sent you our information.<br><br>If you need help, please contact us via <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a>.<br>To start a new registration, click <strong>Restart</strong> and use a different email.',
+    extrasBrasil: 'Income from Brazil: requires analysis of the Brazil-Germany double taxation treaty.',
+    extrasFreelance: 'Secondary freelance: permitted within the limits of § 4 Nr. 11 StBerG.',
+    emailAssunto: 'Meu Tax Documentation — {nome}',
+    emailCorpo: 'Hello! I would like to send my documentation for review.\n\nMy name is {nome}.\nWhatsApp: {whatsapp}',
+    waMsg: 'Hello, I would like to send my documentation.',
+  },
+  es: {
+    // s0
+    landingTitle: 'Declaración de impuestos\nhecha por quien\nte entiende.',
+    landingSubtitle: 'Asistencia fiscal en alemán, portugués y español.\nPara extranjeros en Alemania.',
+    landingFlag: '§ 4 Nr. 11 StBerG · Karlsruhe · Online en toda Alemania',
+    card1Title: 'Português · Español · English · Deutsch', card1Desc: 'Atendemos en cuatro idiomas. Sin barreras de idioma para tus impuestos.',
+    card2Title: 'Precio asequible', card2Desc: 'Un único pago anual. Sin cargos por declaración, sin sorpresas.',
+    card3Title: '100% online', card3Desc: 'Por videollamada y WhatsApp. No necesitas salir de casa.',
+    card4Title: 'Legalmente reconocido', card4Desc: 'Asociación autorizada por la OFD Baden-Württemberg, con seguro de responsabilidad.',
+    startBtn: 'Verificar si puedo ser miembro',
+    startNote: 'Menos de 3 minutos · Sin compromiso',
+    pill1: 'Declaración de impuesto sobre la renta', pill2: 'Trabajadores asalariados',
+    pill3: 'Jubilados y pensionistas', pill4: 'Quienes tienen ingresos de alquiler',
+    // s1
+    s1Question: '¿Cuál es tu principal fuente de ingresos?',
+    s1Hint: 'Esto determina si podemos ayudarte con tu declaración de impuestos.',
+    s1Opt1Title: 'Empleo asalariado (Angestellt)', s1Opt1Desc: 'Trabajo como empleado y recibo una nómina (Lohnabrechnung)',
+    s1Opt2Title: 'Jubilación / Pensión (Rente)', s1Opt2Desc: 'Recibo pensión de jubilación, viudedad o invalidez',
+    s1Opt3Title: 'Autónomo / Freelancer (principal)', s1Opt3Desc: 'Mi ingreso principal es por cuenta propia (Selbständig / Freiberufler)',
+    s1Opt4Title: 'Tengo empresa / Negocio propio (Gewerbe)', s1Opt4Desc: 'Soy dueño de una empresa registrada en Alemania',
+    // s2
+    s2Question: '¿Tienes algún ingreso además del empleo?',
+    s2Hint: 'Puedes marcar más de una opción. Esto no te excluye automáticamente — solo necesitamos saberlo.',
+    s2Opt1Title: 'Ingreso por alquiler (Vermietung)', s2Opt1Desc: 'Alquilo un inmueble en Alemania o en el extranjero',
+    s2Opt2Title: 'Rendimientos de inversiones (Kapitalerträge)', s2Opt2Desc: 'Dividendos, intereses, fondos, etc.',
+    s2Opt3Title: 'Trabajo freelance como ingreso secundario', s2Opt3Desc: 'Hasta 18.000€/año en actividad autónoma paralela',
+    s2Opt4Title: 'Ingresos del extranjero', s2Opt4Desc: 'Salario, pensión, alquiler u otros ingresos fuera de Alemania',
+    s2Opt5Title: 'Ningún ingreso adicional', s2Opt5Desc: 'Solo tengo ingreso de empleo / jubilación',
+    // s3
+    s3Question1: '¿Cuál es tu estado civil?', s3Hint1: 'Las parejas que declaran conjuntamente tienen ventajas fiscales en Alemania.',
+    s3CivilOpt1: 'Soltero/a', s3CivilOpt2: 'Casado/a', s3CivilOpt3: 'Divorciado/a / Separado/a', s3CivilOpt4: 'Viudo/a',
+    s3Question2: '¿Tienes hijos?', s3Hint2: 'Puedes seleccionar más de una opción.',
+    s3FilhosOpt1: 'No tengo hijos', s3FilhosOpt2: 'Sí, hijos menores / dependientes', s3FilhosOpt3: 'Sí, hijos mayores en formación',
+    // s4
+    s4Question: '¿Cuál es tu renta bruta anual?',
+    s4Hint: 'Ingresa el valor o arrastra el control. Usa una estimación si no sabes el exacto.',
+    classePrefix: 'Clase',
+    perAno: '/ año',
+    s4SpouseQuestion: 'Renta bruta anual del cónyuge',
+    s4SpouseHint: 'La cuota anual se calcula sobre la renta familiar combinada.',
+    totalIncomeLabel: 'Renta bruta anual total',
+    totalIncomeLabelCasado: 'Renta bruta anual combinada',
+    stepLabelRenda: 'Ingresos', stepLabelExtra: 'Ingresos extra', stepLabelPerfil: 'Perfil', stepLabelValor: 'Cuota', stepLabelContato: 'Contacto', stepLabelDados: 'Datos',
+    stepCountOf: '{n} de 6',
+    // s5
+    s5Question: '¡Ya casi!',
+    s5Hint: 'Completa tus datos para recibir la estimación confirmada y los próximos pasos por WhatsApp.',
+    labelNome: 'Nombre completo *', labelEmail: 'Email *', labelWhatsapp: 'WhatsApp *',
+    labelConjuge: 'Nombre completo del cónyuge *',
+    placeholderConjuge: 'Nombre completo del cónyuge',
+    comPrefix: 'Con ',
+    labelOrigem: '¿Cómo conociste Meu Tax? *',
+    selectDefault: 'Selecciona...',
+    placeholderNome: 'Tu nombre completo', placeholderWhatsapp: '+49 176 12345678',
+    dsgvoText: 'Acepto el tratamiento de mis datos personales con el fin de afiliarme a <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong>, de conformidad con el RGPD. Mis datos no serán compartidos con terceros.',
+    btnVerEstimativa: 'Precio estimado',
+    // result
+    resultBadge: '✓ Elegible para membresía',
+    resultTitle: '¡Puedes ser\nmiembro de Meu Tax!',
+    resultSub: 'Según tus respuestas, podemos gestionar tu declaración de impuesto sobre la renta en Alemania.',
+    feeSummaryTitle: 'Resumen de tu membresía',
+    feeClassLabel: 'Clase de renta', feeConjugeLabel: 'Declaración conjunta',
+    feeAnuidadeLabel: 'Cuota anual', feeTaxaLabel: 'Cuota de inscripción (única)', feeTotalLabel: 'Total primer año',
+    ctaAssociar: 'Quiero unirme →',
+    nextStepsTitle: 'Próximos pasos',
+    spamNote: '📩 Después del contacto, recibirás un email nuestro.\nRecuerda revisar la carpeta de spam si no aparece en tu bandeja de entrada.',
+    btnReiniciar: '← Reiniciar',
+    // s6
+    s6Question: 'Datos para la membresía',
+    s6Hint: 'Necesitamos estos datos para emitir tu formulario de afiliación (Beitrittserklärung).',
+    labelNascimento: 'Fecha de nacimiento *', labelRua: 'Calle / Strasse *',
+    labelCep: 'Código postal / PLZ *', labelCidade: 'Ciudad / Stadt *',
+    labelPagamento: 'Método de pago preferido *',
+    payTf: 'Transferencia bancaria', payPp: 'PayPal',
+    payCc: 'Tarjeta de crédito',
+    paySt: 'Débito directo SEPA', payStDesc: 'Débito automático anual — sin olvidar la renovación',
+    payNotice: 'ℹ️ <strong>El pago no se realizará ahora.</strong><br>El importe se confirmará tras verificar tus documentos.<br>Pago a plazos disponible mediante PayPal.',
+    labelComentarios: 'Dudas o comentarios',
+    placeholderComentarios: 'Ej: Tengo una duda sobre años anteriores, mi situación es un poco diferente...',
+    btnEnviarDados: 'Enviar datos',
+    // obrigado
+    obrigadoTitle: '¡Registro recibido!',
+    obrigadoSub: 'Nos pondremos en contacto contigo por WhatsApp para confirmar los detalles y los próximos pasos.',
+    step1Title: 'Análisis de tu perfil', step1Desc: 'Revisamos tu información y confirmamos la elegibilidad.',
+    step2Title: 'Confirmamos el importe y enviamos el enlace de pago', step2Desc: 'Tras revisar los documentos, confirmamos la cuota anual y enviamos el enlace de pago por WhatsApp o email.',
+    step3Title: 'Formulario de afiliación', step3Desc: 'Tras el pago, enviamos el formulario de afiliación (Beitrittserklärung) para firmar digitalmente. Todo online.',
+    btnEnviando: 'Enviando', loadingMsg: 'Procesando',
+    btnVoltar: '← Volver', btnContinuar: 'Continuar',
+    s2Opt4Title: 'Ingresos del extranjero', s2Opt4Desc: 'Salario, pensión, alquiler u otros ingresos fuera de Alemania',
+    s3FilhosOpt3: 'Sí, hijos mayores en Ausbildung o universidad',
+    totalIncomeNoteSingle: 'Ingreso individual', totalIncomeNoteConjuge: 'Todos los ingresos familiares son considerados',
+    restTitle: 'Potencial de devolución estimado', restPorPessoa: 'por persona', restCasal: 'para la pareja',
+    restAviso: '⚠️ Estimación conservadora. La media nacional es ~€ 1.172 por persona (Destatis, año fiscal 2023), pero el importe real varía según ingresos, deducciones y situación fiscal individual. No constituye garantía de devolución.',
+    obrigadoGreeting: 'Gracias', obrigadoNextStepsTitle: '¿Qué pasa ahora?',
+    btnWhatsApp: 'Enviar documentación por WhatsApp', btnEmail: 'Enviar por email',
+    step1DescObrigado: 'Envía tus documentos de renta por WhatsApp o email. Nuestro equipo los analiza en un máximo de 48 horas.',
+    // Dynamic result page — not eligible
+    notEligCardTitle: 'Por qué no podemos ayudarte ahora',
+    reasonAutonomo1: 'Los ingresos principales como autónomo (Selbständig) no están cubiertos por nuestra autorización legal (§ 4 Nr. 11 StBerG)',
+    reasonAutonomo2: 'Te recomendamos buscar un Steuerberater para tu situación',
+    reasonEmpresa1: 'Los dueños de empresa (Gewerbetreibende) necesitan un asesor fiscal completo (Steuerberater)',
+    reasonEmpresa2: 'Los ingresos empresariales (Gewerbe) no están incluidos en nuestra autorización',
+    notEligBadge: '⚠ Fuera de nuestro ámbito de actuación',
+    notEligTitle: 'No podemos\ngestionar tu caso',
+    notEligSub: 'Según tus respuestas, tu situación fiscal está fuera del ámbito legal de los Lohnsteuerhilfevereine.',
+    notEligStep1Title: 'Busca un Steuerberater',
+    notEligStep1Desc: 'Para situaciones con ingresos autónomos o empresariales, necesitas un asesor fiscal completo (Steuerberater).',
+    notEligStep2Title: 'Verifica si tienes ingresos mixtos',
+    notEligStep2Desc: 'Si tus ingresos autónomos son secundarios (hasta 18.000€/año), es posible que podamos ayudarte. Contáctanos para verificarlo.',
+    notEligWaBtn: '💬 Hablar por WhatsApp',
+    notEligEmailBtn: '📧 Enviar email a info@meutax.de',
+    notEligWaMsg: '¡Hola! Rellené el formulario de Meu Tax pero mis ingresos principales son autónomos. Me gustaría verificar si puedo ser atendido de todas formas.',
+    // Dynamic result page — eligible
+    resultTitleTemplate: '¡Puedes ser\nmiembro de Meu Tax, {nome}!',
+    step1TitleResult: 'Envía tus documentos de ingresos',
+    step1SubResult: 'Según tus respuestas, necesitarás enviar:',
+    step2TitleResult: 'Evaluamos y confirmamos el importe',
+    step2DescResult: 'Con los documentos en mano, confirmamos la cuota anual exacta y enviamos el enlace de pago por WhatsApp o email.',
+    step3TitleResult: 'Pago y afiliación',
+    step3DescResult: 'Tras el pago, enviamos el formulario de afiliación para firmar digitalmente. Todo online, sin necesidad de salir de casa.',
+    // Documents list
+    docLohnsteuer: '📄 Lohnsteuerbescheinigung (certificado anual del empleador)',
+    docRente: '📄 Rentenbescheid (resolución de pensión)',
+    docAluguel: '🏠 Documentos de ingresos de alquiler (Mietvertrag + recibos)',
+    docCapital: '📈 Jahressteuerbescheinigung del banco (ingresos de inversiones)',
+    docFreelance: '💡 Documentos de ingresos freelance secundarios',
+    docBrasil: '🌍 Comprobante de ingresos del extranjero',
+    docFilhosMenor: '👶 Documentos para hijos menores (Kindergeldbescheid)',
+    docFilhosMaior: '🎓 Comprobante de formación para hijos mayores (Immatrikulationsbescheinigung)',
+    // i18n extras
+    incomeErrorMsg: 'Por favor, ingresa al menos una renta mayor que cero para continuar.',
+    duplicateNotice: '📬 <strong>Este email ya está registrado en Meu Tax.</strong><br>Revisa tu bandeja de entrada (y la carpeta de spam) — ya te hemos enviado nuestra información.<br><br>Si necesitas ayuda, contáctanos por <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a>.<br>Para hacer un nuevo registro, haz clic en <strong>Reiniciar</strong> y usa un email diferente.',
+    extrasBrasil: 'Ingresos de Brasil: requiere análisis del tratado de doble imposición Brasil-Alemania.',
+    extrasFreelance: 'Freelance secundario: permitido dentro de los límites de § 4 Nr. 11 StBerG.',
+    emailAssunto: 'Documentación Meu Tax — {nome}',
+    emailCorpo: '¡Hola! Me gustaría enviar mi documentación para análisis.\n\nMi nombre es {nome}.\nWhatsApp: {whatsapp}',
+    waMsg: 'Hola, me gustaría enviar mi documentación.',
+  },
+  de: {
+    // s0
+    landingTitle: 'Steuererklärung\nvon jemandem gemacht,\nder Sie versteht.',
+    landingSubtitle: 'Steuerberatung auf Deutsch, Portugiesisch und Englisch.\nFür Ausländer in Deutschland.',
+    landingFlag: '§ 4 Nr. 11 StBerG · Karlsruhe · Online in ganz Deutschland',
+    card1Title: 'Português · Español · English · Deutsch', card1Desc: 'Wir beraten in vier Sprachen. Keine Sprachbarrieren bei Ihrer Steuererklärung.',
+    card2Title: 'Günstige Preise', card2Desc: 'Eine einzige Jahreszahlung. Keine Gebühren pro Erklärung, keine Überraschungen.',
+    card3Title: '100% online', card3Desc: 'Per Videoanruf und WhatsApp. Sie müssen das Haus nicht verlassen.',
+    card4Title: 'Rechtlich anerkannt', card4Desc: 'Verein zugelassen vom OFD Baden-Württemberg, mit Haftpflichtversicherung.',
+    startBtn: 'Prüfen, ob ich Mitglied werden kann',
+    startNote: 'Dauert weniger als 3 Minuten · Unverbindlich',
+    pill1: 'Einkommensteuererklärung', pill2: 'Angestellte',
+    pill3: 'Rentner und Pensionäre', pill4: 'Vermieter',
+    // s1
+    s1Question: 'Was ist Ihre Haupteinkommensquelle?',
+    s1Hint: 'Damit prüfen wir, ob wir bei Ihrer Steuererklärung helfen können.',
+    s1Opt1Title: 'Angestelltenverhältnis (Angestellt)', s1Opt1Desc: 'Ich arbeite als Arbeitnehmer und erhalte eine Lohnabrechnung',
+    s1Opt2Title: 'Rente / Pension', s1Opt2Desc: 'Ich beziehe Alters-, Witwen- oder Erwerbsminderungsrente',
+    s1Opt3Title: 'Selbständig / Freiberufler (Haupteinkommen)', s1Opt3Desc: 'Mein Haupteinkommen stammt aus selbständiger Tätigkeit',
+    s1Opt4Title: 'Ich besitze ein Gewerbe', s1Opt4Desc: 'Ich bin Inhaber eines eingetragenen Unternehmens in Deutschland',
+    // s2
+    s2Question: 'Haben Sie Einkünfte neben Ihrem Arbeitslohn?',
+    s2Hint: 'Mehrfachauswahl möglich. Das schließt Sie nicht automatisch aus — wir müssen es nur wissen.',
+    s2Opt1Title: 'Mieteinnahmen (Vermietung)', s2Opt1Desc: 'Ich vermiete eine Immobilie in Deutschland oder im Ausland',
+    s2Opt2Title: 'Kapitalerträge', s2Opt2Desc: 'Dividenden, Zinsen, Fonds usw.',
+    s2Opt3Title: 'Freiberufliche Nebentätigkeit', s2Opt3Desc: 'Bis zu 18.000€/Jahr aus selbständiger Nebentätigkeit',
+    s2Opt4Title: 'Einkünfte aus dem Ausland', s2Opt4Desc: 'Gehalt, Rente, Miete oder andere Einkünfte außerhalb Deutschlands',
+    s2Opt5Title: 'Keine weiteren Einkünfte', s2Opt5Desc: 'Nur Einkommen aus Anstellung / Rente',
+    // s3
+    s3Question1: 'Was ist Ihr Familienstand?', s3Hint1: 'Ehepaare, die gemeinsam veranlagen, haben steuerliche Vorteile in Deutschland.',
+    s3CivilOpt1: 'Ledig', s3CivilOpt2: 'Verheiratet', s3CivilOpt3: 'Geschieden / Getrennt lebend', s3CivilOpt4: 'Verwitwet',
+    s3Question2: 'Haben Sie Kinder?', s3Hint2: 'Mehrfachauswahl möglich.',
+    s3FilhosOpt1: 'Keine Kinder', s3FilhosOpt2: 'Ja, minderjährige / unterhaltsberechtigte Kinder', s3FilhosOpt3: 'Ja, volljährige Kinder in Ausbildung',
+    // s4
+    s4Question: 'Wie hoch ist Ihr jährliches Bruttogehalt?',
+    s4Hint: 'Geben Sie den Betrag ein oder verschieben Sie den Regler. Eine Schätzung genügt.',
+    classePrefix: 'Klasse',
+    perAno: '/ Jahr',
+    s4SpouseQuestion: 'Jährliches Bruttogehalt des Partners / der Partnerin',
+    s4SpouseHint: 'Der Jahresbeitrag wird anhand des gemeinsamen Haushaltseinkommens berechnet.',
+    totalIncomeLabel: 'Gesamtes Jahresbruttogehalt',
+    totalIncomeLabelCasado: 'Kombiniertes Jahresbruttogehalt',
+    stepLabelRenda: 'Einkommen', stepLabelExtra: 'Nebeneinkünfte', stepLabelPerfil: 'Profil', stepLabelValor: 'Beitrag', stepLabelContato: 'Kontakt', stepLabelDados: 'Daten',
+    stepCountOf: '{n} von 6',
+    // s5
+    s5Question: 'Fast geschafft!',
+    s5Hint: 'Geben Sie Ihre Daten ein, um die bestätigte Schätzung und die nächsten Schritte per WhatsApp zu erhalten.',
+    labelNome: 'Vollständiger Name *', labelEmail: 'E-Mail *', labelWhatsapp: 'WhatsApp *',
+    labelConjuge: 'Vollständiger Name des Partners / der Partnerin *',
+    placeholderConjuge: 'Vollständiger Name des Partners',
+    comPrefix: 'Mit ',
+    labelOrigem: 'Wie haben Sie Meu Tax kennengelernt? *',
+    selectDefault: 'Bitte auswählen...',
+    placeholderNome: 'Ihr vollständiger Name', placeholderWhatsapp: '+49 176 12345678',
+    dsgvoText: 'Ich stimme der Verarbeitung meiner personenbezogenen Daten zum Zweck der Mitgliedschaft bei <strong>Meu Tax Lohnsteuerhilfeverein e.V.</strong> gemäß der DSGVO zu. Meine Daten werden nicht an Dritte weitergegeben.',
+    btnVerEstimativa: 'Geschätzter Preis',
+    // result
+    resultBadge: '✓ Mitgliedschaft möglich',
+    resultTitle: 'Sie können\nMitglied bei Meu Tax werden!',
+    resultSub: 'Basierend auf Ihren Angaben können wir Ihre Einkommensteuererklärung in Deutschland übernehmen.',
+    feeSummaryTitle: 'Zusammenfassung Ihrer Mitgliedschaft',
+    feeClassLabel: 'Einkommensklasse', feeConjugeLabel: 'Gemeinsame Veranlagung',
+    feeAnuidadeLabel: 'Jahresbeitrag', feeTaxaLabel: 'Aufnahmegebühr (einmalig)', feeTotalLabel: 'Gesamt erstes Jahr',
+    ctaAssociar: 'Jetzt Mitglied werden →',
+    nextStepsTitle: 'Nächste Schritte',
+    spamNote: '📩 Nach der Kontaktaufnahme erhalten Sie eine E-Mail von uns.\nBitte überprüfen Sie Ihren Spam-Ordner, falls sie nicht im Posteingang erscheint.',
+    btnReiniciar: '← Neu starten',
+    // s6
+    s6Question: 'Angaben zur Mitgliedschaft',
+    s6Hint: 'Wir benötigen diese Daten zur Ausstellung Ihres Beitrittsformulars (Beitrittserklärung).',
+    labelNascimento: 'Geburtsdatum *', labelRua: 'Straße *',
+    labelCep: 'PLZ *', labelCidade: 'Stadt *',
+    labelPagamento: 'Bevorzugte Zahlungsmethode *',
+    payTf: 'Banküberweisung', payPp: 'PayPal',
+    payCc: 'Kreditkarte',
+    paySt: 'SEPA-Lastschrift', payStDesc: 'Automatischer Jahreseinzug — kein Risiko, die Verlängerung zu vergessen',
+    payNotice: 'ℹ️ <strong>Die Zahlung erfolgt jetzt noch nicht.</strong><br>Der Betrag wird nach Prüfung Ihrer Unterlagen bestätigt.<br>Ratenzahlung über PayPal möglich.',
+    labelComentarios: 'Fragen oder Kommentare',
+    placeholderComentarios: 'z.B. Ich habe eine Frage zu Vorjahren, meine Situation ist etwas besonders...',
+    btnEnviarDados: 'Daten absenden',
+    // obrigado
+    obrigadoTitle: 'Anmeldung erhalten!',
+    obrigadoSub: 'Wir werden uns in Kürze per WhatsApp bei Ihnen melden, um die Details und nächsten Schritte zu bestätigen.',
+    step1Title: 'Profilprüfung', step1Desc: 'Wir prüfen Ihre Angaben und bestätigen die Berechtigung.',
+    step2Title: 'Wir bestätigen den Betrag und senden den Zahlungslink', step2Desc: 'Nach Prüfung Ihrer Unterlagen bestätigen wir den Jahresbeitrag und senden den Zahlungslink per WhatsApp oder E-Mail.',
+    step3Title: 'Beitrittsformular', step3Desc: 'Nach Zahlung senden wir die Beitrittserklärung zur digitalen Unterschrift. Alles online.',
+    btnEnviando: 'Wird gesendet', loadingMsg: 'Verarbeitung',
+    btnVoltar: '← Zurück', btnContinuar: 'Weiter',
+    s2Opt4Title: 'Einkünfte aus dem Ausland', s2Opt4Desc: 'Gehalt, Rente, Miete oder andere Einkünfte außerhalb Deutschlands',
+    s3FilhosOpt3: 'Ja, volljährige Kinder in Ausbildung oder Studium',
+    totalIncomeNoteSingle: 'Individuelles Einkommen', totalIncomeNoteConjuge: 'Alle Haushaltseinkommen werden berücksichtigt',
+    restTitle: 'Geschätztes Erstattungspotenzial', restPorPessoa: 'pro Person', restCasal: 'für das Ehepaar',
+    restAviso: '⚠️ Konservative Schätzung. Der nationale Durchschnitt beträgt ~€ 1.172 pro Person (Destatis, Steuerjahr 2023), aber der tatsächliche Betrag variiert je nach Einkommen, Abzügen und steuerlicher Situation. Keine Erstattungsgarantie.',
+    obrigadoGreeting: 'Danke', obrigadoNextStepsTitle: 'Was passiert jetzt?',
+    btnWhatsApp: 'Unterlagen per WhatsApp senden', btnEmail: 'Per E-Mail senden',
+    step1DescObrigado: 'Senden Sie Ihre Einkommensunterlagen per WhatsApp oder E-Mail. Unser Team prüft sie innerhalb von 48 Stunden.',
+    // Dynamic result page — not eligible
+    notEligCardTitle: 'Warum wir Ihnen gerade nicht helfen können',
+    reasonAutonomo1: 'Selbständige Haupttätigkeit (Selbständig) ist durch unsere gesetzliche Zulassung nicht abgedeckt (§ 4 Nr. 11 StBerG)',
+    reasonAutonomo2: 'Wir empfehlen, einen Steuerberater für Ihre Situation zu suchen',
+    reasonEmpresa1: 'Gewerbetreibende benötigen einen vollwertigen Steuerberater',
+    reasonEmpresa2: 'Gewerbliche Einkünfte (Gewerbe) sind nicht in unserem gesetzlichen Tätigkeitsbereich enthalten',
+    notEligBadge: '⚠ Außerhalb unseres Tätigkeitsbereichs',
+    notEligTitle: 'Wir können\nIhren Fall nicht bearbeiten',
+    notEligSub: 'Basierend auf Ihren Angaben liegt Ihre steuerliche Situation außerhalb des gesetzlichen Tätigkeitsbereichs der Lohnsteuerhilfevereine.',
+    notEligStep1Title: 'Steuerberater aufsuchen',
+    notEligStep1Desc: 'Bei selbständigen oder gewerblichen Einkünften benötigen Sie einen vollwertigen Steuerberater.',
+    notEligStep2Title: 'Gemischte Einkünfte prüfen',
+    notEligStep2Desc: 'Wenn Ihre selbständige Tätigkeit nebenberuflich ist (bis 18.000€/Jahr), können wir möglicherweise helfen. Kontaktieren Sie uns zur Prüfung.',
+    notEligWaBtn: '💬 Per WhatsApp kontaktieren',
+    notEligEmailBtn: '📧 E-Mail an info@meutax.de senden',
+    notEligWaMsg: 'Hallo! Ich habe das Meu Tax Formular ausgefüllt, aber mein Haupteinkommen ist selbständig. Ich würde gerne prüfen, ob ich trotzdem betreut werden kann.',
+    // Dynamic result page — eligible
+    resultTitleTemplate: 'Sie können\nMitglied bei Meu Tax werden, {nome}!',
+    step1TitleResult: 'Einkommensunterlagen einsenden',
+    step1SubResult: 'Basierend auf Ihren Angaben müssen Sie Folgendes einsenden:',
+    step2TitleResult: 'Wir prüfen und bestätigen den Betrag',
+    step2DescResult: 'Mit Ihren Unterlagen bestätigen wir den genauen Jahresbeitrag und senden den Zahlungslink per WhatsApp oder E-Mail.',
+    step3TitleResult: 'Zahlung und Mitgliedschaft',
+    step3DescResult: 'Nach Zahlung senden wir das Beitrittsformular (Beitrittserklärung) zur digitalen Unterschrift. Alles online, ohne das Haus zu verlassen.',
+    // Documents list
+    docLohnsteuer: '📄 Lohnsteuerbescheinigung (jährliche Arbeitgeberbescheinigung)',
+    docRente: '📄 Rentenbescheid',
+    docAluguel: '🏠 Mieteinnahmenbelege (Mietvertrag + Quittungen)',
+    docCapital: '📈 Jahressteuerbescheinigung der Bank (Kapitalerträge)',
+    docFreelance: '💡 Belege für nebenberufliche Freiberufler-Einkünfte',
+    docBrasil: '🌍 Einkommensnachweis aus dem Ausland',
+    docFilhosMenor: '👶 Unterlagen für minderjährige Kinder (Kindergeldbescheid)',
+    docFilhosMaior: '🎓 Ausbildungsnachweis für volljährige Kinder (Immatrikulationsbescheinigung)',
+    // i18n extras
+    incomeErrorMsg: 'Bitte geben Sie mindestens ein Einkommen größer als null ein, um fortzufahren.',
+    duplicateNotice: '📬 <strong>Diese E-Mail-Adresse ist bereits bei Meu Tax registriert.</strong><br>Bitte prüfen Sie Ihren Posteingang (und Spam-Ordner) — wir haben Ihnen bereits unsere Informationen gesendet.<br><br>Bei Fragen können Sie uns per <a href="https://wa.me/4917656007968" style="color:#1B5E20;font-weight:bold">WhatsApp</a> kontaktieren.<br>Für eine neue Registrierung klicken Sie auf <strong>Neu starten</strong> und verwenden Sie eine andere E-Mail-Adresse.',
+    extrasBrasil: 'Einkünfte aus Brasilien: erfordert Analyse des Doppelbesteuerungsabkommens Brasilien-Deutschland.',
+    extrasFreelance: 'Nebenberufliche Freiberuflichkeit: innerhalb der Grenzen von § 4 Nr. 11 StBerG zulässig.',
+    emailAssunto: 'Meu Tax Unterlagen — {nome}',
+    emailCorpo: 'Hallo! Ich möchte meine Unterlagen zur Prüfung einsenden.\n\nMein Name ist {nome}.\nWhatsApp: {whatsapp}',
+    waMsg: 'Hallo, ich möchte meine Unterlagen einsenden.',
+  },
+};
+
+function t(key) {
+  const lang = state.idioma || 'pt';
+  return (TEXTOS[lang] && TEXTOS[lang][key]) || TEXTOS.pt[key] || '';
+}
+
+function aplicarIdioma() {
+  const lang = state.idioma || 'pt';
+  const TX = TEXTOS[lang] || TEXTOS.pt;
+
+  // Atualizar elementos com data-i18n (textContent)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (TX[key] !== undefined) el.textContent = TX[key];
+  });
+
+  // Atualizar elementos com data-i18n-html (innerHTML — para textos com bold/br)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (TX[key] !== undefined) el.innerHTML = TX[key];
+  });
+
+  // Atualizar placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (TX[key] !== undefined) el.placeholder = TX[key];
+  });
+}
+
+function selectLang(lang) {
+  state.idioma = lang;
+  aplicarIdioma();
+  goTo('s0');
+}
+
+const SCREENS = ['s-lang','s0','s1','s2','s3','s4','s5','s-result','s6','s-loading','s-obrigado'];
 
 // Valores representativos por classe (ponto médio de cada faixa)
 const MID_VALUES = [7500,22500,37500,52500,67500,87500,112500,137500,162500,187500,225000,275000];
@@ -1154,6 +1850,7 @@ async function enviarParaAppsScript() {
   if (!CONFIG.appsScriptURL || CONFIG.appsScriptURL.startsWith('COLE')) return;
   const b = brackets[state.finalIncomeClass - 1];
   const payload = {
+    test:               false,
     nome:               state.nome,
     email:              state.email,
     whatsapp:           state.whatsapp,
@@ -1172,10 +1869,11 @@ async function enviarParaAppsScript() {
     rendaBruta:         state.rendaBruta         || 0,
     rendaBrutaConjuge:  state.civil === 'casado' ? (state.rendaBrutaConjuge || 0) : null,
     elegivel:           state.eligible,
+    idioma:             state.idioma || 'pt',
     timestamp:          new Date().toISOString(),
   };
   const btn = document.getElementById('next5');
-  if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+  if (btn) btn.disabled = true;
   try {
     const resp = await fetch(CONFIG.appsScriptURL, {
       method:  'POST',
@@ -1194,7 +1892,7 @@ async function promoverParaOportunidade() {
       method:  'POST',
       mode:    'no-cors',
       headers: {'Content-Type':'text/plain'},
-      body:    JSON.stringify({ acao: 'promover', email: state.email }),
+      body:    JSON.stringify({ acao: 'promover', email: state.email, test: false }),
     });
   } catch(e) { console.warn('Erro ao promover deal:', e); }
 }
@@ -1211,20 +1909,23 @@ function goTo(idx) {
   const target = typeof idx === 'string' ? idx : SCREENS[idx];
   document.getElementById(target).classList.add('active');
   updateProgress(idx);
+  aplicarIdioma();
   window.scrollTo(0, 0);
 }
 
 function updateProgress(idx) {
   const step = typeof idx === 'number' ? idx : SCREENS.indexOf(idx);
-  const isS6 = idx === 's6' || step === 7;
-  const pct = isS6 ? 100 : Math.min(100, Math.round((step / 5) * 100));
+  // SCREENS: ['s-lang','s0','s1','s2','s3','s4','s5','s-result','s6','s-obrigado']
+  //  idx:      0        1    2    3    4    5    6    7           8    9
+  const isS6 = idx === 's6' || step === 8;
+  const pct = isS6 ? 100 : Math.min(100, Math.round(((step - 1) / 5) * 100));
   document.getElementById('progressFill').style.width = pct + '%';
-  const labels = ['', 'Renda', 'Renda Extra', 'Perfil', 'Valor', 'Contato', '', 'Dados'];
-  const counts = ['', '1 de 6', '2 de 6', '3 de 6', '4 de 6', '5 de 6', '', '6 de 6'];
-  const visible = (step > 0 && step < 6) || isS6;
+  const labels = ['', '', t('stepLabelRenda'), t('stepLabelExtra'), t('stepLabelPerfil'), t('stepLabelValor'), t('stepLabelContato'), '', t('stepLabelDados')];
+  const stepNums = ['', '', '1', '2', '3', '4', '5', '', '6'];
+  const visible = (step > 1 && step < 7) || isS6;
   document.getElementById('stepLabel').textContent = labels[step] || '';
   document.getElementById('stepLabel').classList.toggle('visible', visible);
-  document.getElementById('stepCount').textContent = visible ? counts[step] : '';
+  document.getElementById('stepCount').textContent = visible && stepNums[step] ? t('stepCountOf').replace('{n}', stepNums[step]) : '';
   document.getElementById('stepCount').classList.toggle('visible', visible);
 }
 
@@ -1309,20 +2010,14 @@ function toggleMulti(el, val) {
 function checkElig1() {
   if (state.tipoRenda === 'autonomo') {
     state.eligible = false;
-    state.reasons = [
-      'Renda principal como autônomo (Selbständig) não está coberta pela nossa autorização legal (§ 4 Nr. 11 StBerG)',
-      'Recomendamos buscar um Steuerberater para a sua situação',
-    ];
+    state.reasons = [t('reasonAutonomo1'), t('reasonAutonomo2')];
     goToResult();
   } else if (state.tipoRenda === 'empresa') {
     state.eligible = false;
-    state.reasons = [
-      'Donos de empresa (Gewerbetreibende) precisam de um Steuerberater completo',
-      'Rendimentos empresariais (Gewerbe) não estão incluídos na nossa autorização',
-    ];
+    state.reasons = [t('reasonEmpresa1'), t('reasonEmpresa2')];
     goToResult();
   } else {
-    goTo(2);
+    goTo('s2');
   }
 }
 
@@ -1338,7 +2033,7 @@ function aplicarRenda(euros) {
   const b = brackets[idx];
   state.incomeClass = idx + 1;
   state.rendaBruta  = euros;
-  document.getElementById('incomeClass').textContent = euros > 0 ? 'Classe ' + b.kl + ' · ' + b.range : '—';
+  document.getElementById('incomeClass').textContent = euros > 0 ? t('classePrefix') + ' ' + b.kl + ' · ' + b.range : '—';
   atualizarCalculadoraTotal();
   checkIncomeValid();
 }
@@ -1363,7 +2058,7 @@ function aplicarRendaConjuge(euros) {
   const b = brackets[idx];
   state.incomeClassConjuge = idx + 1;
   state.rendaBrutaConjuge  = euros;
-  document.getElementById('incomeClassConjuge').textContent = euros > 0 ? 'Classe ' + b.kl + ' · ' + b.range : '—';
+  document.getElementById('incomeClassConjuge').textContent = euros > 0 ? t('classePrefix') + ' ' + b.kl + ' · ' + b.range : '—';
   atualizarCalculadoraTotal();
   checkIncomeValid();
 }
@@ -1386,15 +2081,20 @@ function atualizarCalculadoraTotal() {
   const r2 = casado ? (state.rendaBrutaConjuge || 0) : 0;
   const combinada = r1 + r2;
   const idx = classeParaRenda(combinada);
+  const b = brackets[idx];
   state.finalIncomeClass = idx + 1;
 
   document.getElementById('totalIncomeValue').textContent = '€ ' + combinada.toLocaleString('de-DE');
   if (casado) {
-    document.getElementById('totalIncomeLabel').textContent = 'Renda bruta anual combinada';
-    document.getElementById('totalIncomeNote').textContent  = 'Sua renda + renda do cônjuge';
+    document.getElementById('totalIncomeLabel').textContent = t('totalIncomeLabelCasado');
+    document.getElementById('totalIncomeNote').textContent  = t('totalIncomeNoteConjuge');
+    // Both sliders show the combined class (not individual), since fee is based on combined income
+    const combinedLabel = combinada > 0 ? t('classePrefix') + ' ' + b.kl + ' · ' + b.range : '—';
+    document.getElementById('incomeClass').textContent = combinedLabel;
+    document.getElementById('incomeClassConjuge').textContent = combinedLabel;
   } else {
-    document.getElementById('totalIncomeLabel').textContent = 'Renda bruta anual total';
-    document.getElementById('totalIncomeNote').textContent  = 'Renda individual';
+    document.getElementById('totalIncomeLabel').textContent = t('totalIncomeLabel');
+    document.getElementById('totalIncomeNote').textContent  = t('totalIncomeNoteSingle');
     state.finalIncomeClass = state.incomeClass;
   }
 }
@@ -1403,13 +2103,16 @@ function atualizarCalculadoraTotal() {
 function openIncomeScreen() {
   const casado = state.civil === 'casado';
   document.getElementById('spouseIncomeSection').style.display = casado ? 'block' : 'none';
+  // Inicializa os sliders com idioma correto
+  aplicarRenda(state.rendaBruta || 37500);
   if (casado) {
     aplicarRendaConjuge(state.rendaBrutaConjuge || 37500);
   } else {
     state.finalIncomeClass = state.incomeClass;
-    atualizarCalculadoraTotal();
   }
-  goTo(4);
+  goTo('s4');
+  // Re-apply dynamic labels after goTo() resets data-i18n elements via aplicarIdioma()
+  atualizarCalculadoraTotal();
 }
 
 // ── TELA 5: mostra/oculta nome do cônjuge ──
@@ -1417,7 +2120,7 @@ function openContactScreen() {
   const casado = state.civil === 'casado';
   document.getElementById('spouseNameSection').style.display = casado ? 'block' : 'none';
   checkContactForm();
-  goTo(5);
+  goTo('s5');
 }
 
 function checkContactForm() {
@@ -1455,6 +2158,11 @@ function selectPayment(el, val) {
   checkS6Form();
 }
 
+function updateComentariosCounter() {
+  const val = document.getElementById('s6Comentarios').value;
+  document.getElementById('comentariosCount').textContent = val.length;
+}
+
 function checkS6Form() {
   const nascimento = document.getElementById('s6Nascimento').value.trim();
   const rua        = document.getElementById('s6Rua').value.trim();
@@ -1464,21 +2172,44 @@ function checkS6Form() {
   document.getElementById('next6').disabled = !valid;
 }
 
+// ── ANIMAÇÃO DE LOADING ──
+let _dotsTimer = null;
+function iniciarLoading() {
+  document.getElementById('loadingMsg').textContent = t('loadingMsg');
+  goTo('s-loading');
+  let n = 1;
+  const el = document.getElementById('loadingDots');
+  const dots = ['•', '• •', '• • •'];
+  if (el) el.textContent = dots[0];
+  _dotsTimer = setInterval(() => {
+    n = n >= 3 ? 1 : n + 1;
+    if (el) el.textContent = dots[n - 1];
+  }, 500);
+}
+function pararLoading() {
+  if (_dotsTimer) { clearInterval(_dotsTimer); _dotsTimer = null; }
+}
+
 async function submitS6EIrParaObrigado() {
   state.dataNascimento = document.getElementById('s6Nascimento').value;
   state.rua            = document.getElementById('s6Rua').value.trim();
   state.cep            = document.getElementById('s6CEP').value.trim();
   state.cidade         = document.getElementById('s6Cidade').value.trim();
 
-  // Desabilitar botão para evitar duplo envio
+  // Mostrar tela de loading animada (mínimo 1.5s visível)
   const btn6 = document.getElementById('next6');
-  if (btn6) { btn6.disabled = true; btn6.textContent = 'Enviando...'; }
+  if (btn6) btn6.disabled = true;
+  iniciarLoading();
+  const loadingStart = Date.now();
+
+  // Proteção: garantir que b existe antes de acessar b.net
+  const b = brackets[(state.finalIncomeClass || 1) - 1] || brackets[0];
 
   // Enviar dados completos + promover para Opportunity + disparar email de boas-vindas
   if (CONFIG.appsScriptURL && !CONFIG.appsScriptURL.startsWith('COLE')) {
-    const b = brackets[state.finalIncomeClass - 1];
     const payload = {
       acao:         'completar',
+      test:         false,
       email:        state.email,
       nome:         state.nome,
       whatsapp:     state.whatsapp,
@@ -1493,9 +2224,11 @@ async function submitS6EIrParaObrigado() {
       rua:              state.rua              || '',
       cep:              state.cep              || '',
       cidade:           state.cidade           || '',
+      comentarios:      (document.getElementById('s6Comentarios').value || '').trim(),
       classeRenda:      state.finalIncomeClass,
       anuidade:         b.net,
       totalPrimAno:     (b.net + AUFN_NET).toFixed(2),
+      idioma:           state.idioma || 'pt',
     };
     try {
       await fetch(CONFIG.appsScriptURL, {
@@ -1507,6 +2240,10 @@ async function submitS6EIrParaObrigado() {
     } catch(e) { console.warn('Erro ao completar oportunidade:', e); }
   }
 
+  // Garantir mínimo de 1.5s na tela de loading
+  const elapsed = Date.now() - loadingStart;
+  if (elapsed < 1500) await new Promise(r => setTimeout(r, 1500 - elapsed));
+  pararLoading();
   document.getElementById('obrigadoNome').textContent = state.nome.split(' ')[0];
   document.getElementById('emailLink').href = `mailto:${CONFIG.emailContato}`;
   goTo('s-obrigado');
@@ -1515,60 +2252,59 @@ async function submitS6EIrParaObrigado() {
 // ── BOTÃO: ABRE EMAIL ──
 function abrirEmail(e) {
   if (e) e.preventDefault();
-  const assunto = encodeURIComponent('Documentação Meu Tax — ' + state.nome);
-  const corpo   = encodeURIComponent('Olá! Gostaria de enviar minha documentação para análise.\n\nMeu nome é ' + state.nome + '.\nWhatsApp: ' + state.whatsapp);
+  const assunto = encodeURIComponent(t('emailAssunto').replace('{nome}', state.nome));
+  const corpo   = encodeURIComponent(t('emailCorpo').replace('{nome}', state.nome).replace('{whatsapp}', state.whatsapp));
   window.location.href = 'mailto:' + CONFIG.emailContato + '?subject=' + assunto + '&body=' + corpo;
 }
 
 // ── BOTÃO CTA: ABRE WHATSAPP ──
 function abrirWhatsApp() {
-  const b = brackets[state.finalIncomeClass - 1];
-  const total = (b.net + AUFN_NET).toFixed(2).replace('.', ',');
-  const casadoInfo = state.civil === 'casado' && state.nomeConjuge
-    ? ` (declaração conjunta com ${state.nomeConjuge})`
-    : '';
-  const msg = `Olá, Gostaria de enviar minha documentação.`;
+  const msg = t('waMsg');
   window.open(`https://wa.me/${CONFIG.whatsappOwner}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ── CONSTRÓI TELA DE RESULTADO ──
 async function goToResult() {
+  // Mostrar loading imediatamente ao clicar
+  const loadingStart5 = Date.now();
+  iniciarLoading();
+
   const b = brackets[state.finalIncomeClass - 1];
   const total = (b.net + AUFN_NET).toFixed(2).replace('.', ',');
 
   if (!state.eligible) {
     document.getElementById('resultHero').className = 'result-hero not-eligible';
-    document.getElementById('resultBadge').textContent = '⚠ Fora da nossa área de atuação';
-    document.getElementById('resultTitle').textContent = 'Não podemos\ncuidar do seu caso';
-    document.getElementById('resultSub').textContent = 'Com base nas suas respostas, a sua situação fiscal está fora da autorização legal dos Lohnsteuerhilfevereine.';
+    document.getElementById('resultBadge').textContent = t('notEligBadge');
+    document.getElementById('resultTitle').textContent = t('notEligTitle');
+    document.getElementById('resultSub').textContent = t('notEligSub');
     document.getElementById('feeSummaryCard').style.display = 'none';
+    document.getElementById('restituicaoCard').style.display = 'none';
     document.getElementById('notEligibleCard').style.display = 'block';
     const ul = document.getElementById('notEligibleReasons');
     ul.innerHTML = state.reasons.map(r => `<li>${r}</li>`).join('');
     document.getElementById('nextStepsList').innerHTML = `
-      <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-title-text">Busque um Steuerberater</div><div class="step-desc">Para situações com renda autônoma ou empresarial, você precisa de um Steuerberater completo.</div></div></div>
-      <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-title-text">Verifique se há renda mista</div><div class="step-desc">Se sua renda autônoma for secundária (até 18.000€/ano), pode ser que possamos ajudar. Entre em contato para verificar.</div></div></div>`;
-    const msgInelegivel = encodeURIComponent('Olá! Preenchi o formulário do Meu Tax mas minha renda principal é autônoma. Gostaria de verificar se posso ser atendido mesmo assim.');
+      <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-title-text">${t('notEligStep1Title')}</div><div class="step-desc">${t('notEligStep1Desc')}</div></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-title-text">${t('notEligStep2Title')}</div><div class="step-desc">${t('notEligStep2Desc')}</div></div></div>`;
+    const msgInelegivel = encodeURIComponent(t('notEligWaMsg'));
     document.getElementById('ctaEl').innerHTML = `
       <a href="https://wa.me/${CONFIG.whatsappOwner}?text=${msgInelegivel}" class="cta-btn" style="text-decoration:none;display:flex" target="_blank">
-        💬 Falar pelo WhatsApp
+        ${t('notEligWaBtn')}
       </a>
       <a href="mailto:${CONFIG.emailContato}?subject=Dúvida%20sobre%20elegibilidade%20-%20Meu%20Tax" class="cta-secondary" style="display:block;text-align:center;text-decoration:none;padding:14px">
-        📧 Enviar email para info@meutax.de
-      </a>
-      <button class="cta-secondary" onclick="reiniciar()" style="margin-top:8px">← Reiniciar</button>`;
+        ${t('notEligEmailBtn')}
+      </a>`;
   } else {
     document.getElementById('resultHero').className = 'result-hero eligible';
-    document.getElementById('resultBadge').textContent = '✓ Elegível para associação';
-    document.getElementById('resultTitle').textContent = `Você pode ser\nmembro do Meu Tax, ${state.nome.split(' ')[0]}!`;
-    document.getElementById('resultSub').textContent = 'Com base nas suas respostas, podemos cuidar da sua declaração de imposto de renda na Alemanha.';
+    document.getElementById('resultBadge').textContent = t('resultBadge');
+    document.getElementById('resultTitle').textContent = t('resultTitleTemplate').replace('{nome}', state.nome.split(' ')[0]);
+    document.getElementById('resultSub').textContent = t('resultSub');
 
-    document.getElementById('r-class').textContent = 'Classe ' + b.kl + ' · ' + b.range;
+    document.getElementById('r-class').textContent = t('classePrefix') + ' ' + b.kl + ' · ' + b.range;
 
     // Linha de declaração conjunta
     if (state.civil === 'casado' && state.nomeConjuge) {
       document.getElementById('r-conjuge-row').style.display = 'flex';
-      document.getElementById('r-conjuge').textContent = `Com ${state.nomeConjuge}`;
+      document.getElementById('r-conjuge').textContent = t('comPrefix') + state.nomeConjuge;
     }
 
     document.getElementById('r-fee-net').textContent = '€ ' + b.net.toLocaleString('de-DE') + ',00';
@@ -1583,51 +2319,54 @@ async function goToResult() {
       restCard.style.display = 'block';
       if (isCasal) {
         if (restValor) restValor.textContent = '~€ 2.200';
-        if (restSub) restSub.textContent = 'para o casal (~€ 1.100 por pessoa)';
+        if (restSub) restSub.textContent = t('restCasal');
       } else {
         if (restValor) restValor.textContent = '~€ 1.100';
-        if (restSub) restSub.textContent = 'por pessoa';
+        if (restSub) restSub.textContent = '';
       }
     }
 
     let extras = [];
-    if (state.extra.includes('brasil')) extras.push('Renda do Brasil: requer análise do tratado de não-bitributação Brasil-Alemanha.');
-    if (state.extra.includes('freelance_side')) extras.push('Freelance secundário: permitido dentro dos limites de § 4 Nr. 11 StBerG.');
+    if (state.extra.includes('brasil')) extras.push(t('extrasBrasil'));
+    if (state.extra.includes('freelance_side')) extras.push(t('extrasFreelance'));
 
     // Lista de documentos dinâmica baseada nas respostas do quiz
     const docs = [];
-    if (state.tipoRenda === 'emprego')        docs.push('📄 Lohnsteuerbescheinigung (certidão anual do empregador)');
-    if (state.tipoRenda === 'aposentadoria')  docs.push('📄 Rentenbescheid (aviso de aposentadoria)');
-    if (state.extra.includes('aluguel'))      docs.push('🏠 Comprovantes de aluguel recebido (Mietvertrag + recibos)');
-    if (state.extra.includes('capital'))      docs.push('📈 Jahressteuerbescheinigung do banco (rendimentos de investimentos)');
-    if (state.extra.includes('freelance_side')) docs.push('💡 Comprovantes de renda freelance secundária');
-    if (state.extra.includes('brasil'))       docs.push('🇧🇷 Comprovante de renda proveniente do Brasil');
-    if (state.filhos.includes('sim_menor'))   docs.push('👶 Documentos dos filhos menores (Kindergeldbescheid)');
-    if (state.filhos.includes('sim_maior'))   docs.push('🎓 Comprovante de formação dos filhos (Immatrikulationsbescheinigung)');
+    if (state.tipoRenda === 'emprego')        docs.push(t('docLohnsteuer'));
+    if (state.tipoRenda === 'aposentadoria')  docs.push(t('docRente'));
+    if (state.extra.includes('aluguel'))      docs.push(t('docAluguel'));
+    if (state.extra.includes('capital'))      docs.push(t('docCapital'));
+    if (state.extra.includes('freelance_side')) docs.push(t('docFreelance'));
+    if (state.extra.includes('brasil'))       docs.push(t('docBrasil'));
+    if (state.filhos.includes('sim_menor'))   docs.push(t('docFilhosMenor'));
+    if (state.filhos.includes('sim_maior'))   docs.push(t('docFilhosMaior'));
 
     document.getElementById('nextStepsList').innerHTML = `
       <div class="step-item"><div class="step-num">1</div><div class="step-content">
-        <div class="step-title-text">Envie seus documentos de renda</div>
+        <div class="step-title-text">${t('step1TitleResult')}</div>
         <div class="step-desc" style="margin-top:6px">
-          Com base nas suas respostas, você precisará enviar:<br><br>
+          ${t('step1SubResult')}<br><br>
           ${docs.map(d => `<span style="display:block;margin-bottom:4px">${d}</span>`).join('')}
         </div>
       </div></div>
       <div class="step-item"><div class="step-num">2</div><div class="step-content">
-        <div class="step-title-text">Avaliamos e confirmamos o valor</div>
-        <div class="step-desc">Com os documentos em mãos, confirmamos a anuidade exata e enviamos o link de pagamento por WhatsApp ou email.</div>
+        <div class="step-title-text">${t('step2TitleResult')}</div>
+        <div class="step-desc">${t('step2DescResult')}</div>
       </div></div>
       <div class="step-item"><div class="step-num">3</div><div class="step-content">
-        <div class="step-title-text">Pagamento e filiação</div>
-        <div class="step-desc">Após o pagamento, enviamos o formulário de filiação para assinar. Tudo online, sem precisar sair de casa.</div>
+        <div class="step-title-text">${t('step3TitleResult')}</div>
+        <div class="step-desc">${t('step3DescResult')}</div>
       </div></div>`;
   }
 
   const gasResp = await enviarParaAppsScript();
   if (gasResp && gasResp.duplicate) {
-    // Apenas mostra o aviso — não bloqueia o fluxo
     document.getElementById('duplicateNotice').style.display = 'block';
   }
+  // Garantir mínimo de 1.5s na tela de loading
+  const elapsed5 = Date.now() - loadingStart5;
+  if (elapsed5 < 1500) await new Promise(r => setTimeout(r, 1500 - elapsed5));
+  pararLoading();
   goTo('s-result');
 }
 
@@ -1676,7 +2415,11 @@ function reiniciar() {
 
   // Resetar botões
   const btn5 = document.getElementById('next5');
-  if (btn5) { btn5.textContent = 'Ver estimativa →'; btn5.disabled = true; }
+  if (btn5) {
+    const span = btn5.querySelector('[data-i18n="btnVerEstimativa"]');
+    if (span) span.textContent = t('btnVerEstimativa');
+    btn5.disabled = true;
+  }
 
   // Resetar aviso de duplicado e bloco de cônjuge
   document.getElementById('duplicateNotice').style.display = 'none';
@@ -1688,7 +2431,7 @@ function reiniciar() {
   aplicarRendaConjuge(37500);
   atualizarCalculadoraTotal();
 
-  goTo(0);
+  goTo('s-lang');
 }
 
 // ── INICIALIZAÇÃO ──
@@ -1700,10 +2443,11 @@ atualizarCalculadoraTotal();
 window.addEventListener('pageshow', function(e) {
   // Página restaurada do cache do browser (botão Voltar) → recarrega do zero
   if (e.persisted) { window.location.reload(); return; }
-  // Reset do botão caso tenha ficado travado em "Enviando..."
+  // Reset do botão caso tenha ficado travado em estado de carregamento
   const btn = document.getElementById('next5');
-  if (btn && btn.textContent.includes('Enviando')) {
-    btn.textContent = 'Ver estimativa →';
+  if (btn && btn.disabled && document.getElementById('s5') && document.getElementById('s5').classList.contains('active')) {
+    const span = btn.querySelector('[data-i18n="btnVerEstimativa"]');
+    if (span) span.textContent = t('btnVerEstimativa');
     btn.disabled = false;
   }
 });
